@@ -12,6 +12,8 @@ public class Main
         // EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         // entityManagerFactory.close();
+
+        String potato = "";
     }
 }
 
