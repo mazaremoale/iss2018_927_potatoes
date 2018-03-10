@@ -11,5 +11,7 @@ public class Main
         // EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         // entityManagerFactory.close();
+
+        int i = 0;
     }
 }
