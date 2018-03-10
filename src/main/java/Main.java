@@ -6,6 +6,7 @@ public class Main
 {
     public static void main(String[] args)
     {
+        int p=0;
         // EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.tutorial.jpa");
 
         // EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -13,3 +14,4 @@ public class Main
         // entityManagerFactory.close();
     }
 }
+
