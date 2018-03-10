@@ -6,10 +6,10 @@ public class Main
 {
     public static void main(String[] args)
     {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.tutorial.jpa");
+        // EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.tutorial.jpa");
 
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        // EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-        entityManagerFactory.close();
+        // entityManagerFactory.close();
     }
 }
