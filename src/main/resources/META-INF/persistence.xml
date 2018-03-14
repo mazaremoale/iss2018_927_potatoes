@@ -5,18 +5,21 @@
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
     <persistence-unit name="org.hibernate.tutorial.jpa">
 
+
         <properties>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
-            <property name="hibernate.connection.url" value="bloodddb.cjyw9lz1w2tv.us-east-2.rds.amazonaws.com"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/d1"/>
             <property name="hibernate.connection.autocommit" value="false"/>
-            <property name="hibernate.connection.username" value="mazaremoale"/>
+            <property name="hibernate.connection.username" value="root"/>
             <property name="hibernate.connection.password" value="cartofi3"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
             <property name="hibernate.connection.CharSet" value="utf8"/>
             <property name="hibernate.connection.characterEncoding" value="utf8"/>
             <property name="hibernate.connection.useUnicode" value="true"/>
             <property name="hibernate.show_sql" value="true"/>
-            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+
+
 
 
             <!-- use encache provider-->
