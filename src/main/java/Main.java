@@ -1,50 +1,41 @@
-import domain.people.Doctor;
-import domain.people.Donor;
-import domain.people.Person;
-import org.hibernate.Session;
-import org.hibernate.query.Query;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import java.util.List;
+import controller.userSelectController;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class Main
+public class Main extends Application
 {
-    public static void main(String[] args)
+
+    @Override
+    public void start(Stage primaryStage) throws Exception
     {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.tutorial.jpa");
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/userSelectWindow.fxml"));
+        loader.setController(new userSelectController());
+        Parent content = loader.load();
 
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Scene selectScene = new Scene(content);
+        primaryStage.setScene(selectScene);
+        primaryStage.setTitle("User selection");
 
+        //primaryStage.setFullScreen(true);
+        //primaryStage.setFullScreenExitHint("");
+        primaryStage.show();
 
-        Doctor d = new Doctor();
-        d.setLastName("ManLan");
-        d.setFirstName("Arad-Napoca");
-        Donor q = new Donor();
-        q.setResidenceCity("Arad");
-        q.setIdCounty("Arad");
-
-
-        entityManager.getTransaction().begin();
-        //entityManager.persist(d);
-        //entityManager.persist(q);
-        Doctor docup = new Doctor();
-        docup.setFirstName("Updated");
-        Doctor doc = entityManager.find(Doctor.class,1);
-        doc = docup;
-        System.out.println(doc.getFirstName());
-        entityManager.getTransaction().commit();
-
-        Session session = (Session) entityManager.getDelegate();
-
-        Query query = session.createQuery("from Person where type = 'doctor'");
-        List list = query.list();
-
-        list.forEach(System.out::println);
-
-        entityManagerFactory.close();
 
     }
+
+    public static void main(String[] args)
+    {
+
+        launch(args);
+
+    }
+
+
+
 
 
 }

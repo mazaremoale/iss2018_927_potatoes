@@ -14,7 +14,7 @@ import java.util.*;
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="type",discriminatorType=DiscriminatorType.STRING)
 @DiscriminatorValue(value="person")
-public class Person implements Serializable
+public abstract class Person implements Serializable
 {
     @Id
     @GeneratedValue(generator = "increment")

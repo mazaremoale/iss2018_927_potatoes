@@ -18,40 +18,23 @@ public class Donor extends Person {
     public Donor() {
     }
 
-    /**
-     * 
-     */
+
+    @Column(name= "birthDate")
     private Date birthDate;
 
-    /**
-     * 
-     */
+    @Column(name = "idAddress")
     private String idAddress;
 
-    /**
-     * 
-     */
+    @Column(name = "idCity")
     private String idCity;
 
-    /**
-     * 
-     */
     @Column(name = "idCounty")
     private String idCounty;
 
-    /**
-     * 
-     */
     private String residenceAddress;
 
-    /**
-     * 
-     */
     private String residenceCity;
 
-    /**
-     * 
-     */
     private String residenceCounty;
 
     public void setBirthDate(Date birthDate)

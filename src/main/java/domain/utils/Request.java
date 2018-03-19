@@ -1,22 +1,19 @@
 package domain.utils;
 
 import domain.blood.Blood;
+import domain.people.Patient;
 
 import java.util.List;
 
 public class Request
 {
-    private List<Blood> requestedItems;
-    private String firstName;
-    private String lastName;
-    private String status;
+    private int id;
+    private Patient patient;
+    private String status = "waiting";
 
-
-    public Request(String firstName, String lastName)
+    public Request(Patient patient)
     {
-
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.patient = patient;
     }
 
     public void process()

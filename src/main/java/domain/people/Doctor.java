@@ -17,7 +17,6 @@ public class Doctor extends Person {
     public Doctor() {
     }
 
-    //private List requestList;
 
     /**
      * 
