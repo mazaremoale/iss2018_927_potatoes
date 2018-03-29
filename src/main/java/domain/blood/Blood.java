@@ -1,12 +1,31 @@
 package domain.blood;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 import java.time.*;
 
+
+@Entity
+@Table(name = "Blood")
+@Inheritance(strategy= InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="type",discriminatorType=DiscriminatorType.STRING)
+@DiscriminatorValue(value="blood")
 public class Blood
 {
+    @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    @Column(name = "id")
     private int id;
+
+    @Column(name = "type")
     private String type;
+
+    @Column(name = "isPositiveRH")
     private Boolean isPositiveRH;
+
+    @Column(name = "lifeSpan")
     private LocalDate lifeSpan;
 
 
@@ -16,6 +35,10 @@ public class Blood
         this.type = type;
         this.isPositiveRH = isPositiveRH;
         this.lifeSpan = lifeSpan;
+    }
+
+    public Blood()
+    {
     }
 
     public String getType()
@@ -46,5 +69,10 @@ public class Blood
     public void setLifeSpan(LocalDate lifeSpan)
     {
         this.lifeSpan = lifeSpan;
+    }
+
+    public Blood split()
+    {
+        return this;
     }
 }

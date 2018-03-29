@@ -8,14 +8,15 @@ import javax.persistence.Entity;
  */
 @Entity
 @DiscriminatorValue("personnel")
-public class Personnel extends Person {
+public class Personnel extends Person
+{
 
     /**
      * Default constructor
      */
-    public Personnel() {
+    public Personnel()
+    {
     }
 
-    //private List donorList;
 
 }

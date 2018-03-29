@@ -1,43 +1,72 @@
 package repository;
 
-import domain.people.Person;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
-public class Repository<T extends Person>
+public class Repository<T>
 {
-    private HashMap<Integer, T> elems;
-    private EntityManagerFactory entityManagerFactory;
-    private EntityManager entityManager;
 
-    public Repository()
+    private Map<Integer,T> elems;
+    /**
+     * Find the entity with the given {@code id}.
+     *
+     * @param id
+     *            must be not null.
+     * @return the entity with the given id.
+     */
+    T findOne(int id)
     {
-        this.elems = new HashMap<>();
-//        this.entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.tutorial.jpa");;
-        //this.entityManager =  entityManagerFactory.createEntityManager();
-    }
-    // entityManagerFactory.close();
-
-    public void add(T elem)
-    {
-        elems.put(elem.getId(),elem);
-        entityManager.persist(elem);
+        return null;
     }
 
-    public void remove(T elem)
+
+    /**
+     *
+     * @return all entities.
+     */
+    Set<T> findAll()
     {
-        elems.remove(elem.getId());
-        entityManager.remove(elem);
+        return null;
     }
 
-    public void update(T elem)
-    {
-        elems.put(elem.getId(),elem);
-        Person persistentElem = entityManager.find(Person.class, elem.getId());
 
-        entityManager.flush();
+    /**
+     * Saves the given entity.
+     *
+     * @param entity
+     *            must not be null.
+     */
+    void save(T entity)
+    {
+        //elems.put(elem.getId(),elem);
+        //entityManager.persist(elem);
     }
+
+
+    /**
+     * Removes the entity with the given id.
+     *
+     * @param id
+     *            must not be null.
+     */
+    void delete(int id)
+    {
+        //entityManager.remove(elem);
+
+    }
+
+
+    /**
+     * Updates the given entity.
+     *
+     * @param entity
+     *            must not be null.
+     */
+    void update(T entity)
+    {
+
+    }
+
 
 }

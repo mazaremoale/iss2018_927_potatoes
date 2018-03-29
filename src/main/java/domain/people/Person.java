@@ -4,11 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
 
-/**
- * 
- */
 @Entity
 @Table(name = "Persons")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
@@ -27,6 +23,12 @@ public abstract class Person implements Serializable
 
     @Column(name = "lastName")
     private String lastName;
+
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "password")
+    private String password;
 
 
     public void setFirstName(String firstName)
@@ -54,6 +56,26 @@ public abstract class Person implements Serializable
         return id;
     }
 
+    public String getUsername()
+    {
+        return username;
+    }
+
+    public void setUsername(String username)
+    {
+        this.username = username;
+    }
+
+    public String getPassword()
+    {
+        return password;
+    }
+
+    public void setPassword(String password)
+    {
+        this.password = password;
+    }
+
     @Override
     public String toString()
     {
@@ -61,6 +83,8 @@ public abstract class Person implements Serializable
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }

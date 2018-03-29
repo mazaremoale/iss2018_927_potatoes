@@ -1,15 +1,22 @@
 package controller;
 
+import domain.people.Doctor;
+import domain.people.Donor;
+import domain.people.Personnel;
+import repository.Repository;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 public class userSelectController
 {
-    public void doSomething()
-    {
-        System.out.println("I work");
-    }
+    private Repository<Doctor> doctorRepository;
+    private Repository<Donor> donorRepository;
+    private Repository<Personnel> personnelRepository;
+    private String adminUsername = "root";
+    private String adminPassword = "cartofi3";
+
 
     public void exit()
     {

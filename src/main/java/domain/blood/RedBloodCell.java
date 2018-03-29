@@ -1,6 +1,9 @@
 package domain.blood;
 
+import javax.persistence.DiscriminatorValue;
 import java.time.LocalDate;
+
+@DiscriminatorValue(value = "redbloodcell")
 
 public class RedBloodCell extends Blood
 {

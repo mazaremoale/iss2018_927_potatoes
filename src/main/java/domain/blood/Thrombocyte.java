@@ -2,7 +2,11 @@ package domain.blood;
 
 import domain.blood.Blood;
 
+import javax.persistence.DiscriminatorValue;
 import java.time.LocalDate;
+
+
+@DiscriminatorValue(value = "thrombocyte")
 
 public class Thrombocyte extends Blood
 {
