@@ -1,6 +1,6 @@
-package domain.utils;
+package blood_donation.domain.utils;
 
-import domain.people.Doctor;
+import blood_donation.domain.people.Doctor;
 
 import java.util.List;
 

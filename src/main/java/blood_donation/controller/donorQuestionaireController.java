@@ -1,4 +1,4 @@
-package controller;
+package blood_donation.controller;
 
 public class donorQuestionaireController
 {

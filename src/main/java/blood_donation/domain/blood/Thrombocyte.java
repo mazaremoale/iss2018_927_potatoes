@@ -1,6 +1,4 @@
-package domain.blood;
-
-import domain.blood.Blood;
+package blood_donation.domain.blood;
 
 import javax.persistence.DiscriminatorValue;
 import java.time.LocalDate;

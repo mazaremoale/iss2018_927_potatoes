@@ -1,4 +1,4 @@
-package domain.utils;
+package blood_donation.domain.utils;
 
 public class DonationRequest
 {

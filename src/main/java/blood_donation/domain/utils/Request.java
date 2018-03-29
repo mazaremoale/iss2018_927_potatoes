@@ -1,9 +1,6 @@
-package domain.utils;
+package blood_donation.domain.utils;
 
-import domain.blood.Blood;
-import domain.people.Patient;
-
-import java.util.List;
+import blood_donation.domain.people.Patient;
 
 public class Request
 {

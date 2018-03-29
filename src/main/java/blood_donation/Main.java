@@ -1,4 +1,6 @@
-import controller.userSelectController;
+package blood_donation;
+
+import blood_donation.controller.userSelectController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -36,9 +38,9 @@ public class Main extends Application
 
     public static void main(String[] args)
     {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.tutorial.jpa");;
-        EntityManager entityManager =  entityManagerFactory.createEntityManager();
-        entityManagerFactory.close();
+        //EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.tutorial.jpa");;
+        //EntityManager entityManager =  entityManagerFactory.createEntityManager();
+        //entityManagerFactory.close();
         launch(args);
     }
 

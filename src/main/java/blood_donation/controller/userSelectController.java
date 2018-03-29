@@ -1,9 +1,9 @@
-package controller;
+package blood_donation.controller;
 
-import domain.people.Doctor;
-import domain.people.Donor;
-import domain.people.Personnel;
-import repository.Repository;
+import blood_donation.domain.people.Doctor;
+import blood_donation.domain.people.Donor;
+import blood_donation.domain.people.Personnel;
+import blood_donation.repository.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

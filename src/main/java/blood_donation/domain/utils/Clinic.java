@@ -1,6 +1,6 @@
-package domain.utils;
+package blood_donation.domain.utils;
 
-import domain.people.Personnel;
+import blood_donation.domain.people.Personnel;
 
 import javax.persistence.*;
 import java.util.List;

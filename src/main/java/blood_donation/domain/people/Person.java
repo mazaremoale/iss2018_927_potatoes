@@ -1,4 +1,4 @@
-package domain.people;
+package blood_donation.domain.people;
 
 import org.hibernate.annotations.GenericGenerator;
 

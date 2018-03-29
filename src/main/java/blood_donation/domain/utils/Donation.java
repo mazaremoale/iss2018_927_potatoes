@@ -1,8 +1,8 @@
-package domain.utils;
+package blood_donation.domain.utils;
 
-import domain.blood.Blood;
-import domain.people.Donor;
-import domain.people.Patient;
+import blood_donation.domain.blood.Blood;
+import blood_donation.domain.people.Donor;
+import blood_donation.domain.people.Patient;
 
 import java.time.LocalDate;
 import java.util.List;

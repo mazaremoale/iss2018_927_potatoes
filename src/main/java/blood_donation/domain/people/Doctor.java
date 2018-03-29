@@ -1,6 +1,5 @@
-package domain.people;
+package blood_donation.domain.people;
 
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 

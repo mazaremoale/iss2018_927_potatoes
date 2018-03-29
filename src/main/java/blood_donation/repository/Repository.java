@@ -1,4 +1,4 @@
-package repository;
+package blood_donation.repository;
 
 
 import java.util.Map;
