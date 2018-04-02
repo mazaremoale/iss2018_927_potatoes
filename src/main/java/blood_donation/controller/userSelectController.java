@@ -4,6 +4,10 @@ import blood_donation.domain.people.Doctor;
 import blood_donation.domain.people.Donor;
 import blood_donation.domain.people.Personnel;
 import blood_donation.repository.Repository;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -14,13 +18,29 @@ public class userSelectController
     private Repository<Doctor> doctorRepository;
     private Repository<Donor> donorRepository;
     private Repository<Personnel> personnelRepository;
-    private String adminUsername = "root";
-    private String adminPassword = "cartofi3";
 
+    Stage primaryStage;
+
+    public userSelectController(Stage primaryStage)
+    {
+        this.primaryStage = primaryStage;
+    }
 
     public void exit()
     {
         System.exit(0);
+    }
+
+    public void openAdminLogin() throws Exception
+    {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/loginWindow.fxml"));
+        loader.setController(new LoginController(primaryStage));
+        Parent content = loader.load();
+
+        Scene selectScene = new Scene(content);
+        primaryStage.setScene(selectScene);
+        primaryStage.setTitle("Login");
     }
 
     public void forget()
