@@ -7,10 +7,11 @@ import javax.persistence.Entity;
 @DiscriminatorValue(value="doctor")
 public class Doctor extends Person
 {
+    private String hospital;
 
-
-    public Doctor()
-    {
+    public Doctor(String firstName, String lastName, String username, String password, String hospital) {
+        super(firstName, lastName, username, password);
+        this.hospital = hospital;
     }
 
     public void request()

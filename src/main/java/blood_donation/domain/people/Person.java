@@ -30,6 +30,14 @@ public abstract class Person implements Serializable
     @Column(name = "password")
     private String password;
 
+    public Person(String firstName, String lastName, String username, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+    }
+
+    public Person() {}
 
     public void setFirstName(String firstName)
     {
