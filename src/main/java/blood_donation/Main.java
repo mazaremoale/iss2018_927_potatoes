@@ -30,10 +30,6 @@ public class Main extends Application
         //primaryStage.setFullScreenExitHint("");
         primaryStage.show();
 
-
-
-
-
     }
 
     public static void main(String[] args)
