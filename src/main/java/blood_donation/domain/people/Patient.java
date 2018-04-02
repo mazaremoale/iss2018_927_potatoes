@@ -2,8 +2,13 @@ package blood_donation.domain.people;
 
 import blood_donation.domain.blood.Blood;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import java.util.List;
 
+
+@Entity
+@DiscriminatorValue("donor")
 public class Patient extends Person
 {
 

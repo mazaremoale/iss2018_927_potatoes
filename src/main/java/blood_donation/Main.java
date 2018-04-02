@@ -38,9 +38,9 @@ public class Main extends Application
 
     public static void main(String[] args)
     {
-        //EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.tutorial.jpa");;
-        //EntityManager entityManager =  entityManagerFactory.createEntityManager();
-        //entityManagerFactory.close();
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.tutorial.jpa");;
+        EntityManager entityManager =  entityManagerFactory.createEntityManager();
+        entityManagerFactory.close();
         launch(args);
     }
 
