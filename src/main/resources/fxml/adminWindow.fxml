@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="279.0" prefWidth="318.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <left>
+      <VBox prefHeight="352.0" prefWidth="84.0">
+         <children>
+            <Label text="First Name:" BorderPane.alignment="CENTER" />
+            <Label text="Last Name:">
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
+            </Label>
+            <Label text="Username:">
+               <padding>
+                  <Insets top="18.0" />
+               </padding>
+            </Label>
+            <Label text="Password:">
+               <padding>
+                  <Insets top="18.0" />
+               </padding>
+            </Label>
+            <Label text="Hospital:">
+               <VBox.margin>
+                  <Insets top="18.0" />
+               </VBox.margin>
+            </Label>
+         </children>
+         <padding>
+            <Insets left="15.0" />
+         </padding>
+      </VBox>
+   </left>
+   <top>
+      <Label prefHeight="55.0" prefWidth="178.0" text="Add doctor" BorderPane.alignment="CENTER_LEFT">
+         <font>
+            <Font size="22.0" />
+         </font>
+         <BorderPane.margin>
+            <Insets left="20.0" />
+         </BorderPane.margin>
+      </Label>
+   </top>
+   <center>
+      <VBox prefHeight="324.0" prefWidth="516.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextField fx:id="firstnameTextField" prefHeight="3.0" prefWidth="516.0" />
+            <TextField fx:id="lastnameTextField">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </TextField>
+            <TextField fx:id="usernameTextField">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </TextField>
+            <TextField fx:id="passwordTextField">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </TextField>
+            <TextField fx:id="hospitalTextField">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </TextField>
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="49.0" prefWidth="224.0">
+               <children>
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#addDoctor" prefHeight="35.0" prefWidth="49.0" text="Add">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets right="10.0" />
+         </padding>
+      </VBox>
+   </center>
+</BorderPane>
