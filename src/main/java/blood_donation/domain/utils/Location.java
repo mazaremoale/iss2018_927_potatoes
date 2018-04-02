@@ -15,16 +15,12 @@ public class Location
     @GenericGenerator(name = "increment", strategy = "increment")
     @Column(name = "id")
     private int id;
+
+    @Column(name = "name")
     private String name;
 
     //private Map<Location,Integer> distances;
 
-
-    public Location(String name, Map<Location, Integer> distances)
-    {
-        this.name = name;
-        //this.distances = distances;
-    }
 
     public Location()
     {

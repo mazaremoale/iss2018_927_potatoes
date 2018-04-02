@@ -16,12 +16,12 @@ public class Request
     @Column(name = "id")
     private int id;
 
-    private Patient patient;
+    //private Patient patient;
     private String status = "waiting";
 
     public Request(Patient patient)
     {
-        this.patient = patient;
+        //this.patient = patient;
     }
 
     public void process()

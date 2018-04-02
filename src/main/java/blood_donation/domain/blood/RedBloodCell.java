@@ -3,7 +3,7 @@ package blood_donation.domain.blood;
 import javax.persistence.DiscriminatorValue;
 import java.time.LocalDate;
 
-@DiscriminatorValue(value = "redbloodcell")
+@DiscriminatorValue(value = "red_blood_cell")
 
 public class RedBloodCell extends Blood
 {

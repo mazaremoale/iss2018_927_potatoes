@@ -4,11 +4,16 @@ import blood_donation.domain.blood.Blood;
 import blood_donation.domain.people.Donor;
 import blood_donation.domain.people.Patient;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDate;
 import java.util.List;
 
+@Entity
+@Table(name = "Donations")
 public class Donation
 {
+    private int id;
     private Donor donor;
     private List<Blood> bloodList;
     private LocalDate donationDate;

@@ -4,11 +4,11 @@ import javax.persistence.DiscriminatorValue;
 import java.time.LocalDate;
 
 
-@DiscriminatorValue(value = "thrombocyte")
+@DiscriminatorValue(value = "platelet")
 
-public class Thrombocyte extends Blood
+public class Platelet extends Blood
 {
-    public Thrombocyte(int id, String type, Boolean isPositiveRH, LocalDate lifeSpan)
+    public Platelet(int id, String type, Boolean isPositiveRH, LocalDate lifeSpan)
     {
         super(id, type, isPositiveRH, lifeSpan);
     }

@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-public class userSelectController
+public class UserSelectController
 {
     private Repository<Doctor> doctorRepository;
     private Repository<Donor> donorRepository;
