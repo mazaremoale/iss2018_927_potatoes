@@ -22,6 +22,22 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <!-- use encache provider-->
             <!--<property name="hibernate.cache.region.factory_class"-->
             <!--value="org.hibernate.cache.ehcache.EhCacheRegionFactory"/>-->
