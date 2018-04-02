@@ -8,11 +8,11 @@ import java.util.List;
 
 
 @Entity
-@DiscriminatorValue("donor")
+@DiscriminatorValue("patient")
 public class Patient extends Person
 {
 
-    private List<Blood> requiredBlood;
-    private List<String> antiBodies;
+    //private List<Blood> requiredBlood;
+    //private List<String> antiBodies;
 
 }

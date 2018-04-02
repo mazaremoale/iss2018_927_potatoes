@@ -1,5 +1,4 @@
 package blood_donation.domain.utils;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -18,7 +17,7 @@ public class Location
     private int id;
     private String name;
 
-    private Map<Location,Integer> distances;
+    //private Map<Location,Integer> distances;
 
 
     public Location(String name, Map<Location, Integer> distances)
