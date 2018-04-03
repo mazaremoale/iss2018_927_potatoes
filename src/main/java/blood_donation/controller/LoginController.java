@@ -21,7 +21,7 @@ public class LoginController
     @FXML
     private TextField passwordField;
 
-    public LoginController(Stage primaryStage)
+    LoginController(Stage primaryStage)
     {
         this.primaryStage = primaryStage;
     }

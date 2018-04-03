@@ -9,8 +9,8 @@ import javax.persistence.Table;
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity
-@Table(name = "Donations")
+//@Entity
+//@Table(name = "Donations")
 public class Donation
 {
     private int id;

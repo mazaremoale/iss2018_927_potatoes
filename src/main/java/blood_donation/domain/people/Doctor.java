@@ -14,6 +14,10 @@ public class Doctor extends Person
         this.hospital = hospital;
     }
 
+    public Doctor()
+    {
+    }
+
     public void request()
     {
         // TODO implement here

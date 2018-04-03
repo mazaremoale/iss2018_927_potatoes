@@ -24,6 +24,10 @@ public class Request
         //this.patient = patient;
     }
 
+    public Request()
+    {
+    }
+
     public void process()
     {
 

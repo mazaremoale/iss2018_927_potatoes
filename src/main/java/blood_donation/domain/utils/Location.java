@@ -19,6 +19,7 @@ public class Location
     @Column(name = "name")
     private String name;
 
+
     //private Map<Location,Integer> distances;
 
 

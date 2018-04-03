@@ -1,6 +1,6 @@
 package blood_donation;
 
-import blood_donation.controller.userSelectController;
+import blood_donation.controller.UserSelectController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,7 +19,7 @@ public class Main extends Application
     {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/userSelectWindow.fxml"));
-        loader.setController(new userSelectController());
+        loader.setController(new UserSelectController(primaryStage));
         Parent content = loader.load();
 
         Scene selectScene = new Scene(content);

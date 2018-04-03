@@ -16,7 +16,8 @@ public class Hospital
     @Column(name = "id")
     private int id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="Location_ID")
     private Location location;
 
     public Hospital()

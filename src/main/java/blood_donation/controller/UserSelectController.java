@@ -19,9 +19,9 @@ public class UserSelectController
     private Repository<Donor> donorRepository;
     private Repository<Personnel> personnelRepository;
 
-    Stage primaryStage;
+    private Stage primaryStage;
 
-    public userSelectController(Stage primaryStage)
+    public UserSelectController(Stage primaryStage)
     {
         this.primaryStage = primaryStage;
     }
