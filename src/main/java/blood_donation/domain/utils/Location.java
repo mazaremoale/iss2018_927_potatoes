@@ -3,6 +3,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -27,6 +28,11 @@ public class Location
     {
     }
 
+    public Location(String name)
+    {
+        this.name = name;
+    }
+
     public String getName()
     {
         return name;
@@ -46,5 +52,11 @@ public class Location
     public void setDistances(Map<Location, Integer> distances)
     {
         //this.distances = distances;
+    }
+
+    @Override
+    public String toString()
+    {
+        return name;
     }
 }

@@ -19,7 +19,7 @@ public class Blood
     @Column(name = "id")
     private int id;
 
-    @Column(name = "type")
+    @Column(name = "bloodType")
     private String type;
 
     @Column(name = "isPositiveRH")

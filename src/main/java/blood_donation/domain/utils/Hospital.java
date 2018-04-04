@@ -16,12 +16,27 @@ public class Hospital
     @Column(name = "id")
     private int id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="Location_ID")
+    @ManyToOne
+    @JoinColumn(name = "locationID")
     private Location location;
+
+    @Column(name = "name")
+    private String name;
 
     public Hospital()
     {
     }
     //private List<Doctor> doctorList;
+
+
+    public Hospital(Location location)
+    {
+        this.location = location;
+    }
+
+    @Override
+    public String toString()
+    {
+        return name + " " + location;
+    }
 }

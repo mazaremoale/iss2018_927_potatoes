@@ -31,6 +31,7 @@ public class Donor extends Person {
     @Column(name = "idCounty")
     private String idCounty;
 
+    @Column(name = "residence")
     private String residenceAddress;
 
     private String residenceCity;

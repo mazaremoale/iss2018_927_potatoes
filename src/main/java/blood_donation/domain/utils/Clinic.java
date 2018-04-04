@@ -14,7 +14,12 @@ public class Clinic
     @Column(name = "id")
     private int id;
 
-    //private Location location;
+
+    @ManyToOne
+    @JoinColumn(name = "locationID")
+    private Location location;
+
+
     //private List<Personnel> personnelList;
 
 

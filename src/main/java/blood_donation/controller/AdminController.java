@@ -1,23 +1,34 @@
 package blood_donation.controller;
 
-import blood_donation.domain.people.Doctor;
+import blood_donation.domain.utils.Hospital;
+import blood_donation.domain.utils.Location;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class AdminController
+public class AdminController implements Initializable
 {
     private Stage stage;
 
-    @FXML
-    private TextField firstnameTextField;
+    private EntityManager entityManager;
+    private EntityManagerFactory entityManagerFactory;
+
 
     @FXML
-    private TextField lastnameTextField;
+    private TextField firstNameTextField;
+
+    @FXML
+    private TextField lastNameTextField;
 
     @FXML
     private TextField usernameTextField;
@@ -26,21 +37,44 @@ public class AdminController
     private TextField passwordTextField;
 
     @FXML
-    private TextField hospitalTextField;
+    private ComboBox<Hospital> hospitalComboBox;
+
 
     public void addDoctor()
     {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.tutorial.jpa");;
-        EntityManager entityManager =  entityManagerFactory.createEntityManager();
 
-        Doctor doctor = new Doctor(firstnameTextField.getText(), lastnameTextField.getText(),
-                            usernameTextField.getText(), passwordTextField.getText(),
-                            hospitalTextField.getText());
+
+        //design a drop-down menu @hospital field in the GUI from where you can pick from a list
+        //of hospitals from the database
+
+
+
 
         entityManager.getTransaction().begin();
-        entityManager.persist(doctor);
+        //entityManager.persist(doctor);
         entityManager.getTransaction().commit();
 
         entityManagerFactory.close();
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources)
+    {
+        entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.tutorial.jpa");;
+        entityManager =  entityManagerFactory.createEntityManager();
+
+        //hospitalComboBox.setValue;
+
+        ObservableList<Hospital> hospitals = FXCollections.observableArrayList();
+
+
+        Hospital hospital1 = entityManager.find(Hospital.class,1);
+        Hospital hospital2 = entityManager.find(Hospital.class,2);
+
+        hospitals.add(hospital1);
+        hospitals.add(hospital2);
+
+
+        hospitalComboBox.setItems(hospitals);
     }
 }

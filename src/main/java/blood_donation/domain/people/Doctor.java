@@ -1,16 +1,28 @@
 package blood_donation.domain.people;
 
+import blood_donation.domain.utils.Hospital;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 @DiscriminatorValue(value="doctor")
 public class Doctor extends Person
 {
-    private String hospital;
+    @ManyToOne
+    @JoinColumn(name = "hospitalID")
+    private Hospital hospital;
 
-    public Doctor(String firstName, String lastName, String username, String password, String hospital) {
+    public Doctor(String firstName, String lastName, String username, String password, Hospital hospital)
+    {
         super(firstName, lastName, username, password);
+        this.hospital = hospital;
+    }
+
+    public Doctor(Hospital hospital)
+    {
         this.hospital = hospital;
     }
 
