@@ -2,8 +2,7 @@ package blood_donation.domain.people;
 
 import blood_donation.domain.blood.Blood;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.List;
 
 
@@ -11,8 +10,10 @@ import java.util.List;
 @DiscriminatorValue("patient")
 public class Patient extends Person
 {
-
     //private List<Blood> requiredBlood;
-    //private List<String> antiBodies;
+
+    @ElementCollection
+    @CollectionTable(name="Antibodies", joinColumns=@JoinColumn(name="PatientID"))
+    private List<String> antibodies;
 
 }

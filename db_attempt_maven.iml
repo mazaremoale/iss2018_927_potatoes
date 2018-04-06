@@ -6,8 +6,8 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="" />
         <datasource-mapping>
-          <factory-entry name="Entities" />
-          <factory-entry name="org.hibernate.tutorial.jpa" />
+          <factory-entry name="Entities" value="9621f551-8858-4bdd-9428-fa8c59e04d60" />
+          <factory-entry name="org.hibernate.tutorial.jpa" value="9621f551-8858-4bdd-9428-fa8c59e04d60" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
       </configuration>
@@ -15,9 +15,11 @@
     <facet type="hibernate" name="Hibernate">
       <configuration>
         <datasource-map>
-          <unit-entry name="hibernate.cfg.xml" />
+          <unit-entry name="hibernate.cfg.xml" value="9621f551-8858-4bdd-9428-fa8c59e04d60" />
         </datasource-map>
-        <naming-strategy-map />
+        <naming-strategy-map>
+          <unit-entry name="hibernate.cfg.xml" />
+        </naming-strategy-map>
         <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/src/main/resources/hibernate.cfg.xml" />
       </configuration>
     </facet>

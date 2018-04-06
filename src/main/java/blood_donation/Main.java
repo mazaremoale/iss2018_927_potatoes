@@ -6,6 +6,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -34,9 +39,21 @@ public class Main extends Application
 
     public static void main(String[] args)
     {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.tutorial.jpa");;
-        EntityManager entityManager =  entityManagerFactory.createEntityManager();
-        entityManagerFactory.close();
+        //EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.tutorial.jpa");;
+        //EntityManager entityManager =  entityManagerFactory.createEntityManager();
+        //entityManagerFactory.close();
+
+        Configuration configuration = new Configuration();
+
+        configuration.configure("hibernate.cfg.xml");
+
+        SessionFactory sessionFactory = configuration.buildSessionFactory();
+
+        Session session = sessionFactory.openSession();
+
+        session.beginTransaction();
+
+
         launch(args);
     }
 

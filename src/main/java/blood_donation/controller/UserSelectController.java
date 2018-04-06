@@ -5,6 +5,7 @@ import blood_donation.domain.people.Donor;
 import blood_donation.domain.people.Personnel;
 import blood_donation.repository.Repository;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -12,8 +13,10 @@ import javafx.stage.Stage;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class UserSelectController
+public class UserSelectController implements Initializable
 {
     private Repository<Doctor> doctorRepository;
     private Repository<Donor> donorRepository;
@@ -50,5 +53,11 @@ public class UserSelectController
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         entityManagerFactory.close();
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources)
+    {
+
     }
 }

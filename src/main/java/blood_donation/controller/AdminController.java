@@ -1,7 +1,7 @@
 package blood_donation.controller;
 
+import blood_donation.domain.blood.Blood;
 import blood_donation.domain.utils.Hospital;
-import blood_donation.domain.utils.Location;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,19 +9,23 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class AdminController implements Initializable
 {
-    private Stage stage;
+    private Stage primaryStage;
 
     private EntityManager entityManager;
-    private EntityManagerFactory entityManagerFactory;
 
 
     @FXML
@@ -50,31 +54,33 @@ public class AdminController implements Initializable
 
 
 
-        entityManager.getTransaction().begin();
-        //entityManager.persist(doctor);
-        entityManager.getTransaction().commit();
 
-        entityManagerFactory.close();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        /*
         entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.tutorial.jpa");;
-        entityManager =  entityManagerFactory.createEntityManager();
 
-        //hospitalComboBox.setValue;
+        entityManager =  entityManagerFactory.createEntityManager();
 
         ObservableList<Hospital> hospitals = FXCollections.observableArrayList();
 
-
-        Hospital hospital1 = entityManager.find(Hospital.class,1);
-        Hospital hospital2 = entityManager.find(Hospital.class,2);
-
-        hospitals.add(hospital1);
-        hospitals.add(hospital2);
-
+        Query query = entityManager.createQuery("from Hospital",Hospital.class);
+        List<Hospital> hospitalsList = query.getResultList();
+        hospitals.addAll(hospitalsList);
 
         hospitalComboBox.setItems(hospitals);
+
+        Configuration configuration = new Configuration();
+        SessionFactory sessionFactory = configuration.buildSessionFactory();
+        Session session = sessionFactory.openSession();
+
+        session.persist(new Blood());
+
+
+        session.getTransaction().commit();
+        */
     }
 }
