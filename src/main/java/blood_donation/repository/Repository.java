@@ -1,72 +1,70 @@
 package blood_donation.repository;
 
+import org.hibernate.Session;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.List;
+
 
 public class Repository<T>
 {
+    private Class<T> tClass;
+    private Session session;
 
-    private Map<Integer,T> elems;
-    /**
-     * Find the entity with the given {@code id}.
-     *
-     * @param id
-     *            must be not null.
-     * @return the entity with the given id.
-     */
-    T findOne(int id)
+    public Repository(Class<T> tClass, Session session)
     {
-        return null;
+        this.tClass = tClass;
+        this.session = session;
     }
 
-
-    /**
-     *
-     * @return all entities.
-     */
-    Set<T> findAll()
+    public Session getSession()
     {
-        return null;
+        return session;
     }
 
-
-    /**
-     * Saves the given entity.
-     *
-     * @param entity
-     *            must not be null.
-     */
-    void save(T entity)
+    public void setSession(Session session)
     {
-        //elems.put(elem.getId(),elem);
-        //entityManager.persist(elem);
+        this.session = session;
     }
 
-
-    /**
-     * Removes the entity with the given id.
-     *
-     * @param id
-     *            must not be null.
-     */
-    void delete(int id)
+    public List<T> getAll()
     {
-        //entityManager.remove(elem);
-
+        return session.createNativeQuery("select * from " +
+                                    tClass.getSimpleName() +
+                                    " where type = ?",tClass)
+                .setParameter(1,tClass.getSimpleName())
+                .list();
     }
 
-
-    /**
-     * Updates the given entity.
-     *
-     * @param entity
-     *            must not be null.
-     */
-    void update(T entity)
+    public T getByID(int id)
     {
-
+        return session.load(tClass,id);
     }
 
+    public void add(T entity)
+    {
+        session.persist(entity);
+    }
 
+    public void remove(int id)
+    {
+        T entity = getByID(id);
+        session.delete(entity);
+    }
+
+    public void update(T newEntity)
+    {
+        //problem is that I can't set the ID here, it's generic, has no clue what functions
+        // it got
+        //could solve it by putting a master base class which has a id field
+        //too much work right now
+        //we need to make sure this newEntity comes with the proper ID that it will be
+        // replacing in the database
+        session.merge(newEntity);
+    }
+
+    @Override
+    public String toString()
+    {
+        return tClass.getSimpleName() + " repository";
+    }
 }

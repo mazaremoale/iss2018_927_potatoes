@@ -10,13 +10,12 @@ import javax.persistence.Entity;
 @DiscriminatorValue("personnel")
 public class Personnel extends Person
 {
-
-    /**
-     * Default constructor
-     */
     public Personnel()
     {
     }
 
-
+    public Personnel(String firstName, String lastName, String username, String password)
+    {
+        super(firstName, lastName, username, password);
+    }
 }

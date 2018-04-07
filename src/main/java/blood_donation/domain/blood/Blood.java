@@ -20,7 +20,7 @@ public class Blood
     private int id;
 
     @Column(name = "bloodType")
-    private String type;
+    private String bloodType;
 
     @Column(name = "isPositiveRH")
     private Boolean isPositiveRH;
@@ -32,7 +32,7 @@ public class Blood
     public Blood(int id, String type, Boolean isPositiveRH, LocalDate lifeSpan)
     {
         this.id = id;
-        this.type = type;
+        this.bloodType = type;
         this.isPositiveRH = isPositiveRH;
         this.lifeSpan = lifeSpan;
     }
@@ -43,12 +43,12 @@ public class Blood
 
     public String getType()
     {
-        return type;
+        return bloodType;
     }
 
     public void setType(String type)
     {
-        this.type = type;
+        this.bloodType = type;
     }
 
     public Boolean getPositiveRH()
@@ -74,5 +74,21 @@ public class Blood
     public Blood split()
     {
         return this;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Blood{" +
+                "id=" + id +
+                ", type='" + bloodType + '\'' +
+                ", isPositiveRH=" + isPositiveRH +
+                ", lifeSpan=" + lifeSpan +
+                '}';
     }
 }

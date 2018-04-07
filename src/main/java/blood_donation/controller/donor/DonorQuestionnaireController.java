@@ -1,4 +1,4 @@
-package blood_donation.controller;
+package blood_donation.controller.donor;
 
 import javafx.fxml.Initializable;
 

@@ -5,20 +5,10 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.util.*;
 
-/**
- * 
- */
 @Entity
 @DiscriminatorValue("donor")
-public class Donor extends Person {
-
-    /**
-     * Default constructor
-     */
-    public Donor() {
-    }
-
-
+public class Donor extends Person
+{
     @Column(name= "birthDate")
     private Date birthDate;
 
@@ -37,6 +27,24 @@ public class Donor extends Person {
     private String residenceCity;
 
     private String residenceCounty;
+
+    public Donor()
+    {
+    }
+
+    public Donor(String firstName, String lastName, String username, String password,
+                 Date birthDate, String idAddress, String idCity, String idCounty,
+                 String residenceAddress, String residenceCity, String residenceCounty)
+    {
+        super(firstName, lastName, username, password);
+        this.birthDate = birthDate;
+        this.idAddress = idAddress;
+        this.idCity = idCity;
+        this.idCounty = idCounty;
+        this.residenceAddress = residenceAddress;
+        this.residenceCity = residenceCity;
+        this.residenceCounty = residenceCounty;
+    }
 
     public void setBirthDate(Date birthDate)
     {

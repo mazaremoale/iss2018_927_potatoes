@@ -10,10 +10,16 @@ import java.util.List;
 @DiscriminatorValue("patient")
 public class Patient extends Person
 {
-    //private List<Blood> requiredBlood;
+    public Patient(String firstName, String lastName, String username, String password)
+    {
+        super(firstName, lastName, username, password);
+    }
 
-    @ElementCollection
-    @CollectionTable(name="Antibodies", joinColumns=@JoinColumn(name="PatientID"))
-    private List<String> antibodies;
+    public Patient()
+    {
+    }
+
+    //private List<Blood> requiredBlood;
+    //private List<String> antibodies;
 
 }

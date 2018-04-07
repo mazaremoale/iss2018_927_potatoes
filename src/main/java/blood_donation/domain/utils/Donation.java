@@ -23,9 +23,8 @@ public class Donation
     @JoinColumn(name = "donorID")
     private Donor donor;
 
-    @OneToMany
-    @JoinColumn(name = "bloodID")
-    private List<Blood> bloodList;
+
+    //private List<Blood> bloodList;
 
     @Column(name = "donationDate")
     private LocalDate donationDate;
@@ -40,7 +39,7 @@ public class Donation
     public Donation(Donor donor, List<Blood> bloodList, String status, Patient patient)
     {
         this.donor = donor;
-        this.bloodList = bloodList;
+        //this.bloodList = bloodList;
         this.donationDate = LocalDate.now();
         this.status = status;
         this.patient = patient;
@@ -57,7 +56,7 @@ public class Donation
 
     public List<Blood> getBloodList()
     {
-        return bloodList;
+        return null;//bloodList;
     }
 
     public LocalDate getDonationDate()

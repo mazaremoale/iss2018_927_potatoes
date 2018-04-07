@@ -37,7 +37,15 @@ public abstract class Person implements Serializable
         this.password = password;
     }
 
-    public Person() {}
+    public Person()
+    {
+
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
 
     public void setFirstName(String firstName)
     {

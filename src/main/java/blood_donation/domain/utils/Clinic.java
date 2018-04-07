@@ -1,8 +1,10 @@
 package blood_donation.domain.utils;
 
+import blood_donation.domain.people.Personnel;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Clinics")
@@ -19,11 +21,14 @@ public class Clinic
     @JoinColumn(name = "locationID")
     private Location location;
 
-
-    //private List<Personnel> personnelList;
+    @OneToMany
+    @JoinColumn(name = "clinicID")
+    private List<Personnel> personnelList;
 
 
     public Clinic()
     {
     }
+
+
 }
