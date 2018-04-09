@@ -78,6 +78,11 @@ public class AdminOperationSelectionWindowController implements Initializable
     }
 
 
+    @FXML
+    public void doctorButtonOnClick()
+    {
+
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources)

@@ -15,7 +15,7 @@ import org.hibernate.Session;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AddDoctorWindowController implements Initializable
+public class AdminDoctorWindowController implements Initializable
 {
     private Session session;
     private Stage primaryStage;
@@ -37,19 +37,19 @@ public class AddDoctorWindowController implements Initializable
 
     private Repository<Doctor> doctorRepository;
 
-    public AddDoctorWindowController setDoctorRepository(Repository<Doctor> doctorRepository)
+    public AdminDoctorWindowController setDoctorRepository(Repository<Doctor> doctorRepository)
     {
         this.doctorRepository = doctorRepository;
         return this;
     }
 
-    public AddDoctorWindowController setSession(Session session)
+    public AdminDoctorWindowController setSession(Session session)
     {
         this.session = session;
         return this;
     }
 
-    public AddDoctorWindowController setPrimaryStage(Stage primaryStage)
+    public AdminDoctorWindowController setPrimaryStage(Stage primaryStage)
     {
         this.primaryStage = primaryStage;
         return this;

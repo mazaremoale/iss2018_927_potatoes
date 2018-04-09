@@ -59,7 +59,7 @@
         <mapping class="blood_donation.domain.utils.DonationRequest"/>
         <mapping class="blood_donation.domain.utils.Hospital"/>
         <mapping class="blood_donation.domain.utils.Location"/>
-        <mapping class="blood_donation.domain.utils.Request"/>
+        <mapping class="blood_donation.domain.utils.BloodRequest"/>
         <mapping class="blood_donation.domain.utils.DonationRequest"/>
 
 

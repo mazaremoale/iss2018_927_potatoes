@@ -41,7 +41,7 @@ public class Main extends Application
         Repository<DonationRequest> donationRequestRepository = new Repository<>(DonationRequest.class,session);
         Repository<Hospital> hospitalRepository = new Repository<>(Hospital.class,session);
         Repository<Location> locationRepository = new Repository<>(Location.class,session);
-        Repository<Request> requestRepository = new Repository<>(Request.class,session);
+        Repository<BloodRequest> requestRepository = new Repository<>(BloodRequest.class,session);
 
 
 

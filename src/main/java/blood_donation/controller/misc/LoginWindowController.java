@@ -47,7 +47,7 @@ public class LoginWindowController implements Initializable
     private Repository<DonationRequest> donationRequestRepository;
     private Repository<Hospital> hospitalRepository;
     private Repository<Location> locationRepository;
-    private Repository<Request> requestRepository;
+    private Repository<BloodRequest> requestRepository;
 
 
     @FXML
@@ -145,7 +145,7 @@ public class LoginWindowController implements Initializable
         return this;
     }
 
-    public LoginWindowController setRequestRepository(Repository<Request> requestRepository)
+    public LoginWindowController setRequestRepository(Repository<BloodRequest> requestRepository)
     {
         this.requestRepository = requestRepository;
         return this;

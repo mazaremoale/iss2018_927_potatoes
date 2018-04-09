@@ -35,7 +35,7 @@ public class UserSelectController implements Initializable
     private Repository<DonationRequest> donationRequestRepository;
     private Repository<Hospital> hospitalRepository;
     private Repository<Location> locationRepository;
-    private Repository<Request> requestRepository;
+    private Repository<BloodRequest> requestRepository;
 
 
     private Stage primaryStage;
@@ -190,12 +190,12 @@ public class UserSelectController implements Initializable
         return this;
     }
 
-    public Repository<Request> getRequestRepository()
+    public Repository<BloodRequest> getRequestRepository()
     {
         return requestRepository;
     }
 
-    public UserSelectController setRequestRepository(Repository<Request> requestRepository)
+    public UserSelectController setRequestRepository(Repository<BloodRequest> requestRepository)
     {
         this.requestRepository = requestRepository;
         return this;

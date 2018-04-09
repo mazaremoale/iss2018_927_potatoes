@@ -6,8 +6,8 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Requests")
-public class Request
+@Table(name = "BloodRequests")
+public class BloodRequest
 {
 
     @Id
@@ -19,12 +19,12 @@ public class Request
     //private Patient patient;
     private String status = "waiting";
 
-    public Request(Patient patient)
+    public BloodRequest(Patient patient)
     {
         //this.patient = patient;
     }
 
-    public Request()
+    public BloodRequest()
     {
     }
 
