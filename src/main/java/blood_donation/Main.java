@@ -79,7 +79,6 @@ public class Main extends Application
         primaryStage.setMaximized(true);
         primaryStage.show();
 
-
     }
 
     public static void main(String[] args)

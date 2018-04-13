@@ -8,9 +8,9 @@ import java.time.LocalDate;
 @DiscriminatorValue(value = "platelet")
 public class Platelet extends Blood
 {
-    public Platelet(int id, String type, Boolean isPositiveRH, LocalDate lifeSpan)
+    public Platelet(String type, Boolean isPositiveRH, LocalDate lifeSpan)
     {
-        super(id, type, isPositiveRH, lifeSpan);
+        super(type, isPositiveRH, lifeSpan);
     }
 
     public Platelet()

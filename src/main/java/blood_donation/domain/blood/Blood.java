@@ -1,5 +1,9 @@
 package blood_donation.domain.blood;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -7,33 +11,22 @@ import java.time.*;
 
 
 @Entity
-@Table(name = "Blood")
+@Table(name = "Bloods")
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="type",discriminatorType=DiscriminatorType.STRING)
 @DiscriminatorValue(value="blood")
 public class Blood
 {
-    @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    @Column(name = "id")
-    private int id;
-
-    @Column(name = "bloodType")
-    private String bloodType;
-
-    @Column(name = "isPositiveRH")
-    private Boolean isPositiveRH;
-
-    @Column(name = "lifeSpan")
+    private IntegerProperty id = new SimpleIntegerProperty();
+    private SimpleStringProperty bloodType;
+    private SimpleBooleanProperty isPositiveRH;
     private LocalDate lifeSpan;
 
 
-    public Blood(int id, String type, Boolean isPositiveRH, LocalDate lifeSpan)
+    public Blood(String bloodType, Boolean isPositiveRH, LocalDate lifeSpan)
     {
-        this.id = id;
-        this.bloodType = type;
-        this.isPositiveRH = isPositiveRH;
+        this.bloodType = new SimpleStringProperty(bloodType);
+        this.isPositiveRH = new SimpleBooleanProperty(isPositiveRH);
         this.lifeSpan = lifeSpan;
     }
 
@@ -41,24 +34,21 @@ public class Blood
     {
     }
 
-    public String getType()
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public int getId()
     {
-        return bloodType;
+        return id.get();
     }
 
-    public void setType(String type)
+    public String getBloodType()
     {
-        this.bloodType = type;
+        return bloodType.get();
     }
 
-    public Boolean getPositiveRH()
+    public Boolean getIsPositiveRH()
     {
-        return isPositiveRH;
-    }
-
-    public void setPositiveRH(Boolean positiveRH)
-    {
-        isPositiveRH = positiveRH;
+        return isPositiveRH.get();
     }
 
     public LocalDate getLifeSpan()
@@ -66,26 +56,31 @@ public class Blood
         return lifeSpan;
     }
 
+    public void setId(int id)
+    {
+        this.id.set(id);
+    }
+
+    public void setBloodType(String bloodType)
+    {
+        this.bloodType.set(bloodType);
+    }
+
+    public void setIsPositiveRH(Boolean isPositiveRH)
+    {
+        this.isPositiveRH.set(isPositiveRH);
+    }
+
     public void setLifeSpan(LocalDate lifeSpan)
     {
         this.lifeSpan = lifeSpan;
     }
 
-    public Blood split()
-    {
-        return this;
-    }
-
-    public void setId(int id)
-    {
-        this.id = id;
-    }
-
     @Override
     public String toString()
     {
-        return "Blood{" +
-                "id=" + id +
+        return this.getClass().getSimpleName() +
+                "{id=" + id +
                 ", type='" + bloodType + '\'' +
                 ", isPositiveRH=" + isPositiveRH +
                 ", lifeSpan=" + lifeSpan +

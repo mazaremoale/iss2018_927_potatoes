@@ -25,7 +25,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class LoginWindowController implements Initializable
+public final class LoginWindowController implements Initializable
 {
     private String adminUsername = "root";
     private String adminPassword = "cartofi3";
@@ -214,13 +214,13 @@ public class LoginWindowController implements Initializable
     {
     }
 
-    public void loginAdmin() throws IOException
+    private void loginAdmin() throws IOException
     {
         if (usernameTextField.getText().equals(adminUsername) &&
                 passwordField.getText().equals(adminPassword))
         {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/addDoctorWindow.fxml"));
+            loader.setLocation(getClass().getResource("/fxml/adminOperationSelectionWindow.fxml"));
 
             loader.setController(new AdminOperationSelectionWindowController()
                     .setPrimaryStage(primaryStage)

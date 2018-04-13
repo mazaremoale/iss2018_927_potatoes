@@ -1,11 +1,14 @@
 package blood_donation.repository;
 
+import blood_donation.domain.blood.Blood;
+import blood_donation.domain.people.Person;
 import org.hibernate.Session;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class Repository<T>
+public final class Repository<T>
 {
     private Class<T> tClass;
     private Session session;
@@ -28,11 +31,30 @@ public class Repository<T>
 
     public List<T> getAll()
     {
-        return session.createNativeQuery("select * from " +
-                                    tClass.getSimpleName() +
-                                    " where type = ?",tClass)
-                .setParameter(1,tClass.getSimpleName())
-                .list();
+
+        //Silly single-table strategy :(
+        if(tClass == Blood.class || tClass == Person.class)
+        {
+            return session.createNativeQuery("select * from " +
+                    tClass.getSimpleName() + "s" +
+                    " where type = ?", tClass)
+                    .setParameter(1, tClass.getSimpleName())
+                    .list();
+        }
+        else if(tClass.getSuperclass() == Blood.class || tClass.getSuperclass() == Person.class)
+        {
+            return session.createNativeQuery("select * from " +
+                    tClass.getSuperclass().getSimpleName() + "s" +
+                    " where type = ?", tClass)
+                    .setParameter(1, tClass.getSimpleName())
+                    .list();
+        }
+        else
+        {
+            return session.createQuery("from " + tClass.getSimpleName())
+                    .list();
+        }
+
     }
 
     public T getByID(int id)
@@ -42,7 +64,9 @@ public class Repository<T>
 
     public void add(T entity)
     {
+        session.getTransaction().begin();
         session.persist(entity);
+        session.getTransaction().commit();
     }
 
     public void remove(int id)

@@ -6,11 +6,15 @@ import blood_donation.domain.utils.Clinic;
 import blood_donation.domain.utils.Hospital;
 import blood_donation.repository.Repository;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import org.hibernate.Session;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -25,14 +29,7 @@ public class AdminOperationSelectionWindowController implements Initializable
     private Repository<Doctor> doctorRepository;
     private Repository<Personnel> personnelRepository;
 
-    @FXML
-    private Button doctorButton;
 
-    @FXML
-    private Button donorButton;
-
-    @FXML
-    private Button personnelButton;
 
 
 
@@ -79,9 +76,29 @@ public class AdminOperationSelectionWindowController implements Initializable
 
 
     @FXML
-    public void doctorButtonOnClick()
+    public void chooseDoctor()
     {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/adminDoctorWindow.fxml"));
 
+            loader.setController(new AdminDoctorWindowController()
+                    .setPrimaryStage(primaryStage)
+                    .setSession(session)
+                    .setDoctorRepository(doctorRepository)
+                    .setHospitalRepository(hospitalRepository));
+
+            Parent content = loader.load();
+
+            Scene selectScene = new Scene(content);
+            primaryStage.setScene(selectScene);
+            primaryStage.setTitle("Admin");
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override

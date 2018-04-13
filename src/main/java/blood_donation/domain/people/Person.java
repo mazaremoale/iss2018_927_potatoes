@@ -1,5 +1,8 @@
 package blood_donation.domain.people;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -12,91 +15,82 @@ import java.io.Serializable;
 @DiscriminatorValue(value="person")
 public abstract class Person implements Serializable
 {
-    @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    @Column(name = "id")
-    private int id;
+    private IntegerProperty id = new SimpleIntegerProperty();
+    private SimpleStringProperty firstName = new SimpleStringProperty();
+    private SimpleStringProperty lastName = new SimpleStringProperty();
+    private SimpleStringProperty username = new SimpleStringProperty();
+    private SimpleStringProperty password = new SimpleStringProperty();
 
-    @Column(name = "firstName")
-    private String firstName;
-
-    @Column(name = "lastName")
-    private String lastName;
-
-    @Column(name = "username")
-    private String username;
-
-    @Column(name = "password")
-    private String password;
-
-    public Person(String firstName, String lastName, String username, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.password = password;
+    Person(String firstName, String lastName, String username, String password) {
+        this.firstName = new SimpleStringProperty(firstName);
+        this.lastName = new SimpleStringProperty(lastName);
+        this.username = new SimpleStringProperty(username);
+        this.password = new SimpleStringProperty(password);
     }
 
     public Person()
     {
-
     }
 
-    public void setId(int id)
-    {
-        this.id = id;
-    }
 
-    public void setFirstName(String firstName)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public int getId()
     {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName)
-    {
-        this.lastName = lastName;
+        return id.get();
     }
 
     public String getFirstName()
     {
-        return firstName;
+        return firstName.get();
     }
 
     public String getLastName()
     {
-        return lastName;
-    }
-
-    public int getId()
-    {
-        return id;
+        return lastName.get();
     }
 
     public String getUsername()
     {
-        return username;
-    }
-
-    public void setUsername(String username)
-    {
-        this.username = username;
+        return username.get();
     }
 
     public String getPassword()
     {
-        return password;
+        return password.get();
+    }
+
+
+    public void setId(int id)
+    {
+        this.id.set(id);
+    }
+
+    public void setFirstName(String firstName)
+    {
+        this.firstName.set(firstName);
+    }
+
+    public void setLastName(String lastName)
+    {
+        this.lastName.set(lastName);
+    }
+
+    public void setUsername(String username)
+    {
+        this.username.set(username);
     }
 
     public void setPassword(String password)
     {
-        this.password = password;
+        this.password.set(password);
     }
 
     @Override
     public String toString()
     {
-        return "Person{" +
-                "id=" + id +
+        return this.getClass().getSimpleName() +
+                "{id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +

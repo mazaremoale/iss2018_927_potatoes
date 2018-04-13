@@ -20,7 +20,7 @@ import org.hibernate.Session;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class UserSelectController implements Initializable
+public final class UserSelectController implements Initializable
 {
     private Repository<Blood> bloodRepository;
     private Repository<Plasma> plasmaRepository;
@@ -225,7 +225,6 @@ public class UserSelectController implements Initializable
 
     public void exit()
     {
-        System.out.println(bloodRepository);
         System.exit(0);
     }
 
