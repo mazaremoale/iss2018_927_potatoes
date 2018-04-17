@@ -15,5 +15,6 @@ public class Platelet extends Blood
 
     public Platelet()
     {
+        //potato
     }
 }
