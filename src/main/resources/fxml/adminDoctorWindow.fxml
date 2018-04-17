@@ -31,14 +31,6 @@
                   <TextField fx:id="usernameTextField" maxWidth="150.0" promptText="Username" />
                   <TextField fx:id="passwordTextField" maxWidth="150.0" promptText="Password" />
                   <ComboBox fx:id="hospitalComboBox" prefHeight="27.0" prefWidth="197.0" promptText="Pick a hospital" />
-                  <Label fx:id="warningLabel" prefHeight="124.0" prefWidth="285.0" text="Please fill in all the fields !" textFill="#e43939" wrapText="true">
-                     <font>
-                        <Font name="Optima Regular" size="35.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="20.0" top="350.0" />
-                     </VBox.margin>
-                  </Label>
                </children>
                <padding>
                   <Insets left="10.0" />

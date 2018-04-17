@@ -3,7 +3,6 @@ package blood_donation.controller.admin;
 import blood_donation.domain.people.Doctor;
 import blood_donation.domain.utils.Hospital;
 import blood_donation.repository.Repository;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -39,9 +38,6 @@ public class AdminDoctorWindowController implements Initializable
 
     @FXML
     private ComboBox<Hospital> hospitalComboBox;
-
-    @FXML
-    private Label warningLabel;
 
     @FXML
     private TableColumn<Doctor, String> doctorIDColumn;
@@ -92,8 +88,6 @@ public class AdminDoctorWindowController implements Initializable
     @FXML
     public void addDoctor()
     {
-        ObservableList<Doctor> doctorObservableList = FXCollections.observableArrayList();
-
         if(firstNameTextField.getText().length() > 0 &&
                 lastNameTextField.getText().length() > 0 &&
                 usernameTextField.getText().length() > 0 &&
@@ -113,7 +107,9 @@ public class AdminDoctorWindowController implements Initializable
             session.getTransaction().begin();
             session.persist(doctor);
             session.getTransaction().commit();
+
             doctorTableView.getItems().add(doctor);
+
             firstNameTextField.clear();
             lastNameTextField.clear();
             usernameTextField.clear();
@@ -134,12 +130,9 @@ public class AdminDoctorWindowController implements Initializable
     }
 
 
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        warningLabel.setVisible(false);
 
         ObservableList<Hospital> hospitals = FXCollections.observableArrayList();
         hospitals.addAll(hospitalRepository.getAll());
