@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
@@ -20,6 +21,7 @@ public class AdminDoctorWindowController implements Initializable
 {
     private Session session;
     private Stage primaryStage;
+    private Scene previousScene;
 
     private Repository<Hospital> hospitalRepository;
     private Repository<Doctor> doctorRepository;
@@ -85,6 +87,18 @@ public class AdminDoctorWindowController implements Initializable
         return this;
     }
 
+    public AdminDoctorWindowController setPreviousScene(Scene previousScene)
+    {
+        this.previousScene = previousScene;
+        return this;
+    }
+
+    @FXML
+    public void goBack()
+    {
+        primaryStage.setScene(previousScene);
+    }
+
     @FXML
     public void addDoctor()
     {
@@ -126,7 +140,41 @@ public class AdminDoctorWindowController implements Initializable
             Optional<ButtonType> result = alert.showAndWait();
         }
 
+    }
 
+    @FXML
+    public void removeDoctor()
+    {
+        if(!doctorTableView.getSelectionModel().isEmpty())
+        {
+            int selectedIndex = doctorTableView.getSelectionModel().getSelectedIndex();
+            Doctor doctor = doctorTableView.getSelectionModel().getSelectedItem();
+
+            doctorTableView.getItems().remove(selectedIndex);
+            doctorRepository.remove(doctor.getId());
+        }
+
+    }
+
+    @FXML
+    public void updateDoctor()
+    {
+        if(!doctorTableView.getSelectionModel().isEmpty())
+        {
+            int id = doctorTableView.getSelectionModel().getSelectedItem().getId();
+            int index = doctorTableView.getSelectionModel().getSelectedIndex();
+            String firstName = firstNameTextField.getText();
+            String lastName = lastNameTextField.getText();
+            String username = usernameTextField.getText();
+            String password = passwordTextField.getText();
+
+            Hospital hospital = hospitalComboBox.getSelectionModel().getSelectedItem();
+            Doctor doctor = new Doctor(firstName,lastName,username,password,hospital);
+            doctor.setId(id);
+
+            doctorTableView.getItems().set(index, doctor);
+            doctorRepository.update(doctor);
+        }
     }
 
 
@@ -149,6 +197,19 @@ public class AdminDoctorWindowController implements Initializable
         doctorHospitalColumn.setCellValueFactory(data -> data.getValue().hospitalProperty());
 
         doctorTableView.setItems(doctors);
+
+        doctorTableView.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) ->
+                {
+                    if(newValue != null)
+                    {
+                        firstNameTextField.setText(newValue.getFirstName());
+                        lastNameTextField.setText(newValue.getLastName());
+                        usernameTextField.setText(newValue.getUsername());
+                        passwordTextField.setText(newValue.getPassword());
+                        hospitalComboBox.getSelectionModel().select(newValue.getHospital());
+                    }
+                });
 
     }
 }

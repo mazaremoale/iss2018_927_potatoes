@@ -4,11 +4,9 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.*;
-
 
 @Entity
 @Table(name = "Bloods")
@@ -43,17 +41,23 @@ public class Blood
 
     public String getBloodType()
     {
-        return bloodType.get();
+        if(bloodType != null)
+            return bloodType.get();
+        return null;
     }
 
     public Boolean getIsPositiveRH()
     {
-        return isPositiveRH.get();
+        if(isPositiveRH != null)
+            return isPositiveRH.get();
+        return null;
     }
 
     public LocalDate getLifeSpan()
     {
-        return lifeSpan;
+        if(lifeSpan != null)
+            return lifeSpan;
+        return null;
     }
 
     public void setId(int id)
@@ -63,17 +67,20 @@ public class Blood
 
     public void setBloodType(String bloodType)
     {
-        this.bloodType.set(bloodType);
+        if(this.bloodType != null)
+            this.bloodType.set(bloodType);
     }
 
     public void setIsPositiveRH(Boolean isPositiveRH)
     {
-        this.isPositiveRH.set(isPositiveRH);
+        if(this.isPositiveRH != null)
+            this.isPositiveRH.set(isPositiveRH);
     }
 
     public void setLifeSpan(LocalDate lifeSpan)
     {
-        this.lifeSpan = lifeSpan;
+        if(this.lifeSpan != null)
+            this.lifeSpan = lifeSpan;
     }
 
     @Override

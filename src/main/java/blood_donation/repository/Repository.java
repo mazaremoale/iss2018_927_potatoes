@@ -3,9 +3,14 @@ package blood_donation.repository;
 import blood_donation.domain.blood.Blood;
 import blood_donation.domain.people.Person;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public final class Repository<T>
@@ -31,31 +36,11 @@ public final class Repository<T>
 
     public List<T> getAll()
     {
-
-        //Silly single-table strategy :(
-        if(tClass == Blood.class || tClass == Person.class)
-        {
-            return session.createNativeQuery("select * from " +
-                    tClass.getSimpleName() + "s" +
-                    " where type = ?", tClass)
-                    .setParameter(1, tClass.getSimpleName())
-                    .list();
-        }
-        else if(tClass.getSuperclass() == Blood.class || tClass.getSuperclass() == Person.class)
-        {
-            return session.createNativeQuery("select * from " +
-                    tClass.getSuperclass().getSimpleName() + "s" +
-                    " where type = ?", tClass)
-                    .setParameter(1, tClass.getSimpleName())
-                    .list();
-        }
-        else
-        {
-            return session.createQuery("from " + tClass.getSimpleName())
-                    .list();
-        }
-
+        return (List<T>) session.createQuery("from " + tClass.getSimpleName()).list().stream()
+                .filter(entity -> entity.getClass() == tClass).collect(Collectors.toList());
     }
+
+
 
     public T getByID(int id)
     {
@@ -72,7 +57,9 @@ public final class Repository<T>
     public void remove(int id)
     {
         T entity = getByID(id);
+        session.getTransaction().begin();
         session.delete(entity);
+        session.getTransaction().commit();
     }
 
     public void update(T newEntity)
@@ -83,7 +70,9 @@ public final class Repository<T>
         //too much work right now
         //we need to make sure this newEntity comes with the proper ID that it will be
         // replacing in the database
+        session.getTransaction().begin();
         session.merge(newEntity);
+        session.getTransaction().commit();
     }
 
     @Override

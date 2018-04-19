@@ -1,6 +1,6 @@
 package blood_donation;
 
-import blood_donation.controller.misc.UserSelectController;
+import blood_donation.controller.misc.UserSelectWindowController;
 import blood_donation.domain.blood.Blood;
 import blood_donation.domain.blood.Plasma;
 import blood_donation.domain.blood.Platelet;
@@ -50,7 +50,7 @@ public class Main extends Application
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/userSelectWindow.fxml"));
 
-        loader.setController(new UserSelectController()
+        loader.setController(new UserSelectWindowController()
                 .setPrimaryStage(primaryStage)
                 .setSession(session)
                 .setBloodRepository(bloodRepository)
@@ -76,8 +76,8 @@ public class Main extends Application
         primaryStage.setScene(selectScene);
         primaryStage.setTitle("User selection");
 
-        primaryStage.setMaximized(true);
         primaryStage.show();
+
 
     }
 

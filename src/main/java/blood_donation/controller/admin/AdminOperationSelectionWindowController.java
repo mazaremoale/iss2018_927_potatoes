@@ -87,7 +87,8 @@ public class AdminOperationSelectionWindowController implements Initializable
                     .setPrimaryStage(primaryStage)
                     .setSession(session)
                     .setDoctorRepository(doctorRepository)
-                    .setHospitalRepository(hospitalRepository));
+                    .setHospitalRepository(hospitalRepository)
+                    .setPreviousScene(primaryStage.getScene()));
 
             Parent content = loader.load();
 

@@ -33,6 +33,7 @@ public final class LoginWindowController implements Initializable
     private Stage primaryStage;
     private Session session;
     private String userType;
+    private Scene previousScene;
 
     private Repository<Blood> bloodRepository;
     private Repository<Plasma> plasmaRepository;
@@ -169,12 +170,22 @@ public final class LoginWindowController implements Initializable
         return this;
     }
 
+    public LoginWindowController setPreviousScene(Scene previousScene)
+    {
+        this.previousScene = previousScene;
+        return this;
+    }
+
     LoginWindowController(Stage primaryStage)
     {
         this.primaryStage = primaryStage;
     }
 
-
+    @FXML
+    public void goBack()
+    {
+        primaryStage.setScene(previousScene);
+    }
 
 
     public void login() throws IOException
