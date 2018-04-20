@@ -1,5 +1,6 @@
 package blood_donation.controller.misc;
 
+import blood_donation.controller.donor.DonorRegistrationWindowController;
 import blood_donation.domain.blood.Blood;
 import blood_donation.domain.blood.Plasma;
 import blood_donation.domain.blood.Platelet;
@@ -10,13 +11,16 @@ import blood_donation.domain.people.Patient;
 import blood_donation.domain.people.Personnel;
 import blood_donation.domain.utils.*;
 import blood_donation.repository.Repository;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import org.hibernate.Session;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -40,6 +44,12 @@ public final class UserSelectWindowController implements Initializable
 
     private Stage primaryStage;
     private Session session;
+
+    @FXML
+    private Button donorLoginButton;
+
+    @FXML
+    private Button donorRegisterButton;
 
     public UserSelectWindowController()
     {
@@ -223,12 +233,69 @@ public final class UserSelectWindowController implements Initializable
         return this;
     }
 
+    @FXML
     public void exit()
     {
         System.exit(0);
     }
 
-    public void openAdminLogin() throws Exception
+    @FXML
+    public void showDonorOptions()
+    {
+        donorLoginButton.setVisible(true);
+        donorRegisterButton.setVisible(true);
+    }
+
+    @FXML
+    public void openDonorRegistration() throws IOException
+    {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/donorRegistrationWindow.fxml"));
+        loader.setController(new DonorRegistrationWindowController()
+                .setPreviousScene(primaryStage.getScene())
+                .setPrimaryStage(primaryStage)
+                .setSession(session));
+
+        Parent content = loader.load();
+
+        Scene selectScene = new Scene(content);
+        primaryStage.setScene(selectScene);
+        primaryStage.setTitle("Donor registration");
+    }
+
+    @FXML
+    public void openDonorLogin() throws IOException
+    {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/loginWindow.fxml"));
+        loader.setController(new LoginWindowController()
+                .setPrimaryStage(primaryStage)
+                .setSession(session)
+                .setUserType("donor")
+                .setBloodRepository(bloodRepository)
+                .setPlasmaRepository(plasmaRepository)
+                .setRedBloodCellRepository(redBloodCellRepository)
+                .setPlateletRepository(plateletRepository)
+                .setDonorRepository(donorRepository)
+                .setDoctorRepository(doctorRepository)
+                .setPatientRepository(patientRepository)
+                .setPersonnelRepository(personnelRepository)
+                .setClinicRepository(clinicRepository)
+                .setDonationRepository(donationRepository)
+                .setDonationRequestRepository(donationRequestRepository)
+                .setHospitalRepository(hospitalRepository)
+                .setLocationRepository(locationRepository)
+                .setRequestRepository(requestRepository)
+                .setPreviousScene(primaryStage.getScene()));
+
+        Parent content = loader.load();
+
+        Scene selectScene = new Scene(content);
+        primaryStage.setScene(selectScene);
+        primaryStage.setTitle("Login");
+    }
+
+    public void openAdminLogin() throws IOException
     {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/loginWindow.fxml"));
@@ -263,6 +330,7 @@ public final class UserSelectWindowController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-
+        donorLoginButton.setVisible(false);
+        donorRegisterButton.setVisible(false);
     }
 }

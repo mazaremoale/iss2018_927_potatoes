@@ -21,7 +21,7 @@
          <children>
             <VBox prefHeight="580.0" prefWidth="295.0" spacing="10.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#goBack" prefHeight="50.0" prefWidth="97.0" text="Back">
+                  <Button cancelButton="true" mnemonicParsing="false" onAction="#goBack" prefHeight="50.0" prefWidth="97.0" text="Back">
                      <font>
                         <Font size="25.0" />
                      </font>
