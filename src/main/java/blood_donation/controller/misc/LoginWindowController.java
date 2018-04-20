@@ -217,8 +217,38 @@ public final class LoginWindowController implements Initializable
 
     }
 
-    private void loginDonor()
+    private void loginDonor() throws IOException
     {
+        for(Donor donor : donorRepository.getAll())
+        {
+            if (usernameTextField.getText().equals(donor.getUsername()) &&
+                    passwordField.getText().equals(donor.getPassword()))
+            {
+                /*
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/fxml/adminOperationSelectionWindow.fxml"));
+
+                loader.setController(new AdminOperationSelectionWindowController()
+                        .setPrimaryStage(primaryStage)
+                        .setSession(session)
+                        .setDoctorRepository(doctorRepository)
+                        .setPersonnelRepository(personnelRepository)
+                        .setClinicRepository(clinicRepository)
+                        .setHospitalRepository(hospitalRepository)
+                        .setPreviousScene(primaryStage.getScene()));
+
+                Parent content = loader.load();
+
+                Scene selectScene = new Scene(content);
+                primaryStage.setScene(selectScene);
+                primaryStage.setTitle("Admin");
+                */
+            }
+            else
+            {
+                throw new IOException("Invalid username-password combination");
+            }
+        }
     }
 
     private void loginDoctor()
@@ -239,7 +269,8 @@ public final class LoginWindowController implements Initializable
                     .setDoctorRepository(doctorRepository)
                     .setPersonnelRepository(personnelRepository)
                     .setClinicRepository(clinicRepository)
-                    .setHospitalRepository(hospitalRepository));
+                    .setHospitalRepository(hospitalRepository)
+                    .setPreviousScene(primaryStage.getScene()));
 
             Parent content = loader.load();
 

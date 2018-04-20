@@ -17,7 +17,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class AdminDoctorWindowController implements Initializable
+public final class AdminDoctorWindowController implements Initializable
 {
     private Session session;
     private Stage primaryStage;

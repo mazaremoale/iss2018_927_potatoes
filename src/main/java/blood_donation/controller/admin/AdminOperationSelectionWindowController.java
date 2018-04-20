@@ -18,11 +18,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AdminOperationSelectionWindowController implements Initializable
+public final class AdminOperationSelectionWindowController implements Initializable
 {
     private Session session;
 
     private Stage primaryStage;
+    private Scene previousScene;
 
     private Repository<Hospital> hospitalRepository;
     private Repository<Clinic> clinicRepository;
@@ -74,6 +75,17 @@ public class AdminOperationSelectionWindowController implements Initializable
         return this;
     }
 
+    public AdminOperationSelectionWindowController setPreviousScene(Scene previousScene)
+    {
+        this.previousScene = previousScene;
+        return this;
+    }
+
+    @FXML
+    public void goBack()
+    {
+        primaryStage.setScene(previousScene);
+    }
 
     @FXML
     public void chooseDoctor()

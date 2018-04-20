@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
@@ -32,4 +33,14 @@
          </children>
       </VBox>
    </center>
+   <top>
+      <Button cancelButton="true" mnemonicParsing="false" onAction="#goBack" prefHeight="38.0" prefWidth="76.0" text="Back" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets right="600.0" top="20.0" />
+         </BorderPane.margin>
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+   </top>
 </BorderPane>
