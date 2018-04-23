@@ -34,12 +34,6 @@ public class Clinic
         return location;
     }
 
-    @OneToMany
-    @JoinColumn(name = "clinicID")
-    public List<Personnel> getPersonnelList()
-    {
-        return personnelList;
-    }
 
     public void setId(int id)
     {
