@@ -52,10 +52,6 @@ public class Clinic
         this.location = location;
     }
 
-    public void setPersonnelList(List<Personnel> personnelList)
-    {
-        this.personnelList = personnelList;
-    }
 
     public String getName()
     {
@@ -72,5 +68,4 @@ public class Clinic
     {
         return name.get() + ", " + location;
     }
-=======
 }

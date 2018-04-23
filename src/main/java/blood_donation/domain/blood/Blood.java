@@ -22,9 +22,8 @@ public class Blood
     private LocalDate lifeSpan;
 
 
-    public Blood(int quantity, String bloodType, Boolean isPositiveRH, LocalDate lifeSpan)
+    public Blood(String bloodType, Boolean isPositiveRH, LocalDate lifeSpan)
     {
-        this.quantity.setValue(quantity);
         this.bloodType = new SimpleStringProperty(bloodType);
         this.isPositiveRH = new SimpleBooleanProperty(isPositiveRH);
         this.lifeSpan = lifeSpan;
