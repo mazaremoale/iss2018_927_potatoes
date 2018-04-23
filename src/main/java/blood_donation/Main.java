@@ -44,6 +44,94 @@ public class Main extends Application
         Repository<BloodRequest> requestRepository = new Repository<>(BloodRequest.class,session);
 
 
+        Location location1 = new Location("Alba Iulia");
+        Location location2 = new Location("Arad");
+        Location location3 = new Location("Piteşti");
+        Location location4 = new Location("Bacău");
+        Location location5 = new Location("Oradea");
+        Location location6 = new Location("Bistrița");
+        Location location7 = new Location("Botoșani");
+        Location location8 = new Location("Brașov");
+        Location location9 = new Location("Brăila");
+        Location location10 = new Location("București");
+        Location location11 = new Location("Buzău");
+        Location location12 = new Location("Reșița");
+        Location location13 = new Location("Călărași");
+        Location location14 = new Location("Cluj");
+        Location location15 = new Location("Constanța");
+        Location location16 = new Location("Covasna");
+        Location location17 = new Location("Dâmbovița");
+        Location location18 = new Location("Dolj");
+        Location location19 = new Location("Galați");
+        Location location20 = new Location("Giurgiu");
+        Location location21 = new Location("Gorj");
+        Location location22 = new Location("Harghita");
+        Location location23 = new Location("Hunedoara");
+        Location location24 = new Location("Ialomița");
+        Location location25 = new Location("Iași");
+        Location location26 = new Location("Ilfov");
+        Location location27 = new Location("Maramureș");
+        Location location28 = new Location("Mehedinți");
+        Location location29 = new Location("Mureș");
+        Location location30 = new Location("Neamț");
+        Location location31 = new Location("Olt");
+        Location location32 = new Location("Prahova");
+        Location location33 = new Location("Satu Mare");
+        Location location34 = new Location("Sălaj");
+        Location location35 = new Location("Sibiu");
+        Location location36 = new Location("Suceava");
+        Location location37 = new Location("Teleorman");
+        Location location38 = new Location("Timiș");
+        Location location39 = new Location("Tulcea");
+        Location location40 = new Location("Vaslui");
+        Location location41 = new Location("Valcea");
+        Location location42 = new Location("Vrancea");
+
+
+        locationRepository.add(location1);
+        locationRepository.add(location2);
+        locationRepository.add(location3);
+        locationRepository.add(location4);
+        locationRepository.add(location5);
+        locationRepository.add(location6);
+        locationRepository.add(location7);
+        locationRepository.add(location8);
+        locationRepository.add(location9);
+        locationRepository.add(location10);
+        locationRepository.add(location11);
+        locationRepository.add(location12);
+        locationRepository.add(location13);
+        locationRepository.add(location14);
+        locationRepository.add(location15);
+        locationRepository.add(location16);
+        locationRepository.add(location17);
+        locationRepository.add(location18);
+        locationRepository.add(location19);
+        locationRepository.add(location20);
+        locationRepository.add(location21);
+        locationRepository.add(location22);
+        locationRepository.add(location23);
+        locationRepository.add(location24);
+        locationRepository.add(location25);
+        locationRepository.add(location26);
+        locationRepository.add(location27);
+        locationRepository.add(location28);
+        locationRepository.add(location29);
+        locationRepository.add(location30);
+        locationRepository.add(location31);
+        locationRepository.add(location32);
+        locationRepository.add(location33);
+        locationRepository.add(location34);
+        locationRepository.add(location35);
+        locationRepository.add(location36);
+        locationRepository.add(location37);
+        locationRepository.add(location38);
+        locationRepository.add(location39);
+        locationRepository.add(location40);
+        locationRepository.add(location41);
+        locationRepository.add(location42);
+
+
 
 
 
