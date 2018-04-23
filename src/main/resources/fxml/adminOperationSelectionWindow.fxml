@@ -20,7 +20,7 @@
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="66.0" prefWidth="246.0" text="Add/remove/update personnel">
+            <Button mnemonicParsing="false" onAction="#choosePersonnel" prefHeight="66.0" prefWidth="246.0" text="Add/remove/update personnel">
                <font>
                   <Font size="15.0" />
                </font>

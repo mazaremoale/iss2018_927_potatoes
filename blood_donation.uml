@@ -7,21 +7,17 @@
     <node x="822.0" y="417.0">blood_donation.domain.utils.Donation</node>
     <node x="322.0" y="658.0">blood_donation.domain.utils.Clinic</node>
     <node x="492.0" y="266.0">blood_donation.domain.people.Personnel</node>
-    <node x="0.0" y="938.0">blood_donation.controller.donorQuestionaireController</node>
-    <node x="253.0" y="189.0">blood_donation.domain.people.Donor</node>
+    <node x="172.0" y="227.0">blood_donation.domain.people.Donor</node>
     <node x="621.0" y="658.0">blood_donation.domain.utils.Hospital</node>
     <node x="261.0" y="584.0">blood_donation.domain.blood.RedBloodCell</node>
     <node x="414.0" y="798.0">blood_donation.repository.Repository</node>
     <node x="0.0" y="658.0">blood_donation.domain.utils.Location</node>
     <node x="96.5" y="417.0">blood_donation.domain.blood.Blood</node>
-    <node x="435.0" y="417.0">blood_donation.controller.userSelectController</node>
     <node x="370.0" y="0.0">blood_donation.domain.people.Person</node>
-    <node x="667.0" y="798.0">blood_donation.controller.donorPersonalDetailsController</node>
-    <node x="621.0" y="266.0">blood_donation.domain.people.Doctor</node>
     <node x="0.0" y="244.0">blood_donation.domain.people.Patient</node>
+    <node x="621.0" y="266.0">blood_donation.domain.people.Doctor</node>
     <node x="0.0" y="798.0">blood_donation.domain.utils.Request</node>
     <node x="203.0" y="798.0">blood_donation.domain.utils.DonationRequest</node>
-    <node x="0.0" y="584.0">blood_donation.domain.blood.Thrombocyte</node>
     <node x="269.0" y="938.0">blood_donation.Main</node>
   </nodes>
   <notes />
@@ -44,31 +40,27 @@
       <point x="517.875" y="159.0" />
       <point x="63.375" y="69.5" />
     </edge>
-    <edge source="blood_donation.domain.blood.RedBloodCell" target="blood_donation.domain.blood.Blood">
-      <point x="0.0" y="-14.5" />
-      <point x="325.5" y="559.0" />
-      <point x="261.5" y="559.0" />
-      <point x="66.0" y="58.5" />
-    </edge>
     <edge source="blood_donation.domain.people.Personnel" target="blood_donation.domain.people.Person">
       <point x="0.0" y="-14.5" />
       <point x="546.5" y="169.0" />
       <point x="475.625" y="169.0" />
       <point x="21.125" y="69.5" />
     </edge>
-    <edge source="blood_donation.domain.blood.Thrombocyte" target="blood_donation.domain.blood.Blood">
+    <edge source="blood_donation.domain.blood.RedBloodCell" target="blood_donation.domain.blood.Blood">
       <point x="0.0" y="-14.5" />
-      <point x="65.0" y="559.0" />
-      <point x="129.5" y="559.0" />
-      <point x="-66.0" y="58.5" />
+      <point x="325.5" y="559.0" />
+      <point x="261.5" y="559.0" />
+      <point x="66.0" y="58.5" />
     </edge>
     <edge source="blood_donation.domain.blood.Plasma" target="blood_donation.domain.blood.Blood">
       <point x="0.0" y="-14.5" />
       <point x="0.0" y="58.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="407.0" y="245.5" />
-  <SelectedNodes />
+  <settings layout="Hierarchic Group" zoom="1.0" x="407.0" y="246.0" />
+  <SelectedNodes>
+    <node>blood_donation.domain.people.Donor</node>
+  </SelectedNodes>
   <Categories>
     <Category>Fields</Category>
   </Categories>

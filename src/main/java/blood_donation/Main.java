@@ -44,6 +44,15 @@ public class Main extends Application
         Repository<BloodRequest> requestRepository = new Repository<>(BloodRequest.class,session);
 
 
+
+
+////      hardcoded clinics for testing Admin Personnel Window
+//        Location someLocation = new Location("Test Location");
+//        locationRepository.add(someLocation);
+//        clinicRepository.add(new Clinic(someLocation, "Random Clinic 01"));
+//        clinicRepository.add(new Clinic(someLocation, "Some Clinic 111"));
+
+
 /*
         Location location1 = new Location("Alba Iulia");
         Location location2 = new Location("Arad");
