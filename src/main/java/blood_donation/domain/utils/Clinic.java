@@ -14,7 +14,6 @@ public class Clinic
 {
     private IntegerProperty id = new SimpleIntegerProperty();
     private Location location;
-    private List<Personnel> personnelList;
 
     public Clinic()
     {
@@ -45,8 +44,4 @@ public class Clinic
         this.location = location;
     }
 
-    public void setPersonnelList(List<Personnel> personnelList)
-    {
-        this.personnelList = personnelList;
-    }
 }
