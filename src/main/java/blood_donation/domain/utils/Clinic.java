@@ -16,7 +16,6 @@ public class Clinic
     private IntegerProperty id = new SimpleIntegerProperty();
     private SimpleStringProperty name = new SimpleStringProperty();
     private Location location;
-    private List<Personnel> personnelList;
 
     public Clinic()
     {
@@ -73,4 +72,5 @@ public class Clinic
     {
         return name.get() + ", " + location;
     }
+=======
 }

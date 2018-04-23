@@ -14,8 +14,9 @@ import java.util.List;
 @Table(name = "Hospitals")
 public class Hospital
 {
-    private IntegerProperty id = new SimpleIntegerProperty();
     private Location location;
+    private StringProperty locationProperty = new SimpleStringProperty("location");
+    private IntegerProperty id = new SimpleIntegerProperty();
     private SimpleStringProperty name = new SimpleStringProperty();
 
     public Hospital()
@@ -27,6 +28,7 @@ public class Hospital
     {
         this.location = location;
         this.name = new SimpleStringProperty(name);
+        this.locationProperty.set(location.toString());
     }
 
     @Id
@@ -48,6 +50,8 @@ public class Hospital
         return name.get();
     }
 
+    public StringProperty locationProperty() { return locationProperty; }
+
     public void setId(int id)
     {
         this.id.set(id);
@@ -56,13 +60,15 @@ public class Hospital
     public void setLocation(Location location)
     {
         this.location = location;
+        if(location != null)
+            locationProperty.set(location.toString());
     }
 
     public void setName(String name)
     {
         this.name.set(name);
-
     }
+
 
     @Override
     public String toString()

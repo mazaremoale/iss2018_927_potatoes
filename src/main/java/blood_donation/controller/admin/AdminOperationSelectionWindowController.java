@@ -4,6 +4,7 @@ import blood_donation.domain.people.Doctor;
 import blood_donation.domain.people.Personnel;
 import blood_donation.domain.utils.Clinic;
 import blood_donation.domain.utils.Hospital;
+import blood_donation.domain.utils.Location;
 import blood_donation.repository.Repository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +30,7 @@ public final class AdminOperationSelectionWindowController implements Initializa
     private Repository<Clinic> clinicRepository;
     private Repository<Doctor> doctorRepository;
     private Repository<Personnel> personnelRepository;
-
+    private Repository<Location> locationRepository;
 
 
 
@@ -63,6 +64,12 @@ public final class AdminOperationSelectionWindowController implements Initializa
         return this;
     }
 
+    public AdminOperationSelectionWindowController setLocationRepository(Repository<Location> locationRepository)
+    {
+        this.locationRepository = locationRepository;
+        return this;
+    }
+
     public AdminOperationSelectionWindowController setPersonnelRepository(Repository<Personnel> personnelRepository)
     {
         this.personnelRepository = personnelRepository;
@@ -85,6 +92,33 @@ public final class AdminOperationSelectionWindowController implements Initializa
     public void goBack()
     {
         primaryStage.setScene(previousScene);
+    }
+
+    @FXML
+    public void chooseHospital()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/adminHospitalWindow.fxml"));
+
+            loader.setController(new AdminHospitalWindowController()
+                    .setPrimaryStage(primaryStage)
+                    .setPreviousScene(primaryStage.getScene())
+                    .setSession(session)
+                    .setHospitalRepository(hospitalRepository)
+                    .setLocationRepository(locationRepository));
+
+            Parent content = loader.load();
+
+            Scene selectScene = new Scene(content);
+            primaryStage.setScene(selectScene);
+            primaryStage.setTitle("Admin");
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @FXML

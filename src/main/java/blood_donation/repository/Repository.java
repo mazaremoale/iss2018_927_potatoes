@@ -3,7 +3,6 @@ package blood_donation.repository;
 
 import org.hibernate.Session;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.stream.Collectors;
 
