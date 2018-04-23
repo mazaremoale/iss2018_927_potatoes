@@ -43,45 +43,46 @@ public class Main extends Application
         Repository<Location> locationRepository = new Repository<>(Location.class,session);
         Repository<BloodRequest> requestRepository = new Repository<>(BloodRequest.class,session);
 
+        /*
 
         Location location1 = new Location("Alba Iulia");
         Location location2 = new Location("Arad");
-        Location location3 = new Location("Piteşti");
-        Location location4 = new Location("Bacău");
+        Location location3 = new Location("Pitesti");
+        Location location4 = new Location("Bacau");
         Location location5 = new Location("Oradea");
-        Location location6 = new Location("Bistrița");
-        Location location7 = new Location("Botoșani");
-        Location location8 = new Location("Brașov");
-        Location location9 = new Location("Brăila");
-        Location location10 = new Location("București");
-        Location location11 = new Location("Buzău");
-        Location location12 = new Location("Reșița");
-        Location location13 = new Location("Călărași");
+        Location location6 = new Location("Bistrita");
+        Location location7 = new Location("Botosani");
+        Location location8 = new Location("Brasov");
+        Location location9 = new Location("Braila");
+        Location location10 = new Location("Bucuresti");
+        Location location11 = new Location("Buzau");
+        Location location12 = new Location("Resita");
+        Location location13 = new Location("Calarasi");
         Location location14 = new Location("Cluj");
-        Location location15 = new Location("Constanța");
+        Location location15 = new Location("Constanta");
         Location location16 = new Location("Covasna");
-        Location location17 = new Location("Dâmbovița");
+        Location location17 = new Location("Dambovita");
         Location location18 = new Location("Dolj");
-        Location location19 = new Location("Galați");
+        Location location19 = new Location("Galati");
         Location location20 = new Location("Giurgiu");
         Location location21 = new Location("Gorj");
         Location location22 = new Location("Harghita");
         Location location23 = new Location("Hunedoara");
-        Location location24 = new Location("Ialomița");
-        Location location25 = new Location("Iași");
+        Location location24 = new Location("Ialomita");
+        Location location25 = new Location("Iasi");
         Location location26 = new Location("Ilfov");
-        Location location27 = new Location("Maramureș");
-        Location location28 = new Location("Mehedinți");
-        Location location29 = new Location("Mureș");
-        Location location30 = new Location("Neamț");
+        Location location27 = new Location("Maramures");
+        Location location28 = new Location("Mehedinti");
+        Location location29 = new Location("Mures");
+        Location location30 = new Location("Neamt");
         Location location31 = new Location("Olt");
         Location location32 = new Location("Prahova");
         Location location33 = new Location("Satu Mare");
-        Location location34 = new Location("Sălaj");
+        Location location34 = new Location("Salaj");
         Location location35 = new Location("Sibiu");
         Location location36 = new Location("Suceava");
         Location location37 = new Location("Teleorman");
-        Location location38 = new Location("Timiș");
+        Location location38 = new Location("Timis");
         Location location39 = new Location("Tulcea");
         Location location40 = new Location("Vaslui");
         Location location41 = new Location("Valcea");
@@ -133,7 +134,7 @@ public class Main extends Application
 
 
 
-
+        */
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/userSelectWindow.fxml"));

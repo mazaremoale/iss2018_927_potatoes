@@ -16,6 +16,7 @@ import java.time.*;
 public class Blood
 {
     private IntegerProperty id = new SimpleIntegerProperty();
+    private IntegerProperty quantity;
     private SimpleStringProperty bloodType;
     private SimpleBooleanProperty isPositiveRH;
     private LocalDate lifeSpan;
