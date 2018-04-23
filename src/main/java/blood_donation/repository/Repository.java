@@ -1,14 +1,9 @@
 package blood_donation.repository;
 
-import blood_donation.domain.blood.Blood;
-import blood_donation.domain.people.Person;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import java.util.ArrayList;
+import org.hibernate.Session;
+
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,6 +33,7 @@ public final class Repository<T>
     {
         return (List<T>) session.createQuery("from " + tClass.getSimpleName()).list().stream()
                 .filter(entity -> entity.getClass() == tClass).collect(Collectors.toList());
+
     }
 
 
@@ -48,9 +44,16 @@ public final class Repository<T>
 
     public void add(T entity)
     {
-        session.getTransaction().begin();
-        session.persist(entity);
-        session.getTransaction().commit();
+        try
+        {
+            session.getTransaction().begin();
+            session.persist(entity);
+            session.getTransaction().commit();
+        }
+        catch(Exception e)
+        {
+            System.out.println("Something went bad in sql");
+        }
     }
 
     public void remove(int id)

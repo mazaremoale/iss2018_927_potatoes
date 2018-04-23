@@ -118,9 +118,7 @@ public final class AdminDoctorWindowController implements Initializable
 
             Doctor doctor = new Doctor(firstName,lastName,username,password,hospital);
 
-            session.getTransaction().begin();
-            session.persist(doctor);
-            session.getTransaction().commit();
+            doctorRepository.add(doctor);
 
             doctorTableView.getItems().add(doctor);
 
