@@ -43,8 +43,8 @@ public class Main extends Application
         Repository<Location> locationRepository = new Repository<>(Location.class,session);
         Repository<BloodRequest> requestRepository = new Repository<>(BloodRequest.class,session);
 
-        /*
 
+/*
         Location location1 = new Location("Alba Iulia");
         Location location2 = new Location("Arad");
         Location location3 = new Location("Pitesti");
@@ -131,10 +131,9 @@ public class Main extends Application
         locationRepository.add(location40);
         locationRepository.add(location41);
         locationRepository.add(location42);
+*/
 
 
-
-        */
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/userSelectWindow.fxml"));
