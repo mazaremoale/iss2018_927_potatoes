@@ -8,7 +8,7 @@ import org.hibernate.Session;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class DonorRegistrationWindowController implements Initializable
+public final class DonorRegistrationWindowController implements Initializable
 {
 
     private Stage primaryStage;

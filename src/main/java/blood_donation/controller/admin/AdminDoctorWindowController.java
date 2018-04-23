@@ -145,10 +145,9 @@ public final class AdminDoctorWindowController implements Initializable
     {
         if(!doctorTableView.getSelectionModel().isEmpty())
         {
-            int selectedIndex = doctorTableView.getSelectionModel().getSelectedIndex();
             Doctor doctor = doctorTableView.getSelectionModel().getSelectedItem();
 
-            doctorTableView.getItems().remove(selectedIndex);
+            doctorTableView.getItems().remove(doctor);
             doctorRepository.remove(doctor.getId());
         }
 

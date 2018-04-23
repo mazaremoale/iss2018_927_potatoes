@@ -5,7 +5,7 @@ import javafx.fxml.Initializable;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class DonorPersonalDetailsWindowController implements Initializable
+public final class DonorPersonalDetailsWindowController implements Initializable
 {
 
     @Override

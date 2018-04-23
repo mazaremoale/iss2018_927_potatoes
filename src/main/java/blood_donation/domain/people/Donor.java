@@ -28,6 +28,8 @@ public class Donor extends Person
 
     private String residenceCounty;
 
+    private String bloodType;
+
     public Donor()
     {
     }
