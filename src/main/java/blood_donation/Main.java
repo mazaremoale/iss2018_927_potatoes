@@ -44,7 +44,6 @@ public class Main extends Application
         Repository<BloodRequest> requestRepository = new Repository<>(BloodRequest.class,session);
 
 
-
         Location location1 = new Location("Alba Iulia");
         Location location2 = new Location("Arad");
         Location location3 = new Location("Piteşti");
