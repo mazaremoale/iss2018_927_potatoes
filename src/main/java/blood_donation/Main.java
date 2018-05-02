@@ -1,10 +1,7 @@
 package blood_donation;
 
 import blood_donation.controller.misc.UserSelectWindowController;
-import blood_donation.domain.blood.Blood;
-import blood_donation.domain.blood.Plasma;
-import blood_donation.domain.blood.Platelet;
-import blood_donation.domain.blood.RedBloodCell;
+import blood_donation.domain.blood.*;
 import blood_donation.domain.people.*;
 import blood_donation.domain.utils.*;
 import blood_donation.repository.Repository;
@@ -42,15 +39,11 @@ public class Main extends Application
         Repository<Hospital> hospitalRepository = new Repository<>(Hospital.class,session);
         Repository<Location> locationRepository = new Repository<>(Location.class,session);
         Repository<BloodRequest> requestRepository = new Repository<>(BloodRequest.class,session);
+        Repository<BloodGroup> bloodGroupRepository = new Repository<>(BloodGroup.class, session);
 
 
 
 
-////      hardcoded clinics for testing Admin Personnel Window
-//        Location someLocation = new Location("Test Location");
-//        locationRepository.add(someLocation);
-//        clinicRepository.add(new Clinic(someLocation, "Random Clinic 01"));
-//        clinicRepository.add(new Clinic(someLocation, "Some Clinic 111"));
 
 
 /*
@@ -140,6 +133,19 @@ public class Main extends Application
         locationRepository.add(location40);
         locationRepository.add(location41);
         locationRepository.add(location42);
+
+
+
+        bloodGroupRepository.add(new BloodGroup(BloodTypeLetter.A, true));
+        bloodGroupRepository.add(new BloodGroup(BloodTypeLetter.A, false));
+        bloodGroupRepository.add(new BloodGroup(BloodTypeLetter.B, true));
+        bloodGroupRepository.add(new BloodGroup(BloodTypeLetter.B, false));
+        bloodGroupRepository.add(new BloodGroup(BloodTypeLetter.AB, true));
+        bloodGroupRepository.add(new BloodGroup(BloodTypeLetter.AB, false));
+        bloodGroupRepository.add(new BloodGroup(BloodTypeLetter.O, true));
+        bloodGroupRepository.add(new BloodGroup(BloodTypeLetter.O, false));
+
+
 */
 
 
@@ -164,7 +170,6 @@ public class Main extends Application
                 .setHospitalRepository(hospitalRepository)
                 .setLocationRepository(locationRepository)
                 .setRequestRepository(requestRepository));
-
 
 
         Parent content = loader.load();
