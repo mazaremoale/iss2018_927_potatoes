@@ -51,7 +51,7 @@ public final class Repository<T>
         }
         catch(Exception e)
         {
-            System.out.println("Something went bad in sql");
+            e.printStackTrace();
         }
     }
 
@@ -66,7 +66,7 @@ public final class Repository<T>
     public void update(T newEntity)
     {
         //problem is that I can't set the ID here, it's generic, has no clue what functions
-        // it got
+        // it has
         //could solve it by putting a master base class which has a id field
         //too much work right now
         //we need to make sure this newEntity comes with the proper ID that it will be

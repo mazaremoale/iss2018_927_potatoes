@@ -1,5 +1,7 @@
 package blood_donation.domain.blood;
 
+import javafx.beans.property.IntegerProperty;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.time.LocalDate;
@@ -8,13 +10,12 @@ import java.time.LocalDate;
 @DiscriminatorValue(value = "platelet")
 public class Platelet extends Blood
 {
-    public Platelet(String type, Boolean isPositiveRH, LocalDate lifeSpan)
+    public Platelet(IntegerProperty quantity, BloodGroup bloodGroup, LocalDate lifeSpan)
     {
-        super(type, isPositiveRH, lifeSpan);
+        super(quantity, bloodGroup, lifeSpan);
     }
 
     public Platelet()
     {
-        //potato
     }
 }

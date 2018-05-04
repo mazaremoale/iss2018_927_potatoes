@@ -49,6 +49,7 @@
         <mapping class="blood_donation.domain.people.Doctor"/>
         <mapping class="blood_donation.domain.people.Patient"/>
         <mapping class="blood_donation.domain.people.Personnel"/>
+        <mapping class="blood_donation.domain.blood.BloodGroup"/>
         <mapping class="blood_donation.domain.blood.Blood"/>
         <mapping class="blood_donation.domain.blood.Plasma"/>
         <mapping class="blood_donation.domain.blood.Platelet"/>
@@ -58,9 +59,9 @@
         <mapping class="blood_donation.domain.utils.DonationRequest"/>
         <mapping class="blood_donation.domain.utils.Hospital"/>
         <mapping class="blood_donation.domain.utils.Location"/>
+        <mapping class="blood_donation.domain.utils.Distance"/>
         <mapping class="blood_donation.domain.utils.BloodRequest"/>
         <mapping class="blood_donation.domain.utils.DonationRequest"/>
-        <mapping class="blood_donation.domain.blood.BloodGroup"/>
 
     </session-factory>
 </hibernate-configuration>

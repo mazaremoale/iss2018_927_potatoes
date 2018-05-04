@@ -12,7 +12,7 @@ public class BloodRequest
     private int id;
 
     //private Patient patient;
-    private String status = "waiting";
+    private Status status;
 
     public BloodRequest(Patient patient)
     {
@@ -35,12 +35,12 @@ public class BloodRequest
         this.id = id;
     }
 
-    public String getStatus()
+    public Status getStatus()
     {
         return status;
     }
 
-    public void setStatus(String status)
+    public void setStatus(Status status)
     {
         this.status = status;
     }

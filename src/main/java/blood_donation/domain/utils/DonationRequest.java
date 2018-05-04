@@ -1,17 +1,11 @@
 package blood_donation.domain.utils;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 
 @Entity
 @Table(name = "DonationRequests")
 public class DonationRequest
 {
-    @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    @Column(name = "id")
     private int id;
 
     private Boolean hasHIV;
@@ -38,11 +32,23 @@ public class DonationRequest
     private float bloodPressure;
     private Boolean hasConsumedFatRecently;
     private Boolean hasConsumedAlcoholRecently;
-    private Boolean hasHadSurgeryRecently;
+    private Boolean hadSurgeryRecently;
     private Boolean isUnderTreatment;
     private Boolean hasSmokedRecently;
     private Boolean isWellSlept;
 
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
 
     public Boolean getHasHIV()
     {
@@ -264,14 +270,14 @@ public class DonationRequest
         this.hasConsumedAlcoholRecently = hasConsumedAlcoholRecently;
     }
 
-    public Boolean getHasHadSurgeryRecently()
+    public Boolean getHadSurgeryRecently()
     {
-        return hasHadSurgeryRecently;
+        return hadSurgeryRecently;
     }
 
-    public void setHasHadSurgeryRecently(Boolean hasHadSurgeryRecently)
+    public void setHadSurgeryRecently(Boolean hasHadSurgeryRecently)
     {
-        this.hasHadSurgeryRecently = hasHadSurgeryRecently;
+        this.hadSurgeryRecently = hasHadSurgeryRecently;
     }
 
     public Boolean getUnderTreatment()

@@ -1,42 +1,30 @@
 package blood_donation.domain.people;
 
-import javax.persistence.Column;
+import blood_donation.domain.blood.BloodGroup;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import java.util.*;
 
 @Entity
 @DiscriminatorValue("donor")
 public class Donor extends Person
 {
-    @Column(name= "birthDate")
     private Date birthDate;
-
-    @Column(name = "idAddress")
     private String idAddress;
-
-    @Column(name = "idCity")
     private String idCity;
-
-    @Column(name = "idCounty")
     private String idCounty;
-
-    @Column(name = "residence")
     private String residenceAddress;
-
     private String residenceCity;
-
     private String residenceCounty;
-
-    private String bloodType;
+    private BloodGroup bloodGroup;
 
     public Donor()
     {
     }
 
-    public Donor(String firstName, String lastName, String username, String password,
-                 Date birthDate, String idAddress, String idCity, String idCounty,
-                 String residenceAddress, String residenceCity, String residenceCounty)
+    public Donor(String firstName, String lastName, String username, String password, Date birthDate, String idAddress, String idCity, String idCounty, String residenceAddress, String residenceCity, String residenceCounty, BloodGroup bloodGroup)
     {
         super(firstName, lastName, username, password);
         this.birthDate = birthDate;
@@ -46,6 +34,53 @@ public class Donor extends Person
         this.residenceAddress = residenceAddress;
         this.residenceCity = residenceCity;
         this.residenceCounty = residenceCounty;
+        this.bloodGroup = bloodGroup;
+    }
+
+    public void setBloodGroup(BloodGroup bloodGroup)
+    {
+        this.bloodGroup = bloodGroup;
+    }
+
+    public Date getBirthDate()
+    {
+        return birthDate;
+    }
+
+    public String getIdAddress()
+    {
+        return idAddress;
+    }
+
+    public String getIdCity()
+    {
+        return idCity;
+    }
+
+    public String getIdCounty()
+    {
+        return idCounty;
+    }
+
+    public String getResidenceAddress()
+    {
+        return residenceAddress;
+    }
+
+    public String getResidenceCity()
+    {
+        return residenceCity;
+    }
+
+    public String getResidenceCounty()
+    {
+        return residenceCounty;
+    }
+
+    @ManyToOne
+    public BloodGroup getBloodGroup()
+    {
+        return bloodGroup;
     }
 
     public void setBirthDate(Date birthDate)

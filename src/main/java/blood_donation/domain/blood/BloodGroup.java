@@ -6,21 +6,20 @@ import javax.persistence.*;
 @Table(name = "BloodGroups")
 public class BloodGroup
 {
-
     private int id;
     private BloodTypeLetter bloodTypeLetter;
-    private Boolean isPositiveRH;
+    private BloodTypeRH bloodTypeRH;
 
 
-
-    public BloodGroup(BloodTypeLetter bloodTypeLetter, Boolean isPositiveRH)
+    public BloodGroup(BloodTypeLetter bloodTypeLetter, BloodTypeRH bloodTypeRH)
     {
         this.bloodTypeLetter = bloodTypeLetter;
-        this.isPositiveRH = isPositiveRH;
+        this.bloodTypeRH = bloodTypeRH;
     }
 
     public BloodGroup()
     {
+
     }
 
     @Id
@@ -46,19 +45,14 @@ public class BloodGroup
         this.bloodTypeLetter = bloodTypeLetter;
     }
 
-    public Boolean isPositiveRH()
+    @Enumerated(EnumType.STRING)
+    public BloodTypeRH getBloodTypeRH()
     {
-        return isPositiveRH;
+        return bloodTypeRH;
     }
 
-    public void setPositiveRH(Boolean positiveRH)
+    public void setBloodTypeRH(BloodTypeRH bloodTypeRH)
     {
-        isPositiveRH = positiveRH;
-    }
-
-    @Override
-    public String toString()
-    {
-        return bloodTypeLetter.toString() + isPositiveRH;
+        this.bloodTypeRH = bloodTypeRH;
     }
 }

@@ -1,9 +1,7 @@
 package blood_donation.domain.blood;
 
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 
 import javax.persistence.*;
 import java.time.*;
@@ -17,15 +15,13 @@ public class Blood
 {
     private IntegerProperty id = new SimpleIntegerProperty();
     private IntegerProperty quantity;
-    private SimpleStringProperty bloodType;
-    private SimpleBooleanProperty isPositiveRH;
+    private BloodGroup bloodGroup;
     private LocalDate lifeSpan;
 
-
-    public Blood(String bloodType, Boolean isPositiveRH, LocalDate lifeSpan)
+    public Blood(IntegerProperty quantity, BloodGroup bloodGroup, LocalDate lifeSpan)
     {
-        this.bloodType = new SimpleStringProperty(bloodType);
-        this.isPositiveRH = new SimpleBooleanProperty(isPositiveRH);
+        this.quantity = quantity;
+        this.bloodGroup = bloodGroup;
         this.lifeSpan = lifeSpan;
     }
 
@@ -40,19 +36,7 @@ public class Blood
         return id.get();
     }
 
-    public String getBloodType()
-    {
-        if(bloodType != null)
-            return bloodType.get();
-        return null;
-    }
 
-    public Boolean getIsPositiveRH()
-    {
-        if(isPositiveRH != null)
-            return isPositiveRH.get();
-        return null;
-    }
 
     public LocalDate getLifeSpan()
     {
@@ -66,17 +50,6 @@ public class Blood
         this.id.set(id);
     }
 
-    public void setBloodType(String bloodType)
-    {
-        if(this.bloodType != null)
-            this.bloodType.set(bloodType);
-    }
-
-    public void setIsPositiveRH(Boolean isPositiveRH)
-    {
-        if(this.isPositiveRH != null)
-            this.isPositiveRH.set(isPositiveRH);
-    }
 
     public void setLifeSpan(LocalDate lifeSpan)
     {
@@ -84,13 +57,40 @@ public class Blood
             this.lifeSpan = lifeSpan;
     }
 
+    public int getQuantity()
+    {
+        return quantity.get();
+    }
+
+    public IntegerProperty quantityProperty()
+    {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity)
+    {
+        this.quantity.set(quantity);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "bloodGroupID")
+    public BloodGroup getBloodGroup()
+    {
+        return bloodGroup;
+    }
+
+    public void setBloodGroup(BloodGroup bloodGroup)
+    {
+        this.bloodGroup = bloodGroup;
+    }
+
     @Override
     public String toString()
     {
-        return this.getClass().getSimpleName() +
-                "{id=" + id +
-                ", type='" + bloodType + '\'' +
-                ", isPositiveRH=" + isPositiveRH +
+        return "Blood{" +
+                "id=" + id +
+                ", quantity=" + quantity +
+                ", bloodGroup=" + bloodGroup +
                 ", lifeSpan=" + lifeSpan +
                 '}';
     }
