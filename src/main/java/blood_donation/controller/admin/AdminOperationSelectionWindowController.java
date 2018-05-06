@@ -175,6 +175,33 @@ public final class AdminOperationSelectionWindowController implements Initializa
         }
     }
 
+    @FXML
+    public void chooseClinic()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/adminClinicWindow.fxml"));
+
+            loader.setController(new AdminClinicWindowController()
+                    .setPrimaryStage(primaryStage)
+                    .setPreviousScene(primaryStage.getScene())
+                    .setSession(session)
+                    .setClinicRepository(clinicRepository)
+                    .setLocationRepository(locationRepository));
+
+            Parent content = loader.load();
+
+            Scene selectScene = new Scene(content);
+            primaryStage.setScene(selectScene);
+            primaryStage.setTitle("Admin");
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
