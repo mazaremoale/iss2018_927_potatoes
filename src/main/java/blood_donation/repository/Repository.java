@@ -1,6 +1,7 @@
 package blood_donation.repository;
 
 
+import blood_donation.domain.utils.Distance;
 import org.hibernate.Session;
 
 import java.util.List;
@@ -47,7 +48,17 @@ public final class Repository<T>
         {
             session.getTransaction().begin();
             session.persist(entity);
+            if(tClass == Distance.class)
+            {
+                Distance myDistance = (Distance) entity;
+                session.persist(new Distance(myDistance.getLocation2(), myDistance.getLocation1(),
+                        myDistance.getDistance()));
+
+            }
+            //huge mistake not to make the repo with more possible functions like
+            //add distance, add blood, add etc...
             session.getTransaction().commit();
+
         }
         catch(Exception e)
         {
