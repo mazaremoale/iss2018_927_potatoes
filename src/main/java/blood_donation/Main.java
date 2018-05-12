@@ -48,6 +48,8 @@ public class Main extends Application
 
 
 
+
+
         Location location1 = new Location("Alba Iulia");
         Location location2 = new Location("Arad");
         Location location3 = new Location("Pitesti");

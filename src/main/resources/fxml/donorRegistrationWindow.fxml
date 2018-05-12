@@ -1,28 +1,155 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="815.0" prefWidth="917.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
    <top>
-      <Label prefHeight="39.0" prefWidth="210.0" text="Personal details" BorderPane.alignment="TOP_LEFT">
+      <VBox spacing="20.0" BorderPane.alignment="TOP_LEFT">
          <BorderPane.margin>
             <Insets left="20.0" top="20.0" />
+         </BorderPane.margin>
+         <children>
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#goBack" prefHeight="47.0" prefWidth="110.0" text="Back">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Button>
+            <Label prefHeight="39.0" prefWidth="210.0" text="Personal details*">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" spacing="30.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Label text="First name*">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="firstNameTextField" />
+                  <Label text="Last name*">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="lastNameTextField" />
+               </children></HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Label text="Birth date:">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label text="Year*">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="yearComboBox" prefHeight="27.0" prefWidth="101.0" />
+                  <Label text="Month*">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="monthComboBox" prefWidth="150.0" />
+                  <Label text="Day*">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="dayComboBox" prefHeight="27.0" prefWidth="73.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Label text="Address(from your ID)*">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="idAddressTextField" prefHeight="27.0" prefWidth="645.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Label text="City/Town*">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="idCityTextField" />
+                  <Label text="County*">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="idCountyComboBox" prefWidth="150.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="106.0" prefWidth="887.0" spacing="10.0">
+               <children>
+                  <Label prefHeight="206.0" prefWidth="351.0" text="Residence(if you live at a different address than the one in your ID)" wrapText="true">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="residenceAddressTextField" prefHeight="27.0" prefWidth="478.0">
+                     <HBox.margin>
+                        <Insets top="30.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Label text="City/Town">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="residenceCityTextField" />
+                  <Label text="County">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="residenceCountyComboBox" prefWidth="150.0" />
+               </children>
+            </HBox>
+            <Label text="*Required field">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+         </children>
+         <BorderPane.margin>
+            <Insets left="30.0" top="10.0" />
+         </BorderPane.margin>
+      </VBox>
+   </center>
+   <bottom>
+      <Button defaultButton="true" mnemonicParsing="false" onAction="#goNext" prefHeight="55.0" prefWidth="128.0" text="Next" BorderPane.alignment="BOTTOM_RIGHT">
+         <BorderPane.margin>
+            <Insets bottom="50.0" right="20.0" />
          </BorderPane.margin>
          <font>
             <Font size="25.0" />
          </font>
-      </Label>
-   </top>
-   <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <HBox prefHeight="100.0" prefWidth="200.0" />
-         </children>
-      </VBox>
-   </center>
+      </Button>
+   </bottom>
 </BorderPane>

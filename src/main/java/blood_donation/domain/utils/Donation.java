@@ -5,12 +5,10 @@ import blood_donation.domain.people.Donor;
 import blood_donation.domain.people.Patient;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Donations")
@@ -18,18 +16,16 @@ public class Donation
 {
     private IntegerProperty id = new SimpleIntegerProperty();
     private Donor donor;
-    private LocalDate donationDate;
-    private SimpleStringProperty status;
+    private LocalDate donationDate = LocalDate.now();
+    private Status status = Status.PENDING;
     private Patient patient;
-    //private List<Blood> bloodList
+    private Set<Blood> donatedBlood;
 
-    public Donation(Donor donor, List<Blood> bloodList, String status, Patient patient)
+    public Donation(Donor donor, Patient patient, Set<Blood> donatedBlood)
     {
         this.donor = donor;
-        //this.bloodList = bloodList;
-        this.donationDate = LocalDate.now();
-        this.status = new SimpleStringProperty(status);
         this.patient = patient;
+        this.donatedBlood = donatedBlood;
     }
 
     public Donation()
@@ -55,9 +51,9 @@ public class Donation
         return donationDate;
     }
 
-    public String getStatus()
+    public Status getStatus()
     {
-        return status.get();
+        return status;
     }
 
     @ManyToOne
@@ -84,13 +80,24 @@ public class Donation
         this.donationDate = donationDate;
     }
 
-    public void setStatus(String status)
+    public void setStatus(Status status)
     {
-        this.status.set(status);
+        this.status = status;
     }
 
     public void setPatient(Patient patient)
     {
         this.patient = patient;
+    }
+
+    @OneToMany(mappedBy = "donation")
+    public Set<Blood> getDonatedBlood()
+    {
+        return donatedBlood;
+    }
+
+    public void setDonatedBlood(Set<Blood> donatedBlood)
+    {
+        this.donatedBlood = donatedBlood;
     }
 }

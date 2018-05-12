@@ -254,7 +254,10 @@ public final class UserSelectWindowController implements Initializable
         loader.setController(new DonorRegistrationWindowController()
                 .setPreviousScene(primaryStage.getScene())
                 .setPrimaryStage(primaryStage)
-                .setSession(session));
+                .setSession(session)
+                .setLocationRepository(locationRepository)
+                .setDonorRepository(donorRepository));
+
 
         Parent content = loader.load();
 

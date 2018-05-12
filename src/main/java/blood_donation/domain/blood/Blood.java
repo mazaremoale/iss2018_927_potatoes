@@ -1,5 +1,7 @@
 package blood_donation.domain.blood;
 
+import blood_donation.domain.utils.BloodRequest;
+import blood_donation.domain.utils.Donation;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -17,6 +19,9 @@ public class Blood
     private IntegerProperty quantity;
     private BloodGroup bloodGroup;
     private LocalDate lifeSpan;
+    private BloodRequest bloodRequest;
+    private Donation donation;
+
 
     public Blood(IntegerProperty quantity, BloodGroup bloodGroup, LocalDate lifeSpan)
     {
@@ -82,6 +87,30 @@ public class Blood
     public void setBloodGroup(BloodGroup bloodGroup)
     {
         this.bloodGroup = bloodGroup;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "bloodRequestID")
+    public BloodRequest getBloodRequest()
+    {
+        return bloodRequest;
+    }
+
+    public void setBloodRequest(BloodRequest bloodRequest)
+    {
+        this.bloodRequest = bloodRequest;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "donationID")
+    public Donation getDonation()
+    {
+        return donation;
+    }
+
+    public void setDonation(Donation donation)
+    {
+        this.donation = donation;
     }
 
     @Override

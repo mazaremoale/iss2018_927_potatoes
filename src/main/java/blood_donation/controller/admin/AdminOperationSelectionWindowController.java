@@ -113,7 +113,8 @@ public final class AdminOperationSelectionWindowController implements Initializa
 
             Scene selectScene = new Scene(content);
             primaryStage.setScene(selectScene);
-            primaryStage.setTitle("Admin");
+            primaryStage.setTitle("Hospital management");
+            primaryStage.setFullScreen(true);
         }
         catch(IOException e)
         {
@@ -140,7 +141,8 @@ public final class AdminOperationSelectionWindowController implements Initializa
 
             Scene selectScene = new Scene(content);
             primaryStage.setScene(selectScene);
-            primaryStage.setTitle("Admin");
+            primaryStage.setTitle("Doctor management");
+            primaryStage.setFullScreen(true);
         }
         catch(IOException e)
         {
@@ -167,7 +169,8 @@ public final class AdminOperationSelectionWindowController implements Initializa
 
             Scene selectScene = new Scene(content);
             primaryStage.setScene(selectScene);
-            primaryStage.setTitle("Admin");
+            primaryStage.setTitle("Personnel management");
+            primaryStage.setFullScreen(true);
         }
         catch (IOException e)
         {
@@ -194,7 +197,8 @@ public final class AdminOperationSelectionWindowController implements Initializa
 
             Scene selectScene = new Scene(content);
             primaryStage.setScene(selectScene);
-            primaryStage.setTitle("Admin");
+            primaryStage.setTitle("Clinic management");
+            primaryStage.setFullScreen(true);
         }
         catch(IOException e)
         {

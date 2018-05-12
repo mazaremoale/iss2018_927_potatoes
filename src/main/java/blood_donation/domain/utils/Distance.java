@@ -1,7 +1,5 @@
 package blood_donation.domain.utils;
 
-import blood_donation.Main;
-
 import javax.persistence.*;
 
 @Entity
