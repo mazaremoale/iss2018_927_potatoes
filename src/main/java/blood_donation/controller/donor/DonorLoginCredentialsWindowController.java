@@ -2,6 +2,7 @@ package blood_donation.controller.donor;
 
 import blood_donation.domain.people.Donor;
 import blood_donation.domain.people.Person;
+import blood_donation.domain.utils.Donation;
 import blood_donation.repository.Repository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,6 +30,7 @@ public class DonorLoginCredentialsWindowController implements Initializable
 
     private Donor currentDonor;
     private Repository<Donor> donorRepository;
+    private Repository<Donation> donationRepository;
 
     private List<String> usernames;
 
@@ -107,6 +109,17 @@ public class DonorLoginCredentialsWindowController implements Initializable
         return this;
     }
 
+    public Repository<Donation> getDonationRepository()
+    {
+        return donationRepository;
+    }
+
+    public DonorLoginCredentialsWindowController setDonationRepository(Repository<Donation> donationRepository)
+    {
+        this.donationRepository = donationRepository;
+        return this;
+    }
+
     @FXML
     public void goBack()
     {
@@ -128,12 +141,13 @@ public class DonorLoginCredentialsWindowController implements Initializable
             usernames.add(currentDonor.getUsername());
 
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/donorMainWindow.fxml"));
+            loader.setLocation(getClass().getResource("/fxml/donor/donorMainWindow.fxml"));
             loader.setController(new DonorMainWindowController()
                     .setPrimaryStage(primaryStage)
                     .setSession(session)
                     .setPreviousScene(primaryStage.getScene())
-                    .setCurrentDonor(currentDonor));
+                    .setCurrentDonor(currentDonor)
+                    .setDonationRepository(donationRepository));
 
 
             Parent content = loader.load();

@@ -11,7 +11,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import org.hibernate.Session;
 
@@ -31,8 +30,6 @@ public final class AdminOperationSelectionWindowController implements Initializa
     private Repository<Doctor> doctorRepository;
     private Repository<Personnel> personnelRepository;
     private Repository<Location> locationRepository;
-
-
 
 
     public AdminOperationSelectionWindowController()
@@ -100,7 +97,7 @@ public final class AdminOperationSelectionWindowController implements Initializa
         try
         {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/adminHospitalWindow.fxml"));
+            loader.setLocation(getClass().getResource("/fxml/admin/adminHospitalWindow.fxml"));
 
             loader.setController(new AdminHospitalWindowController()
                     .setPrimaryStage(primaryStage)
@@ -114,7 +111,6 @@ public final class AdminOperationSelectionWindowController implements Initializa
             Scene selectScene = new Scene(content);
             primaryStage.setScene(selectScene);
             primaryStage.setTitle("Hospital management");
-            primaryStage.setFullScreen(true);
         }
         catch(IOException e)
         {
@@ -128,7 +124,7 @@ public final class AdminOperationSelectionWindowController implements Initializa
         try
         {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/adminDoctorWindow.fxml"));
+            loader.setLocation(getClass().getResource("/fxml/admin/adminDoctorWindow.fxml"));
 
             loader.setController(new AdminDoctorWindowController()
                     .setPrimaryStage(primaryStage)
@@ -142,7 +138,6 @@ public final class AdminOperationSelectionWindowController implements Initializa
             Scene selectScene = new Scene(content);
             primaryStage.setScene(selectScene);
             primaryStage.setTitle("Doctor management");
-            primaryStage.setFullScreen(true);
         }
         catch(IOException e)
         {
@@ -156,7 +151,7 @@ public final class AdminOperationSelectionWindowController implements Initializa
         try
         {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/adminPersonnelWindow.fxml"));
+            loader.setLocation(getClass().getResource("/fxml/admin/adminPersonnelWindow.fxml"));
 
             loader.setController(new AdminPersonnelWindowController()
                     .setPrimaryStage(primaryStage)
@@ -170,7 +165,6 @@ public final class AdminOperationSelectionWindowController implements Initializa
             Scene selectScene = new Scene(content);
             primaryStage.setScene(selectScene);
             primaryStage.setTitle("Personnel management");
-            primaryStage.setFullScreen(true);
         }
         catch (IOException e)
         {
@@ -184,7 +178,7 @@ public final class AdminOperationSelectionWindowController implements Initializa
         try
         {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/adminClinicWindow.fxml"));
+            loader.setLocation(getClass().getResource("/fxml/admin/adminClinicWindow.fxml"));
 
             loader.setController(new AdminClinicWindowController()
                     .setPrimaryStage(primaryStage)
@@ -198,7 +192,6 @@ public final class AdminOperationSelectionWindowController implements Initializa
             Scene selectScene = new Scene(content);
             primaryStage.setScene(selectScene);
             primaryStage.setTitle("Clinic management");
-            primaryStage.setFullScreen(true);
         }
         catch(IOException e)
         {

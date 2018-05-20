@@ -1,6 +1,7 @@
 package blood_donation.controller.misc;
 
 import blood_donation.controller.admin.AdminOperationSelectionWindowController;
+import blood_donation.controller.donor.DonorMainWindowController;
 import blood_donation.domain.blood.Blood;
 import blood_donation.domain.blood.Plasma;
 import blood_donation.domain.blood.Platelet;
@@ -16,13 +17,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.hibernate.Session;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 
 public final class LoginWindowController implements Initializable
@@ -209,7 +216,7 @@ public final class LoginWindowController implements Initializable
                 break;
             }
             default:
-                System.out.println("Bad type");
+                System.out.println("Bad type, m8");
                 break;
 
 
@@ -219,36 +226,71 @@ public final class LoginWindowController implements Initializable
 
     private void loginDonor() throws IOException
     {
-        for(Donor donor : donorRepository.getAll())
+        Map<String,String> donorCredentials;
+        donorCredentials = donorRepository.getAll().stream().collect(Collectors.toMap(Donor::getUsername, Donor::getPassword));
+
+        if(usernameTextField.getText().length() > 0 && passwordField.getText().length() > 0)
         {
-            if (usernameTextField.getText().equals(donor.getUsername()) &&
-                    passwordField.getText().equals(donor.getPassword()))
+            if (donorCredentials.containsKey(usernameTextField.getText()))
             {
-                /*
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/fxml/adminOperationSelectionWindow.fxml"));
+                if (donorCredentials.get(usernameTextField.getText()).equals(passwordField.getText()))
+                {
+                    Donor currentDonor = null;
+                    for(Donor donor : donorRepository.getAll())
+                    {
+                        if(donor.getUsername().equals(usernameTextField.getText()))
+                        {
+                            currentDonor = donor;
+                            break;
+                        }
 
-                loader.setController(new AdminOperationSelectionWindowController()
-                        .setPrimaryStage(primaryStage)
-                        .setSession(session)
-                        .setDoctorRepository(doctorRepository)
-                        .setPersonnelRepository(personnelRepository)
-                        .setClinicRepository(clinicRepository)
-                        .setHospitalRepository(hospitalRepository)
-                        .setPreviousScene(primaryStage.getScene()));
+                    }
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(getClass().getResource("/fxml/donor/donorMainWindow.fxml"));
 
-                Parent content = loader.load();
+                    loader.setController(new DonorMainWindowController()
+                            .setPrimaryStage(primaryStage)
+                            .setSession(session)
+                            .setPreviousScene(primaryStage.getScene())
+                            .setCurrentDonor(currentDonor)
+                            .setDonationRepository(donationRepository));
 
-                Scene selectScene = new Scene(content);
-                primaryStage.setScene(selectScene);
-                primaryStage.setTitle("Admin");
-                */
+                    Parent content = loader.load();
+
+                    Scene selectScene = new Scene(content);
+                    primaryStage.setScene(selectScene);
+                    primaryStage.setTitle("Donor main menu");
+                }
+                else
+                {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Invalid password");
+                    alert.setContentText("Please try again");
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                }
             }
             else
             {
-                throw new IOException("Invalid username-password combination");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Invalid username");
+                alert.setContentText("Please try again");
+
+                Optional<ButtonType> result = alert.showAndWait();
             }
         }
+        else
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("All the fields must be filled");
+            alert.setContentText("Please fill in all the fields");
+
+            Optional<ButtonType> result = alert.showAndWait();
+        }
+
     }
 
     private void loginDoctor()
@@ -261,7 +303,7 @@ public final class LoginWindowController implements Initializable
                 passwordField.getText().equals(adminPassword))
         {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/adminOperationSelectionWindow.fxml"));
+            loader.setLocation(getClass().getResource("/fxml/admin/adminOperationSelectionWindow.fxml"));
 
             loader.setController(new AdminOperationSelectionWindowController()
                     .setPrimaryStage(primaryStage)
@@ -279,8 +321,24 @@ public final class LoginWindowController implements Initializable
             primaryStage.setScene(selectScene);
             primaryStage.setTitle("Admin");
         }
+        else if(!usernameTextField.getText().equals(adminUsername))
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid admin username");
+            alert.setContentText("Please try again");
+
+            Optional<ButtonType> result = alert.showAndWait();
+        }
         else
-            throw new IOException("Invalid password");
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid admin password");
+            alert.setContentText("Please try again");
+
+            Optional<ButtonType> result = alert.showAndWait();
+        }
     }
 
     @Override

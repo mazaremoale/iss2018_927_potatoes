@@ -1,6 +1,7 @@
 package blood_donation.controller.donor;
 
 import blood_donation.domain.people.Donor;
+import blood_donation.domain.utils.Donation;
 import blood_donation.domain.utils.Location;
 import blood_donation.repository.Repository;
 import javafx.collections.FXCollections;
@@ -33,6 +34,7 @@ public final class DonorRegistrationWindowController implements Initializable
 
     private Repository<Location> locationRepository;
     private Repository<Donor> donorRepository;
+    private Repository<Donation> donationRepository;
 
 
     @FXML
@@ -78,13 +80,14 @@ public final class DonorRegistrationWindowController implements Initializable
     private void loadLoginCredentialsWindow(Donor donor) throws IOException
     {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/donorLoginCredentialsWindow.fxml"));
+        loader.setLocation(getClass().getResource("/fxml/donor/donorLoginCredentialsWindow.fxml"));
         loader.setController(new DonorLoginCredentialsWindowController()
                 .setPrimaryStage(primaryStage)
                 .setSession(session)
                 .setPreviousScene(primaryStage.getScene())
                 .setCurrentDonor(donor)
-                .setDonorRepository(donorRepository));
+                .setDonorRepository(donorRepository)
+                .setDonationRepository(donationRepository));
 
         Parent content = loader.load();
 
@@ -204,6 +207,17 @@ public final class DonorRegistrationWindowController implements Initializable
     public DonorRegistrationWindowController setDonorRepository(Repository<Donor> donorRepository)
     {
         this.donorRepository = donorRepository;
+        return this;
+    }
+
+    public Repository<Donation> getDonationRepository()
+    {
+        return donationRepository;
+    }
+
+    public DonorRegistrationWindowController setDonationRepository(Repository<Donation> donationRepository)
+    {
+        this.donationRepository = donationRepository;
         return this;
     }
 

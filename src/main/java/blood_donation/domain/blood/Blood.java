@@ -16,7 +16,7 @@ import java.time.*;
 public class Blood
 {
     private IntegerProperty id = new SimpleIntegerProperty();
-    private IntegerProperty quantity;
+    private IntegerProperty quantity = new SimpleIntegerProperty();
     private BloodGroup bloodGroup;
     private LocalDate lifeSpan;
     private BloodRequest bloodRequest;
@@ -67,9 +67,9 @@ public class Blood
         return quantity.get();
     }
 
-    public IntegerProperty quantityProperty()
+    public int quantityProperty()
     {
-        return quantity;
+        return quantity.get();
     }
 
     public void setQuantity(int quantity)
@@ -101,26 +101,21 @@ public class Blood
         this.bloodRequest = bloodRequest;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "donationID")
-    public Donation getDonation()
-    {
-        return donation;
-    }
-
     public void setDonation(Donation donation)
     {
         this.donation = donation;
     }
 
+    @OneToOne(mappedBy = "donatedBlood")
+    public Donation getDonation()
+    {
+        return donation;
+    }
+
     @Override
     public String toString()
     {
-        return "Blood{" +
-                "id=" + id +
-                ", quantity=" + quantity +
-                ", bloodGroup=" + bloodGroup +
-                ", lifeSpan=" + lifeSpan +
-                '}';
+        return "x" + quantity.get() + " units of " + bloodGroup;
+
     }
 }

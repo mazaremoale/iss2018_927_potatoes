@@ -21,7 +21,7 @@
                   <Insets bottom="20.0" />
                </VBox.margin>
             </Label>
-            <CheckBox contentDisplay="TEXT_ONLY" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Are you a Romanian citizen or an EU cititezen living in Romania?">
+            <CheckBox contentDisplay="TEXT_ONLY" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Are you a Romanian citizen or an EU citizen living in Romania?">
                <font>
                   <Font size="18.0" />
                </font>

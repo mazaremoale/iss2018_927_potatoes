@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<TabPane xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+   <tabs>
+      <Tab closable="false" text="Donations">
+         <content>
+            <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="847.0" prefWidth="941.0">
+               <top>
+                  <Button cancelButton="true" mnemonicParsing="false" onAction="#goBack" prefHeight="40.0" prefWidth="98.0" text="Back" BorderPane.alignment="TOP_LEFT">
+                     <BorderPane.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </BorderPane.margin>
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+               </top>
+               <center>
+                  <HBox spacing="30.0" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets left="20.0" top="20.0" />
+                     </BorderPane.margin>
+                     <children>
+                        <VBox prefHeight="777.0" prefWidth="643.0" spacing="15.0">
+                           <children>
+                              <Label text="Donation history">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                              </Label>
+                              <TableView fx:id="donationTableView" prefHeight="314.0" prefWidth="634.0">
+                                <columns>
+                                  <TableColumn fx:id="dateTableColumn" editable="false" prefWidth="114.0" text="Donation date" />
+                                  <TableColumn fx:id="statusTableColumn" editable="false" minWidth="5.0" prefWidth="90.0" text="Status" />
+                                    <TableColumn fx:id="donatedBloodTableColumn" editable="false" minWidth="5.0" prefWidth="145.0" text="Donated blood" />
+                                    <TableColumn fx:id="clinicTableColumn" editable="false" maxWidth="228.0" minWidth="5.0" prefWidth="130.0" text="Clinic" />
+                                    <TableColumn fx:id="patientTableColumn" editable="false" maxWidth="228.0" minWidth="5.0" prefWidth="156.0" text="Patient" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="777.0" prefWidth="241.0" spacing="10.0">
+                           <children>
+                              <Label text="Diagnostics">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <HBox>
+                                 <children>
+                                    <VBox spacing="5.0">
+                                       <children>
+                                          <HBox spacing="10.0">
+                                             <children>
+                                                <Label text="Age" underline="true">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="ageLabel" text="AgeText">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <HBox spacing="10.0">
+                                             <children>
+                                                <Label text="Pulse" underline="true">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="pulseLabel" text="PulseText">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <HBox spacing="10.0">
+                                             <children>
+                                                <Label text="Weight" underline="true">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="weightLabel" text="WeightText">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <HBox>
+                                             <children>
+                                                <Label prefHeight="39.0" prefWidth="126.0" text="Blood pressure" underline="true">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                   <padding>
+                                                      <Insets bottom="20.0" />
+                                                   </padding>
+                                                </Label>
+                                                <Label fx:id="bloodPressureLabel" text="Blood pressure text">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <Label text="Blood analysis">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets bottom="10.0" />
+                                             </padding>
+                                          </Label>
+                                          <CheckBox fx:id="hivCheckBox" disable="true" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" opacity="0.99" text="HIV" underline="true">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </CheckBox>
+                                          <CheckBox fx:id="hepatitisCheckBox" disable="true" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" opacity="0.99" text="Hepatitis" underline="true">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </CheckBox>
+                                          <CheckBox fx:id="tuberculosisCheckBox" disable="true" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" opacity="0.99" text="Tuberculosis" underline="true">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </CheckBox>
+                                          <CheckBox fx:id="poxCheckBox" disable="true" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" opacity="0.99" text="Pox" underline="true">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </CheckBox>
+                                          <CheckBox fx:id="malariaCheckBox" disable="true" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" opacity="0.99" text="Malaria" underline="true">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </CheckBox>
+                                          <CheckBox fx:id="epilepsyCheckBox" disable="true" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" opacity="0.99" text="Epilepsy" underline="true">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </CheckBox>
+                                          <CheckBox fx:id="neurologicalCheckBox" disable="true" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" opacity="0.99" text="Neurological disease" underline="true">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </CheckBox>
+                                          <CheckBox fx:id="mentalCheckBox" disable="true" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" opacity="0.99" text="Mental ilness" underline="true">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </CheckBox>
+                                          <CheckBox fx:id="brucellosisCheckBox" disable="true" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" opacity="0.99" text="Brucellosis" underline="true">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </CheckBox>
+                                          <CheckBox fx:id="ulcerCheckBox" disable="true" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" opacity="0.99" text="Ulcer" underline="true">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </CheckBox>
+                                          <CheckBox fx:id="diabetesCheckBox" disable="true" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" opacity="0.99" text="Diabetes" underline="true">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </CheckBox>
+                                          <CheckBox fx:id="heartDiseaseCheckBox" disable="true" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" opacity="0.99" text="Heart disease" underline="true">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </CheckBox>
+                                          <CheckBox fx:id="psioriasisCheckBox" disable="true" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" opacity="0.99" text="Psioriasis" underline="true">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </CheckBox>
+                                          <CheckBox fx:id="vitiligoCheckBox" disable="true" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" opacity="0.99" text="Vitiligo" underline="true">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </CheckBox>
+                                          <CheckBox fx:id="myopiaCheckBox" disable="true" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" opacity="0.99" text="Myopia &gt; 6 or &lt; -6" underline="true">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </CheckBox>
+                                          <CheckBox fx:id="cancerCheckBox" disable="true" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" opacity="0.99" text="Cancer" underline="true">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </CheckBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </center>
+            </BorderPane>
+         </content>
+      </Tab>
+      <Tab closable="false" text="My profile">
+         <content>
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
+               <center>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <HBox spacing="20.0">
+                           <children>
+                              <Label text="Last name">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></Label>
+                              <Label fx:id="lastNameLabel" text="Last name text">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="20.0">
+                           <children>
+                              <Label text="First name">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></Label>
+                              <Label fx:id="firstNameLabel" text="First name text">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="20.0">
+                           <children>
+                              <Label text="Birthdate">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></Label>
+                              <Label fx:id="birthDateLabel" text="Birthdate text">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="20.0">
+                           <children>
+                              <Label text="ID address">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></Label>
+                              <Label fx:id="idAddressLabel" text="ID address text">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="20.0">
+                           <children>
+                              <Label text="ID city/town">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></Label>
+                              <Label fx:id="idCityLabel" text="ID city/town text">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="20.0">
+                           <children>
+                              <Label text="ID county">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></Label>
+                              <Label fx:id="idCountyLabel" text="ID county text">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="20.0">
+                           <children>
+                              <Label text="Residence address">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></Label>
+                              <Label fx:id="residenceAddressLabel" text="Residence address text">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="20.0">
+                           <children>
+                              <Label text="Residence city/town">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></Label>
+                              <Label fx:id="residenceCityLabel" text="Residence city/town text">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="20.0">
+                           <children>
+                              <Label text="Residence county">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></Label>
+                              <Label fx:id="residenceCountyLabel" text="Residence county text">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></Label>
+                           </children>
+                        </HBox>
+                     </children>
+                     <BorderPane.margin>
+                        <Insets left="20.0" top="20.0" />
+                     </BorderPane.margin>
+                  </VBox>
+               </center>
+            </BorderPane>
+         </content>
+      </Tab>
+   </tabs>
+</TabPane>

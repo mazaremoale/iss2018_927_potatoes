@@ -89,12 +89,6 @@ public abstract class Person implements Serializable
     @Override
     public String toString()
     {
-        return this.getClass().getSimpleName() +
-                "{id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        return lastName + " " + firstName;
     }
 }

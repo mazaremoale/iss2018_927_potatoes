@@ -5,6 +5,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.fxml.FXML;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -15,9 +16,16 @@ import java.util.List;
 public class Hospital
 {
     private Location location;
-    private StringProperty locationProperty = new SimpleStringProperty("location");
+
+    @FXML
     private IntegerProperty id = new SimpleIntegerProperty();
+
+    @FXML
+    private StringProperty locationProperty = new SimpleStringProperty("location");
+
+    @FXML
     private SimpleStringProperty name = new SimpleStringProperty();
+
 
     public Hospital()
     {

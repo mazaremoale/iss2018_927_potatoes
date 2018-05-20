@@ -55,4 +55,10 @@ public class BloodGroup
     {
         this.bloodTypeRH = bloodTypeRH;
     }
+
+    @Override
+    public String toString()
+    {
+        return bloodTypeLetter.toString() + (bloodTypeRH.equals(BloodTypeRH.POSITIVE) ? "+" : "-");
+    }
 }

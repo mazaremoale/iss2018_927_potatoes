@@ -11,6 +11,7 @@ import blood_donation.domain.people.Patient;
 import blood_donation.domain.people.Personnel;
 import blood_donation.domain.utils.*;
 import blood_donation.repository.Repository;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -250,13 +251,14 @@ public final class UserSelectWindowController implements Initializable
     public void openDonorRegistration() throws IOException
     {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/donorRegistrationWindow.fxml"));
+        loader.setLocation(getClass().getResource("/fxml/donor/donorRegistrationWindow.fxml"));
         loader.setController(new DonorRegistrationWindowController()
                 .setPreviousScene(primaryStage.getScene())
                 .setPrimaryStage(primaryStage)
                 .setSession(session)
                 .setLocationRepository(locationRepository)
-                .setDonorRepository(donorRepository));
+                .setDonorRepository(donorRepository)
+                .setDonationRepository(donationRepository));
 
 
         Parent content = loader.load();
@@ -270,7 +272,7 @@ public final class UserSelectWindowController implements Initializable
     public void openDonorLogin() throws IOException
     {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/loginWindow.fxml"));
+        loader.setLocation(getClass().getResource("/fxml/misc/loginWindow.fxml"));
         loader.setController(new LoginWindowController()
                 .setPrimaryStage(primaryStage)
                 .setSession(session)
@@ -301,7 +303,7 @@ public final class UserSelectWindowController implements Initializable
     public void openAdminLogin() throws IOException
     {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/loginWindow.fxml"));
+        loader.setLocation(getClass().getResource("/fxml/misc/loginWindow.fxml"));
         loader.setController(new LoginWindowController()
                 .setPrimaryStage(primaryStage)
                 .setSession(session)
@@ -335,5 +337,11 @@ public final class UserSelectWindowController implements Initializable
     {
         donorLoginButton.setVisible(false);
         donorRegisterButton.setVisible(false);
+
+        primaryStage.setOnCloseRequest(p->
+        {
+            Platform.exit();
+            System.exit(0);
+        });
     }
 }

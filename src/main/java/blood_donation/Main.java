@@ -184,7 +184,7 @@ public class Main extends Application
 
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/userSelectWindow.fxml"));
+        loader.setLocation(getClass().getResource("/fxml/misc/userSelectWindow.fxml"));
 
         loader.setController(new UserSelectWindowController()
                 .setPrimaryStage(primaryStage)

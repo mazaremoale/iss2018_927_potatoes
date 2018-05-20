@@ -62,10 +62,6 @@ public class Doctor extends Person
     @Override
     public String toString()
     {
-        return "Doctor{" +
-                "id=" + super.getId() +
-                ", firstName='" + super.getFirstName() + '\'' +
-                ", lastName='" + super.getLastName() + '\'' +
-                '}';
+        return "Dr." + super.toString();
     }
 }
