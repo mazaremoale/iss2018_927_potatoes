@@ -89,6 +89,7 @@ public final class AdminOperationSelectionWindowController implements Initializa
     public void goBack()
     {
         primaryStage.setScene(previousScene);
+        primaryStage.setTitle("Login");
     }
 
     @FXML
@@ -110,7 +111,7 @@ public final class AdminOperationSelectionWindowController implements Initializa
 
             Scene selectScene = new Scene(content);
             primaryStage.setScene(selectScene);
-            primaryStage.setTitle("Hospital management");
+            primaryStage.setTitle("Admin management panel");
         }
         catch(IOException e)
         {
@@ -137,7 +138,7 @@ public final class AdminOperationSelectionWindowController implements Initializa
 
             Scene selectScene = new Scene(content);
             primaryStage.setScene(selectScene);
-            primaryStage.setTitle("Doctor management");
+            primaryStage.setTitle("Admin management panel");
         }
         catch(IOException e)
         {
@@ -164,7 +165,7 @@ public final class AdminOperationSelectionWindowController implements Initializa
 
             Scene selectScene = new Scene(content);
             primaryStage.setScene(selectScene);
-            primaryStage.setTitle("Personnel management");
+            primaryStage.setTitle("Admin management panel");
         }
         catch (IOException e)
         {
@@ -191,7 +192,7 @@ public final class AdminOperationSelectionWindowController implements Initializa
 
             Scene selectScene = new Scene(content);
             primaryStage.setScene(selectScene);
-            primaryStage.setTitle("Clinic management");
+            primaryStage.setTitle("Admin management panel");
         }
         catch(IOException e)
         {

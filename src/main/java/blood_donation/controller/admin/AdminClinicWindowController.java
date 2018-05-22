@@ -140,6 +140,7 @@ public final class AdminClinicWindowController implements Initializable
     public void goBack()
     {
         primaryStage.setScene(previousScene);
+        primaryStage.setTitle("Admin management panel");
     }
 
     @Override
