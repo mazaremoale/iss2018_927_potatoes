@@ -1,12 +1,15 @@
 package blood_donation.domain.people;
 
 import blood_donation.domain.blood.BloodGroup;
+import blood_donation.domain.utils.Donation;
 import blood_donation.domain.utils.DonationRequest;
 import blood_donation.domain.utils.Location;
+import blood_donation.repository.Repository;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @DiscriminatorValue("donor")
@@ -128,6 +131,21 @@ public class Donor extends Person
     public void setDonationRequests(List<DonationRequest> donationRequests)
     {
         this.donationRequests = donationRequests;
+    }
+
+    @Transient
+    public List<Donation> getDonations(Repository<Donation> donationRepository)
+    {
+        return donationRepository.getAll().stream().filter(donation -> donation.getDonor() == this).collect(Collectors.toList());
+    }
+
+    public Donation getLatestDonation(Repository<Donation> donationRepository)
+    {
+        List<Donation> donations = getDonations(donationRepository);
+        if(donations.size() > 1)
+            return donations.stream().reduce((first, second) -> second).orElse(null);
+        else
+            return donations.get(0);
     }
 
     @Override

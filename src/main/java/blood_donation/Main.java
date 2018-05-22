@@ -202,7 +202,8 @@ public class Main extends Application
                 .setDonationRequestRepository(donationRequestRepository)
                 .setHospitalRepository(hospitalRepository)
                 .setLocationRepository(locationRepository)
-                .setRequestRepository(requestRepository));
+                .setRequestRepository(requestRepository)
+                .setBloodGroupRepository(bloodGroupRepository));
 
 
         Parent content = loader.load();

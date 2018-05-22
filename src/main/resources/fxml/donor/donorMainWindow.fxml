@@ -219,6 +219,20 @@
                      </children>
                   </HBox>
                </center>
+               <bottom>
+                  <HBox alignment="TOP_RIGHT" BorderPane.alignment="CENTER">
+                     <children>
+                        <Button defaultButton="true" mnemonicParsing="false" onAction="#donateBlood" prefHeight="0.0" prefWidth="233.0" text="I want to donate blood">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <BorderPane.margin>
+                        <Insets bottom="20.0" right="20.0" />
+                     </BorderPane.margin>
+                  </HBox>
+               </bottom>
             </BorderPane>
          </content>
       </Tab>
