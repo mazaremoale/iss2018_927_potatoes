@@ -144,8 +144,10 @@ public class Donor extends Person
         List<Donation> donations = getDonations(donationRepository);
         if(donations.size() > 1)
             return donations.stream().reduce((first, second) -> second).orElse(null);
-        else
+        else if(donations.size() == 1)
             return donations.get(0);
+        else
+            return null;
     }
 
     @Override

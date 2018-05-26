@@ -150,7 +150,7 @@
       </VBox>
    </center>
    <bottom>
-      <Button mnemonicParsing="false" onAction="#submitData" text="Submit" BorderPane.alignment="BOTTOM_RIGHT">
+      <Button defaultButton="true" mnemonicParsing="false" onAction="#submitData" text="Submit" BorderPane.alignment="BOTTOM_RIGHT">
          <BorderPane.margin>
             <Insets bottom="20.0" right="20.0" />
          </BorderPane.margin>
@@ -162,10 +162,13 @@
    <top>
       <HBox BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#goBack" prefHeight="7.0" prefWidth="86.0" text="Back">
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#goBack" prefHeight="7.0" prefWidth="86.0" text="Back">
                <font>
                   <Font size="20.0" />
                </font>
+               <HBox.margin>
+                  <Insets bottom="20.0" />
+               </HBox.margin>
             </Button>
          </children>
          <BorderPane.margin>

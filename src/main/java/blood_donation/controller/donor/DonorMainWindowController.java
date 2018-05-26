@@ -2,10 +2,10 @@ package blood_donation.controller.donor;
 
 import blood_donation.domain.blood.Blood;
 import blood_donation.domain.blood.BloodGroup;
-import blood_donation.domain.blood.BloodTypeLetter;
-import blood_donation.domain.blood.BloodTypeRH;
 import blood_donation.domain.people.Donor;
+import blood_donation.domain.people.Patient;
 import blood_donation.domain.utils.Clinic;
+import blood_donation.domain.utils.Distance;
 import blood_donation.domain.utils.Donation;
 import blood_donation.domain.utils.DonationRequest;
 import blood_donation.repository.Repository;
@@ -37,6 +37,11 @@ public class DonorMainWindowController implements Initializable
     private Repository<Clinic> clinicRepository;
     private Repository<Blood> bloodRepository;
     private Repository<BloodGroup> bloodGroupRepository;
+    private Repository<Distance> distanceRepository;
+    private Repository<Patient> patientRepository;
+
+    @FXML
+    private Label appointmentLabel;
 
     @FXML
     private TableView<Donation> donationTableView;
@@ -252,6 +257,29 @@ public class DonorMainWindowController implements Initializable
         return this;
     }
 
+
+    public Repository<Distance> getDistanceRepository()
+    {
+        return distanceRepository;
+    }
+
+    public DonorMainWindowController setDistanceRepository(Repository<Distance> distanceRepository)
+    {
+        this.distanceRepository = distanceRepository;
+        return this;
+    }
+
+    public Repository<Patient> getPatientRepository()
+    {
+        return patientRepository;
+    }
+
+    public DonorMainWindowController setPatientRepository(Repository<Patient> patientRepository)
+    {
+        this.patientRepository = patientRepository;
+        return this;
+    }
+
     @FXML
     public void goBack()
     {
@@ -263,16 +291,23 @@ public class DonorMainWindowController implements Initializable
     {
         Donation latestDonation = currentDonor.getLatestDonation(donationRepository);
 
-        if(latestDonation.getDonationDate().plusWeeks(2).compareTo(LocalDate.now()) > 0)
+        if(latestDonation != null)
         {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Warning");
-            alert.setHeaderText("You cannot donate again until " + latestDonation.getDonationDate().plusWeeks(2) + " or at a later date");
-            alert.setContentText("Would you like to schedule your donation anyway?");
+            if (latestDonation.getDonationDate().plusWeeks(2).compareTo(LocalDate.now()) > 0)
+            {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Warning");
+                alert.setHeaderText("You cannot donate again until " + latestDonation.getDonationDate().plusWeeks(2) + " or at a later date");
+                alert.setContentText("Would you like to schedule your donation anyway?");
 
-            Optional<ButtonType> result = alert.showAndWait();
+                Optional<ButtonType> result = alert.showAndWait();
 
-            if(result.get() == ButtonType.OK)
+                if (result.get() == ButtonType.OK)
+                {
+                    openDonorQuestionnaireWindow();
+                }
+            }
+            else
             {
                 openDonorQuestionnaireWindow();
             }
@@ -297,7 +332,10 @@ public class DonorMainWindowController implements Initializable
                 .setDonationRequestRepository(donationRequestRepository)
                 .setClinicRepository(clinicRepository)
                 .setBloodRepository(bloodRepository)
-                .setBloodGroupRepository(bloodGroupRepository));
+                .setBloodGroupRepository(bloodGroupRepository)
+                .setDistanceRepository(distanceRepository)
+                .setDonorMainScene(primaryStage.getScene())
+                .setPatientRepository(patientRepository));
 
         Parent content = loader.load();
 
@@ -309,6 +347,7 @@ public class DonorMainWindowController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+
         bloodAnalysisCheckBoxes = new ArrayList<>(Arrays.asList(brucellosisCheckBox, cancerCheckBox, diabetesCheckBox, epilepsyCheckBox, heartDiseaseCheckBox,
                 hepatitisCheckBox, hivCheckBox, malariaCheckBox, mentalCheckBox, myopiaCheckBox, neurologicalCheckBox, poxCheckBox,
                 psioriasisCheckBox, tuberculosisCheckBox, ulcerCheckBox, vitiligoCheckBox));

@@ -7,8 +7,10 @@ import blood_donation.domain.utils.*;
 import blood_donation.repository.Repository;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -156,12 +158,7 @@ public class Main extends Application
             distanceRepository.add(new Distance(location1,location16,ThreadLocalRandom.current().nextInt(50,800)));
             distanceRepository.add(new Distance(location1,location17,ThreadLocalRandom.current().nextInt(50,800)));
             distanceRepository.add(new Distance(location1,location18,ThreadLocalRandom.current().nextInt(50,800)));
-
-
         }
-
-
-
 
 
 
@@ -181,11 +178,8 @@ public class Main extends Application
 
 
 
-
-
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/misc/userSelectWindow.fxml"));
-
         loader.setController(new UserSelectWindowController()
                 .setPrimaryStage(primaryStage)
                 .setSession(session)
@@ -203,7 +197,8 @@ public class Main extends Application
                 .setHospitalRepository(hospitalRepository)
                 .setLocationRepository(locationRepository)
                 .setRequestRepository(requestRepository)
-                .setBloodGroupRepository(bloodGroupRepository));
+                .setBloodGroupRepository(bloodGroupRepository)
+                .setDistanceRepository(distanceRepository));
 
 
         Parent content = loader.load();

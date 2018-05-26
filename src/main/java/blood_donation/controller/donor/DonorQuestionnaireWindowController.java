@@ -3,21 +3,27 @@ package blood_donation.controller.donor;
 import blood_donation.domain.blood.Blood;
 import blood_donation.domain.blood.BloodGroup;
 import blood_donation.domain.people.Donor;
+import blood_donation.domain.people.Patient;
 import blood_donation.domain.utils.Clinic;
+import blood_donation.domain.utils.Distance;
 import blood_donation.domain.utils.Donation;
 import blood_donation.domain.utils.DonationRequest;
 import blood_donation.repository.Repository;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.hibernate.Session;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -34,6 +40,11 @@ public final class DonorQuestionnaireWindowController implements Initializable
     private Repository<Clinic> clinicRepository;
     private Repository<Blood> bloodRepository;
     private Repository<BloodGroup> bloodGroupRepository;
+    private Repository<Distance> distanceRepository;
+    private Repository<Patient> patientRepository;
+
+    @FXML
+    private Scene donorMainScene;
 
     @FXML
     private CheckBox romanianCitizenCheckBox;
@@ -203,63 +214,100 @@ public final class DonorQuestionnaireWindowController implements Initializable
         return this;
     }
 
-    @FXML
-    void submitData()
+    public Repository<Distance> getDistanceRepository()
     {
-        StringBuilder diseases = new StringBuilder();
-        for(CheckBox checkBox : uncheckedCheckBoxes)
-        {
-            if(checkBox.isSelected())
-            {
-                diseases.append(checkBox.getText()).append(" ");
-            }
-        }
+        return distanceRepository;
+    }
 
-        if(!diseases.toString().isEmpty())
-        {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("You cannot donate because you have " + diseases);
-            alert.setContentText("Sorry and thank you for your time");
+    public DonorQuestionnaireWindowController setDistanceRepository(Repository<Distance> distanceRepository)
+    {
+        this.distanceRepository = distanceRepository;
+        return this;
+    }
 
-            Optional<ButtonType> result = alert.showAndWait();
+    public Scene getDonorMainScene()
+    {
+        return donorMainScene;
+    }
 
-            if(result.get() == ButtonType.OK)
-            {
-                goBack();
-                return;
-            }
-        }
+    public DonorQuestionnaireWindowController setDonorMainScene(Scene donorMainScene)
+    {
+        this.donorMainScene = donorMainScene;
+        return this;
+    }
 
-        StringBuilder temporaryConditions = new StringBuilder();
+    public Repository<Patient> getPatientRepository()
+    {
+        return patientRepository;
+    }
+
+    public DonorQuestionnaireWindowController setPatientRepository(Repository<Patient> patientRepository)
+    {
+        this.patientRepository = patientRepository;
+        return this;
+    }
+
+    @FXML
+    void submitData() throws IOException
+    {
+        boolean showAlert = false;
+
         for(CheckBox checkBox : checkedCheckBoxes)
         {
             if(!checkBox.isSelected())
             {
-                temporaryConditions.append(checkBox.getText()).append(" ");
+                checkBox.setTextFill(Color.web("#ff0000"));
+                showAlert = true;
             }
         }
 
-        //TODO set text to red, don't alert
-
-        if(!temporaryConditions.toString().isEmpty())
+        for(CheckBox checkBox : uncheckedCheckBoxes)
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("You cannot donate because " + temporaryConditions);
-            alert.setContentText("Sorry and thank you for your time");
+            if(checkBox.isSelected())
+            {
+                checkBox.setTextFill(Color.web("#ff0000"));
+                showAlert = true;
+            }
+        }
+
+        if(showAlert)
+        {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Sorry, you don't meet the conditions to be a donor. They are highlighted in red");
+            alert.setContentText("Would you like to go back to your profile?");
 
             Optional<ButtonType> result = alert.showAndWait();
 
             if(result.get() == ButtonType.OK)
-            {
                 goBack();
-            }
+            return;
         }
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/donor/donorDonationScheduleWindow.fxml"));
+        loader.setController(new DonorDonationScheduleWindowController()
+                .setPrimaryStage(primaryStage)
+                .setSession(session)
+                .setPreviousScene(primaryStage.getScene())
+                .setCurrentDonor(currentDonor)
+                .setDonationRepository(donationRepository)
+                .setDistanceRepository(distanceRepository)
+                .setClinicRepository(clinicRepository)
+                .setDonorMainScene(donorMainScene)
+                .setPatientRepository(patientRepository));
+
+
+        Parent content = loader.load();
+
+        Scene selectScene = new Scene(content);
+        primaryStage.setScene(selectScene);
+
+        //TODO implement the transition to next scene
     }
 
     @FXML
-    void goBack()
+    private void goBack()
     {
         primaryStage.setScene(previousScene);
     }

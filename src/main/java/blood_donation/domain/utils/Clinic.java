@@ -76,6 +76,6 @@ public class Clinic
     @Override
     public String toString()
     {
-        return name.get() + ", " + location;
+        return name.get() + " Clinic, " + location;
     }
 }

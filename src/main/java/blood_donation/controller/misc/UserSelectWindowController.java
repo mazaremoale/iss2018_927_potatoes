@@ -39,6 +39,7 @@ public final class UserSelectWindowController implements Initializable
     private Repository<Location> locationRepository;
     private Repository<BloodRequest> requestRepository;
     private Repository<BloodGroup> bloodGroupRepository;
+    private Repository<Distance> distanceRepository;
 
 
     private Stage primaryStage;
@@ -243,6 +244,17 @@ public final class UserSelectWindowController implements Initializable
         return this;
     }
 
+    public Repository<Distance> getDistanceRepository()
+    {
+        return distanceRepository;
+    }
+
+    public UserSelectWindowController setDistanceRepository(Repository<Distance> distanceRepository)
+    {
+        this.distanceRepository = distanceRepository;
+        return this;
+    }
+
     @FXML
     public void exit()
     {
@@ -301,7 +313,8 @@ public final class UserSelectWindowController implements Initializable
                 .setLocationRepository(locationRepository)
                 .setRequestRepository(requestRepository)
                 .setBloodGroupRepository(bloodGroupRepository)
-                .setPreviousScene(primaryStage.getScene()));
+                .setPreviousScene(primaryStage.getScene())
+                .setDistanceRepository(distanceRepository));
 
         Parent content = loader.load();
 
@@ -332,6 +345,7 @@ public final class UserSelectWindowController implements Initializable
                 .setHospitalRepository(hospitalRepository)
                 .setLocationRepository(locationRepository)
                 .setRequestRepository(requestRepository)
+                .setDistanceRepository(distanceRepository)
                 .setPreviousScene(primaryStage.getScene()));
 
         Parent content = loader.load();
