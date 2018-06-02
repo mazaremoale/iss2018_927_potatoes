@@ -126,7 +126,6 @@ public final class DonorRegistrationWindowController implements Initializable
                     !residenceCountyComboBox.getSelectionModel().isEmpty() &&
                     residenceCityTextField.getText().length() > 0)
             {
-
                 donor.setResidenceAddress(residenceAddressTextField.getText());
                 donor.setResidenceCity(residenceCityTextField.getText());
                 donor.setResidenceCounty(residenceCountyComboBox.getSelectionModel().getSelectedItem());
@@ -147,6 +146,10 @@ public final class DonorRegistrationWindowController implements Initializable
             }
             else
             {
+                donor.setResidenceCity(idCityTextField.getText());
+                donor.setResidenceAddress(idAddressTextField.getText());
+                donor.setResidenceCounty(idCountyComboBox.getSelectionModel().getSelectedItem());
+
 
                 loadLoginCredentialsWindow(donor);
             }

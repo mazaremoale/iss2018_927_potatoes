@@ -2,32 +2,28 @@ package blood_donation.controller.donor;
 
 import blood_donation.domain.blood.Blood;
 import blood_donation.domain.blood.BloodGroup;
-import blood_donation.domain.blood.BloodTypeLetter;
-import blood_donation.domain.blood.BloodTypeRH;
 import blood_donation.domain.people.Donor;
+import blood_donation.domain.people.Patient;
 import blood_donation.domain.utils.Clinic;
+import blood_donation.domain.utils.Distance;
 import blood_donation.domain.utils.Donation;
 import blood_donation.domain.utils.DonationRequest;
-import blood_donation.domain.utils.Location;
 import blood_donation.repository.Repository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.hibernate.Session;
 
+import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.stream.Collectors;
+import java.time.LocalDate;
+import java.util.*;
 
 public class DonorMainWindowController implements Initializable
 {
@@ -37,6 +33,15 @@ public class DonorMainWindowController implements Initializable
 
     private Donor currentDonor;
     private Repository<Donation> donationRepository;
+    private Repository<DonationRequest> donationRequestRepository;
+    private Repository<Clinic> clinicRepository;
+    private Repository<Blood> bloodRepository;
+    private Repository<BloodGroup> bloodGroupRepository;
+    private Repository<Distance> distanceRepository;
+    private Repository<Patient> patientRepository;
+
+    @FXML
+    private Label appointmentLabel;
 
     @FXML
     private TableView<Donation> donationTableView;
@@ -208,15 +213,141 @@ public class DonorMainWindowController implements Initializable
         return this;
     }
 
+    public Repository<DonationRequest> getDonationRequestRepository()
+    {
+        return donationRequestRepository;
+    }
+
+    public DonorMainWindowController setDonationRequestRepository(Repository<DonationRequest> donationRequestRepository)
+    {
+        this.donationRequestRepository = donationRequestRepository;
+        return this;
+    }
+
+    public Repository<Clinic> getClinicRepository()
+    {
+        return clinicRepository;
+    }
+
+    public DonorMainWindowController setClinicRepository(Repository<Clinic> clinicRepository)
+    {
+        this.clinicRepository = clinicRepository;
+        return this;
+    }
+
+    public Repository<Blood> getBloodRepository()
+    {
+        return bloodRepository;
+    }
+
+    public DonorMainWindowController setBloodRepository(Repository<Blood> bloodRepository)
+    {
+        this.bloodRepository = bloodRepository;
+        return this;
+    }
+
+    public Repository<BloodGroup> getBloodGroupRepository()
+    {
+        return bloodGroupRepository;
+    }
+
+    public DonorMainWindowController setBloodGroupRepository(Repository<BloodGroup> bloodGroupRepository)
+    {
+        this.bloodGroupRepository = bloodGroupRepository;
+        return this;
+    }
+
+
+    public Repository<Distance> getDistanceRepository()
+    {
+        return distanceRepository;
+    }
+
+    public DonorMainWindowController setDistanceRepository(Repository<Distance> distanceRepository)
+    {
+        this.distanceRepository = distanceRepository;
+        return this;
+    }
+
+    public Repository<Patient> getPatientRepository()
+    {
+        return patientRepository;
+    }
+
+    public DonorMainWindowController setPatientRepository(Repository<Patient> patientRepository)
+    {
+        this.patientRepository = patientRepository;
+        return this;
+    }
+
     @FXML
     public void goBack()
     {
         primaryStage.setScene(previousScene);
     }
 
+    @FXML
+    public void donateBlood() throws IOException
+    {
+        Donation latestDonation = currentDonor.getLatestDonation(donationRepository);
+
+        if(latestDonation != null)
+        {
+            if (latestDonation.getDonationDate().plusWeeks(2).compareTo(LocalDate.now()) > 0)
+            {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Warning");
+                alert.setHeaderText("You cannot donate again until " + latestDonation.getDonationDate().plusWeeks(2) + " or at a later date");
+                alert.setContentText("Would you like to schedule your donation anyway?");
+
+                Optional<ButtonType> result = alert.showAndWait();
+
+                if (result.get() == ButtonType.OK)
+                {
+                    openDonorQuestionnaireWindow();
+                }
+            }
+            else
+            {
+                openDonorQuestionnaireWindow();
+            }
+        }
+        else
+        {
+            openDonorQuestionnaireWindow();
+        }
+    }
+
+    private void openDonorQuestionnaireWindow() throws IOException
+    {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/donor/donorQuestionnaireWindow.fxml"));
+
+        loader.setController(new DonorQuestionnaireWindowController()
+                .setPrimaryStage(primaryStage)
+                .setSession(session)
+                .setPreviousScene(primaryStage.getScene())
+                .setCurrentDonor(currentDonor)
+                .setDonationRepository(donationRepository)
+                .setDonationRequestRepository(donationRequestRepository)
+                .setClinicRepository(clinicRepository)
+                .setBloodRepository(bloodRepository)
+                .setBloodGroupRepository(bloodGroupRepository)
+                .setDistanceRepository(distanceRepository)
+                .setDonorMainScene(primaryStage.getScene())
+                .setPatientRepository(patientRepository));
+
+        Parent content = loader.load();
+
+        Scene selectScene = new Scene(content);
+        primaryStage.setScene(selectScene);
+        primaryStage.setTitle("Donor main menu");
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+
         bloodAnalysisCheckBoxes = new ArrayList<>(Arrays.asList(brucellosisCheckBox, cancerCheckBox, diabetesCheckBox, epilepsyCheckBox, heartDiseaseCheckBox,
                 hepatitisCheckBox, hivCheckBox, malariaCheckBox, mentalCheckBox, myopiaCheckBox, neurologicalCheckBox, poxCheckBox,
                 psioriasisCheckBox, tuberculosisCheckBox, ulcerCheckBox, vitiligoCheckBox));
@@ -235,10 +366,13 @@ public class DonorMainWindowController implements Initializable
         clinicTableColumn.setCellValueFactory(data -> data.getValue().clinicProperty());
 
 
-        List<Donation> thisDonorDonations = donationRepository.getAll().stream().filter(donation -> donation.getDonor() == currentDonor).collect(Collectors.toList());
+        List<Donation> thisDonorDonations = currentDonor.getDonations(donationRepository);
+        /*
         Blood testBlood = new Blood();
-        testBlood.setBloodGroup(new BloodGroup(BloodTypeLetter.AB, BloodTypeRH.NEGATIVE));
+        testBlood.setBloodGroup(bloodGroupRepository.getByID(1));
         testBlood.setQuantity(4);
+        bloodRepository.add(testBlood);
+
 
         DonationRequest donationRequest = new DonationRequest(20, 80, 60, 140, true,
                 false, true, true,false, false,
@@ -246,10 +380,16 @@ public class DonorMainWindowController implements Initializable
                 false, false, true, true, true, true, true,
                 false, false);
         Donation donation = new Donation(currentDonor, testBlood);
-        donation.setClinic(new Clinic(new Location("PotatoLand"), "Clinic1")) ;
+        donation.setClinic(clinicRepository.getByID(1)) ;
         donation.setDonationRequest(donationRequest);
 
+
+
         thisDonorDonations.add(donation);
+        donationRequestRepository.add(donationRequest);
+        donationRepository.add(donation);
+        */
+
         ObservableList<Donation> thisDonorDonationsObservableList = FXCollections.observableArrayList(thisDonorDonations);
         donationTableView.setItems(thisDonorDonationsObservableList);
 

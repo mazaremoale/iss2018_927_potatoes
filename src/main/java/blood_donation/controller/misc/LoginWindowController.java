@@ -2,10 +2,7 @@ package blood_donation.controller.misc;
 
 import blood_donation.controller.admin.AdminOperationSelectionWindowController;
 import blood_donation.controller.donor.DonorMainWindowController;
-import blood_donation.domain.blood.Blood;
-import blood_donation.domain.blood.Plasma;
-import blood_donation.domain.blood.Platelet;
-import blood_donation.domain.blood.RedBloodCell;
+import blood_donation.domain.blood.*;
 import blood_donation.domain.people.Doctor;
 import blood_donation.domain.people.Donor;
 import blood_donation.domain.people.Patient;
@@ -25,7 +22,6 @@ import org.hibernate.Session;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -56,7 +52,8 @@ public final class LoginWindowController implements Initializable
     private Repository<Hospital> hospitalRepository;
     private Repository<Location> locationRepository;
     private Repository<BloodRequest> requestRepository;
-
+    private Repository<BloodGroup> bloodGroupRepository;
+    private Repository<Distance> distanceRepository;
 
     @FXML
     private TextField usernameTextField;
@@ -183,6 +180,28 @@ public final class LoginWindowController implements Initializable
         return this;
     }
 
+    public Repository<BloodGroup> getBloodGroupRepository()
+    {
+        return bloodGroupRepository;
+    }
+
+    public LoginWindowController setBloodGroupRepository(Repository<BloodGroup> bloodGroupRepository)
+    {
+        this.bloodGroupRepository = bloodGroupRepository;
+        return this;
+    }
+
+    public Repository<Distance> getDistanceRepository()
+    {
+        return distanceRepository;
+    }
+
+    public LoginWindowController setDistanceRepository(Repository<Distance> distanceRepository)
+    {
+        this.distanceRepository = distanceRepository;
+        return this;
+    }
+
     LoginWindowController(Stage primaryStage)
     {
         this.primaryStage = primaryStage;
@@ -249,12 +268,19 @@ public final class LoginWindowController implements Initializable
                     FXMLLoader loader = new FXMLLoader();
                     loader.setLocation(getClass().getResource("/fxml/donor/donorMainWindow.fxml"));
 
+
                     loader.setController(new DonorMainWindowController()
                             .setPrimaryStage(primaryStage)
                             .setSession(session)
                             .setPreviousScene(primaryStage.getScene())
                             .setCurrentDonor(currentDonor)
-                            .setDonationRepository(donationRepository));
+                            .setDonationRepository(donationRepository)
+                            .setDonationRequestRepository(donationRequestRepository)
+                            .setClinicRepository(clinicRepository)
+                            .setBloodRepository(bloodRepository)
+                            .setBloodGroupRepository(bloodGroupRepository)
+                            .setDistanceRepository(distanceRepository)
+                            .setPatientRepository(patientRepository));
 
                     Parent content = loader.load();
 

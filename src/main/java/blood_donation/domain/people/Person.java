@@ -89,6 +89,6 @@ public abstract class Person implements Serializable
     @Override
     public String toString()
     {
-        return lastName + " " + firstName;
+        return lastName.get() + " " + firstName.get();
     }
 }

@@ -21,5 +21,4 @@ public class Patient extends Person
 
     //private List<Blood> requiredBlood;
     //private List<String> antibodies;
-
 }

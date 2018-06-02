@@ -203,7 +203,8 @@ public class DonorLoginCredentialsWindowController implements Initializable
             {
                 passwordValidLabel.setText("");
             }
-            else if(passwordPasswordField.getText().length() < 4 || passwordPasswordField.getText().length() > 20 ||
+
+            if(passwordPasswordField.getText().length() < 4 || passwordPasswordField.getText().length() > 20 ||
                     !passwordPasswordField.getText().matches(".*[0-9].*"))
             {
                 passwordValidLabel.setText("Must have 4-20 characters and a digit");
@@ -213,6 +214,17 @@ public class DonorLoginCredentialsWindowController implements Initializable
             {
                 passwordValidLabel.setText("Password meets all requirements");
                 passwordValidLabel.setTextFill(Color.web("#33cc33"));//green
+            }
+
+            if(passwordPasswordField.getText().equals(confirmationPasswordField.getText()))
+            {
+                passwordsMatchLabel.setText("Passwords match");
+                passwordsMatchLabel.setTextFill(Color.web("#33cc33"));//green
+            }
+            else
+            {
+                passwordsMatchLabel.setText("Passwords don't match");
+                passwordsMatchLabel.setTextFill(Color.web("#ff0000"));//red
             }
         });
 
