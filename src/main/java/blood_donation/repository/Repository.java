@@ -87,6 +87,12 @@ public final class Repository<T>
         session.getTransaction().commit();
     }
 
+    public T getLastEntity()
+    {
+        return this.getAll().stream().reduce((entity1, entity2) -> entity2).get();
+        //bad function, slow, looks ugly, not faultproof - me tired.
+    }
+
     @Override
     public String toString()
     {

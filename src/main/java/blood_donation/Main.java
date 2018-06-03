@@ -23,6 +23,8 @@ public class Main extends Application
 
     public static Session session;
 
+
+
     @Override
     public void start(Stage primaryStage) throws Exception
     {
@@ -208,18 +210,11 @@ public class Main extends Application
         primaryStage.setTitle("User selection");
 
         primaryStage.show();
-
-
     }
 
     public static void main(String[] args)
     {
         launch(args);
     }
-
-
-
-
-
 }
 

@@ -326,12 +326,14 @@ public class DonorDonationScheduleWindowController implements Initializable
     @FXML
     public void submitAppointment()
     {
+        Optional<ButtonType> result;
+
         if(donationDatePicker.getValue() != null &&
                 !clinicComboBox.getSelectionModel().isEmpty() &&
                 !timeComboBox.getSelectionModel().isEmpty())
         {
 
-            if(targettedDonationCheckBox.isSelected() && !patientComboBox.getSelectionModel().isEmpty())
+            if(!targettedDonationCheckBox.isSelected() || !patientComboBox.getSelectionModel().isEmpty())
             {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Confirmation");
@@ -341,7 +343,7 @@ public class DonorDonationScheduleWindowController implements Initializable
                         " at " + clinicComboBox.getSelectionModel().getSelectedItem());
                 alert.setContentText("Are you sure about this?");
 
-                Optional<ButtonType> result = alert.showAndWait();
+                result = alert.showAndWait();
 
                 if (result.get() == ButtonType.OK)
                 {
@@ -354,7 +356,7 @@ public class DonorDonationScheduleWindowController implements Initializable
                     primaryStage.setScene(donorMainScene);
                 }
             }
-            else
+            else if(targettedDonationCheckBox.isSelected())
             {
                 Alert badTargettedDonationInputAlert = new Alert(Alert.AlertType.ERROR);
                 badTargettedDonationInputAlert.setTitle("Error");

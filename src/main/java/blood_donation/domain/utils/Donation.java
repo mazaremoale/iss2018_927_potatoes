@@ -18,7 +18,8 @@ public class Donation
 {
 
     private Donor donor;
-    private LocalDate donationDate = LocalDate.now();
+    private LocalDate donationDate;
+    //private LocalDate appointmentDate;
     private Status status = Status.PENDING;
     private Patient patient;
     private Blood donatedBlood;
@@ -182,4 +183,11 @@ public class Donation
     }
 
     public StringProperty clinicProperty(){return clinicProperty;}
+
+    @Override
+    public String toString()
+    {
+        //ignore
+        return String.valueOf(id.get());
+    }
 }

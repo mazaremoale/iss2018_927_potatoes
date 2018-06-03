@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DonorMainWindowController implements Initializable
 {
@@ -344,6 +345,151 @@ public class DonorMainWindowController implements Initializable
         primaryStage.setTitle("Donor main menu");
     }
 
+    @FXML
+    private void initializeLabels(DonationRequest currentDonationRequest)
+    {
+        ageLabel.setText(String.valueOf(currentDonationRequest.getAge()));
+        pulseLabel.setText(String.valueOf(currentDonationRequest.getPulse()));
+        weightLabel.setText(String.valueOf(currentDonationRequest.getWeight()));
+        bloodPressureLabel.setText(String.valueOf(currentDonationRequest.getBloodPressure()));
+
+
+        if (currentDonationRequest.getHasHIV())
+        {
+            hivCheckBox.setIndeterminate(false);
+            hivCheckBox.setSelected(true);
+        }
+        else
+            hivCheckBox.setIndeterminate(true);
+
+        if(currentDonationRequest.getHasHepatitis())
+        {
+            hepatitisCheckBox.setIndeterminate(false);
+            hepatitisCheckBox.setSelected(true);
+        }
+        else
+            hepatitisCheckBox.setIndeterminate(true);
+
+        if(currentDonationRequest.getHasTB())
+        {
+            tuberculosisCheckBox.setIndeterminate(false);
+            tuberculosisCheckBox.setSelected(true);
+        }
+        else
+            tuberculosisCheckBox.setIndeterminate(true);
+
+        if(currentDonationRequest.getHasPox())
+        {
+            poxCheckBox.setIndeterminate(false);
+            poxCheckBox.setSelected(true);
+        }
+        else
+            poxCheckBox.setIndeterminate(true);
+
+        if(currentDonationRequest.getHasMalaria())
+        {
+            malariaCheckBox.setIndeterminate(false);
+            malariaCheckBox.setSelected(true);
+        }
+        else
+            malariaCheckBox.setIndeterminate(true);
+
+        if(currentDonationRequest.getHasEpilepsy())
+        {
+            epilepsyCheckBox.setIndeterminate(false);
+            epilepsyCheckBox.setSelected(true);
+        }
+        else
+            epilepsyCheckBox.setIndeterminate(true);
+
+        if(currentDonationRequest.getHasOtherNeurologicalDisease())
+        {
+            neurologicalCheckBox.setIndeterminate(false);
+            neurologicalCheckBox.setSelected(true);
+        }
+        else
+            neurologicalCheckBox.setIndeterminate(true);
+
+        if(currentDonationRequest.getHasMentalIllness())
+        {
+            mentalCheckBox.setIndeterminate(false);
+            mentalCheckBox.setSelected(true);
+        }
+        else
+            mentalCheckBox.setIndeterminate(true);
+
+        if(currentDonationRequest.getHasBrucellosis())
+        {
+            brucellosisCheckBox.setIndeterminate(false);
+            brucellosisCheckBox.setSelected(true);
+        }
+        else
+            brucellosisCheckBox.setIndeterminate(true);
+
+        if(currentDonationRequest.getHasUlcer())
+        {
+            ulcerCheckBox.setIndeterminate(false);
+            ulcerCheckBox.setSelected(true);
+        }
+        else
+            ulcerCheckBox.setIndeterminate(true);
+
+        if(currentDonationRequest.getHasDiabetes())
+        {
+            diabetesCheckBox.setIndeterminate(false);
+            diabetesCheckBox.setSelected(true);
+        }
+        else
+            diabetesCheckBox.setIndeterminate(true);
+
+        if(currentDonationRequest.getHasHeartDisease())
+        {
+            heartDiseaseCheckBox.setIndeterminate(false);
+            heartDiseaseCheckBox.setSelected(true);
+        }
+        else
+            diabetesCheckBox.setIndeterminate(true);
+
+        if(currentDonationRequest.getHasPsoriasis())
+        {
+            psioriasisCheckBox.setIndeterminate(false);
+            psioriasisCheckBox.setSelected(true);
+        }
+        else
+            psioriasisCheckBox.setIndeterminate(true);
+
+        if(currentDonationRequest.getHasVitiligo())
+        {
+            vitiligoCheckBox.setIndeterminate(false);
+            vitiligoCheckBox.setSelected(true);
+        }
+        else
+            vitiligoCheckBox.setIndeterminate(true);
+
+        if(currentDonationRequest.getHasMyopiaOverOrUnder6())
+        {
+            myopiaCheckBox.setIndeterminate(false);
+            myopiaCheckBox.setSelected(true);
+        }
+        else
+            myopiaCheckBox.setIndeterminate(true);
+
+        if(currentDonationRequest.getHasCancer())
+        {
+            cancerCheckBox.setIndeterminate(false);
+            cancerCheckBox.setSelected(true);
+        }
+        else
+            cancerCheckBox.setIndeterminate(true);
+
+
+        if(!ageLabel.isVisible())
+        {
+            diagnosticsLabels.forEach(label -> label.setVisible(true));
+            bloodAnalysisCheckBoxes.forEach(checkBox -> checkBox.setVisible(true));
+        }
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
@@ -367,176 +513,18 @@ public class DonorMainWindowController implements Initializable
 
 
         List<Donation> thisDonorDonations = currentDonor.getDonations(donationRepository);
-        /*
-        Blood testBlood = new Blood();
-        testBlood.setBloodGroup(bloodGroupRepository.getByID(1));
-        testBlood.setQuantity(4);
-        bloodRepository.add(testBlood);
 
 
-        DonationRequest donationRequest = new DonationRequest(20, 80, 60, 140, true,
-                false, true, true,false, false,
-                true, true,true,false, false, false, false,
-                false, false, true, true, true, true, true,
-                false, false);
-        Donation donation = new Donation(currentDonor, testBlood);
-        donation.setClinic(clinicRepository.getByID(1)) ;
-        donation.setDonationRequest(donationRequest);
+        //create donation, persist it, show all but last -- would work if donation wouldn't be bound by blood, drequest and whatnot
+        ObservableList<Donation> thisDonorDonationsObservableList = FXCollections.observableArrayList(thisDonorDonations.stream().filter(donation -> donation.getDonor() != null).collect(Collectors.toList()));
 
-
-
-        thisDonorDonations.add(donation);
-        donationRequestRepository.add(donationRequest);
-        donationRepository.add(donation);
-        */
-
-        ObservableList<Donation> thisDonorDonationsObservableList = FXCollections.observableArrayList(thisDonorDonations);
         donationTableView.setItems(thisDonorDonationsObservableList);
 
         donationTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
         {
             DonationRequest currentDonationRequest = newValue.getDonationRequest();
 
-            ageLabel.setText(String.valueOf(currentDonationRequest.getAge()));
-            pulseLabel.setText(String.valueOf(currentDonationRequest.getPulse()));
-            weightLabel.setText(String.valueOf(currentDonationRequest.getWeight()));
-            bloodPressureLabel.setText(String.valueOf(currentDonationRequest.getBloodPressure()));
-
-
-            if (currentDonationRequest.getHasHIV())
-            {
-                hivCheckBox.setIndeterminate(false);
-                hivCheckBox.setSelected(true);
-            }
-            else
-                hivCheckBox.setIndeterminate(true);
-
-            if(currentDonationRequest.getHasHepatitis())
-            {
-                hepatitisCheckBox.setIndeterminate(false);
-                hepatitisCheckBox.setSelected(true);
-            }
-            else
-                hepatitisCheckBox.setIndeterminate(true);
-
-            if(currentDonationRequest.getHasTB())
-            {
-                tuberculosisCheckBox.setIndeterminate(false);
-                tuberculosisCheckBox.setSelected(true);
-            }
-            else
-                tuberculosisCheckBox.setIndeterminate(true);
-
-            if(currentDonationRequest.getHasPox())
-            {
-                poxCheckBox.setIndeterminate(false);
-                poxCheckBox.setSelected(true);
-            }
-            else
-                poxCheckBox.setIndeterminate(true);
-
-            if(currentDonationRequest.getHasMalaria())
-            {
-                malariaCheckBox.setIndeterminate(false);
-                malariaCheckBox.setSelected(true);
-            }
-            else
-                malariaCheckBox.setIndeterminate(true);
-
-            if(currentDonationRequest.getHasEpilepsy())
-            {
-                epilepsyCheckBox.setIndeterminate(false);
-                epilepsyCheckBox.setSelected(true);
-            }
-            else
-                epilepsyCheckBox.setIndeterminate(true);
-
-            if(currentDonationRequest.getHasOtherNeurologicalDisease())
-            {
-                neurologicalCheckBox.setIndeterminate(false);
-                neurologicalCheckBox.setSelected(true);
-            }
-            else
-                neurologicalCheckBox.setIndeterminate(true);
-
-            if(currentDonationRequest.getHasMentalIllness())
-            {
-                mentalCheckBox.setIndeterminate(false);
-                mentalCheckBox.setSelected(true);
-            }
-            else
-                mentalCheckBox.setIndeterminate(true);
-
-            if(currentDonationRequest.getHasBrucellosis())
-            {
-                brucellosisCheckBox.setIndeterminate(false);
-                brucellosisCheckBox.setSelected(true);
-            }
-            else
-                brucellosisCheckBox.setIndeterminate(true);
-
-            if(currentDonationRequest.getHasUlcer())
-            {
-                ulcerCheckBox.setIndeterminate(false);
-                ulcerCheckBox.setSelected(true);
-            }
-            else
-                ulcerCheckBox.setIndeterminate(true);
-
-            if(currentDonationRequest.getHasDiabetes())
-            {
-                diabetesCheckBox.setIndeterminate(false);
-                diabetesCheckBox.setSelected(true);
-            }
-            else
-                diabetesCheckBox.setIndeterminate(true);
-
-            if(currentDonationRequest.getHasHeartDisease())
-            {
-                heartDiseaseCheckBox.setIndeterminate(false);
-                heartDiseaseCheckBox.setSelected(true);
-            }
-            else
-                diabetesCheckBox.setIndeterminate(true);
-
-            if(currentDonationRequest.getHasPsoriasis())
-            {
-                psioriasisCheckBox.setIndeterminate(false);
-                psioriasisCheckBox.setSelected(true);
-            }
-            else
-                psioriasisCheckBox.setIndeterminate(true);
-
-            if(currentDonationRequest.getHasVitiligo())
-            {
-                vitiligoCheckBox.setIndeterminate(false);
-                vitiligoCheckBox.setSelected(true);
-            }
-            else
-                vitiligoCheckBox.setIndeterminate(true);
-
-            if(currentDonationRequest.getHasMyopiaOverOrUnder6())
-            {
-                myopiaCheckBox.setIndeterminate(false);
-                myopiaCheckBox.setSelected(true);
-            }
-            else
-                myopiaCheckBox.setIndeterminate(true);
-
-            if(currentDonationRequest.getHasCancer())
-            {
-                cancerCheckBox.setIndeterminate(false);
-                cancerCheckBox.setSelected(true);
-            }
-            else
-                cancerCheckBox.setIndeterminate(true);
-
-
-            if(!ageLabel.isVisible())
-            {
-                diagnosticsLabels.forEach(label -> label.setVisible(true));
-                bloodAnalysisCheckBoxes.forEach(checkBox -> checkBox.setVisible(true));
-            }
+            initializeLabels(currentDonationRequest);
         });
 
 
