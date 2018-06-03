@@ -211,6 +211,7 @@ public final class LoginWindowController implements Initializable
     public void goBack()
     {
         primaryStage.setScene(previousScene);
+        primaryStage.setTitle("User selection");
     }
 
 
@@ -345,7 +346,7 @@ public final class LoginWindowController implements Initializable
 
             Scene selectScene = new Scene(content);
             primaryStage.setScene(selectScene);
-            primaryStage.setTitle("Admin");
+            primaryStage.setTitle("Admin management panel");
         }
         else if(!usernameTextField.getText().equals(adminUsername))
         {

@@ -97,6 +97,7 @@ public final class AdminDoctorWindowController implements Initializable
     public void goBack()
     {
         primaryStage.setScene(previousScene);
+        primaryStage.setTitle("Admin management panel");
     }
 
     @FXML
@@ -207,6 +208,8 @@ public final class AdminDoctorWindowController implements Initializable
                         hospitalComboBox.getSelectionModel().select(newValue.getHospital());
                     }
                 });
+
+        primaryStage.centerOnScreen();
 
     }
 }

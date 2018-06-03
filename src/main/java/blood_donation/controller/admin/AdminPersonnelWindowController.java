@@ -99,6 +99,7 @@ public final class AdminPersonnelWindowController implements Initializable
     public void goBack()
     {
         primaryStage.setScene(previousScene);
+        primaryStage.setTitle("Admin management panel");
     }
 
     @FXML
