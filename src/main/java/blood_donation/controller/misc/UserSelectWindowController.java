@@ -279,7 +279,10 @@ public final class UserSelectWindowController implements Initializable
                 .setSession(session)
                 .setLocationRepository(locationRepository)
                 .setDonorRepository(donorRepository)
-                .setDonationRepository(donationRepository));
+                .setDonationRepository(donationRepository)
+                .setClinicRepository(clinicRepository)
+                .setDistanceRepository(distanceRepository)
+                .setPatientRepository(patientRepository));
 
 
         Parent content = loader.load();

@@ -1,6 +1,9 @@
 package blood_donation.controller.donor;
 
 import blood_donation.domain.people.Donor;
+import blood_donation.domain.people.Patient;
+import blood_donation.domain.utils.Clinic;
+import blood_donation.domain.utils.Distance;
 import blood_donation.domain.utils.Donation;
 import blood_donation.domain.utils.Location;
 import blood_donation.repository.Repository;
@@ -35,6 +38,9 @@ public final class DonorRegistrationWindowController implements Initializable
     private Repository<Location> locationRepository;
     private Repository<Donor> donorRepository;
     private Repository<Donation> donationRepository;
+    private Repository<Clinic> clinicRepository;
+    private Repository<Distance> distanceRepository;
+    private Repository<Patient> patientRepository;
 
 
     @FXML
@@ -87,7 +93,10 @@ public final class DonorRegistrationWindowController implements Initializable
                 .setPreviousScene(primaryStage.getScene())
                 .setCurrentDonor(donor)
                 .setDonorRepository(donorRepository)
-                .setDonationRepository(donationRepository));
+                .setDonationRepository(donationRepository)
+                .setClinicRepository(clinicRepository)
+                .setDistanceRepository(distanceRepository)
+                .setPatientRepository(patientRepository));
 
         Parent content = loader.load();
 
@@ -221,6 +230,39 @@ public final class DonorRegistrationWindowController implements Initializable
     public DonorRegistrationWindowController setDonationRepository(Repository<Donation> donationRepository)
     {
         this.donationRepository = donationRepository;
+        return this;
+    }
+
+    public Repository<Clinic> getClinicRepository()
+    {
+        return clinicRepository;
+    }
+
+    public DonorRegistrationWindowController setClinicRepository(Repository<Clinic> clinicRepository)
+    {
+        this.clinicRepository = clinicRepository;
+        return this;
+    }
+
+    public Repository<Distance> getDistanceRepository()
+    {
+        return distanceRepository;
+    }
+
+    public DonorRegistrationWindowController setDistanceRepository(Repository<Distance> distanceRepository)
+    {
+        this.distanceRepository = distanceRepository;
+        return this;
+    }
+
+    public Repository<Patient> getPatientRepository()
+    {
+        return patientRepository;
+    }
+
+    public DonorRegistrationWindowController setPatientRepository(Repository<Patient> patientRepository)
+    {
+        this.patientRepository = patientRepository;
         return this;
     }
 

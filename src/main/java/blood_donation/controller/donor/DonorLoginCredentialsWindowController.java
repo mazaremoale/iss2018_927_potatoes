@@ -1,7 +1,10 @@
 package blood_donation.controller.donor;
 
 import blood_donation.domain.people.Donor;
+import blood_donation.domain.people.Patient;
 import blood_donation.domain.people.Person;
+import blood_donation.domain.utils.Clinic;
+import blood_donation.domain.utils.Distance;
 import blood_donation.domain.utils.Donation;
 import blood_donation.repository.Repository;
 import javafx.fxml.FXML;
@@ -31,6 +34,9 @@ public class DonorLoginCredentialsWindowController implements Initializable
     private Donor currentDonor;
     private Repository<Donor> donorRepository;
     private Repository<Donation> donationRepository;
+    private Repository<Clinic> clinicRepository;
+    private Repository<Distance> distanceRepository;
+    private Repository<Patient> patientRepository;
 
     private List<String> usernames;
 
@@ -120,6 +126,39 @@ public class DonorLoginCredentialsWindowController implements Initializable
         return this;
     }
 
+    public Repository<Clinic> getClinicRepository()
+    {
+        return clinicRepository;
+    }
+
+    public DonorLoginCredentialsWindowController setClinicRepository(Repository<Clinic> clinicRepository)
+    {
+        this.clinicRepository = clinicRepository;
+        return this;
+    }
+
+    public Repository<Distance> getDistanceRepository()
+    {
+        return distanceRepository;
+    }
+
+    public DonorLoginCredentialsWindowController setDistanceRepository(Repository<Distance> distanceRepository)
+    {
+        this.distanceRepository = distanceRepository;
+        return this;
+    }
+
+    public Repository<Patient> getPatientRepository()
+    {
+        return patientRepository;
+    }
+
+    public DonorLoginCredentialsWindowController setPatientRepository(Repository<Patient> patientRepository)
+    {
+        this.patientRepository = patientRepository;
+        return this;
+    }
+
     @FXML
     public void goBack()
     {
@@ -147,7 +186,10 @@ public class DonorLoginCredentialsWindowController implements Initializable
                     .setSession(session)
                     .setPreviousScene(primaryStage.getScene())
                     .setCurrentDonor(currentDonor)
-                    .setDonationRepository(donationRepository));
+                    .setDonationRepository(donationRepository)
+                    .setClinicRepository(clinicRepository)
+                    .setDistanceRepository(distanceRepository)
+                    .setPatientRepository(patientRepository));
 
 
             Parent content = loader.load();

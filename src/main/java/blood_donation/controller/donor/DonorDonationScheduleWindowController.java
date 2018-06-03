@@ -270,6 +270,7 @@ public class DonorDonationScheduleWindowController implements Initializable
     @FXML
     private void initializeClinics()
     {
+        //TODO fix this so it works if you register aswell
         List<Clinic> clinics = clinicRepository.getAll();
 
         List<Integer> distances = new ArrayList<>();
@@ -326,7 +327,7 @@ public class DonorDonationScheduleWindowController implements Initializable
     @FXML
     public void submitAppointment()
     {
-        Optional<ButtonType> result;
+        Optional<ButtonType> result ;
 
         if(donationDatePicker.getValue() != null &&
                 !clinicComboBox.getSelectionModel().isEmpty() &&
