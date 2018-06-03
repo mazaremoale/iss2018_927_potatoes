@@ -1,6 +1,7 @@
 package blood_donation.controller.misc;
 
 import blood_donation.controller.admin.AdminOperationSelectionWindowController;
+import blood_donation.controller.doctor.DoctorMainWindowController;
 import blood_donation.controller.donor.DonorMainWindowController;
 import blood_donation.domain.blood.*;
 import blood_donation.domain.people.Doctor;
@@ -320,8 +321,72 @@ public final class LoginWindowController implements Initializable
 
     }
 
-    private void loginDoctor()
+    private void loginDoctor() throws IOException
     {
+        Map<String,String> doctorCredentials;
+        doctorCredentials = doctorRepository.getAll().stream().collect(Collectors.toMap(Doctor::getUsername, Doctor::getPassword));
+
+        if(usernameTextField.getText().length() > 0 && passwordField.getText().length() > 0)
+        {
+            if (doctorCredentials.containsKey(usernameTextField.getText()))
+            {
+                if (doctorCredentials.get(usernameTextField.getText()).equals(passwordField.getText()))
+                {
+                    Doctor currentDoctor = null;
+                    for(Doctor doctor : doctorRepository.getAll())
+                    {
+                        if(doctor.getUsername().equals(usernameTextField.getText()))
+                        {
+                            currentDoctor = doctor;
+                            break;
+                        }
+
+                    }
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(getClass().getResource("/fxml/doctor/doctorMainWindow.fxml"));
+
+
+                    loader.setController(new DoctorMainWindowController()
+                            .setPrimaryStage(primaryStage)
+                            .setSession(session)
+                            .setPreviousScene(primaryStage.getScene())
+                            .setCurrentDonor(currentDoctor));
+
+                    Parent content = loader.load();
+
+                    Scene selectScene = new Scene(content);
+                    primaryStage.setScene(selectScene);
+                    primaryStage.setTitle("Doctor main menu");
+                }
+                else
+                {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Invalid password");
+                    alert.setContentText("Please try again");
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                }
+            }
+            else
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Invalid username");
+                alert.setContentText("Please try again");
+
+                Optional<ButtonType> result = alert.showAndWait();
+            }
+        }
+        else
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("All the fields must be filled");
+            alert.setContentText("Please fill in all the fields");
+
+            Optional<ButtonType> result = alert.showAndWait();
+        }
     }
 
     private void loginAdmin() throws IOException
