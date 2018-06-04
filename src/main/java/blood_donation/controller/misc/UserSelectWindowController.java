@@ -374,6 +374,41 @@ public final class UserSelectWindowController implements Initializable
 
     }
 
+    @FXML
+    public void openPersonnelLogin() throws IOException
+    {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/misc/loginWindow.fxml"));
+        loader.setController(new LoginWindowController()
+                .setPrimaryStage(primaryStage)
+                .setSession(session)
+                .setUserType("personnel")
+                .setBloodRepository(bloodRepository)
+                .setPlasmaRepository(plasmaRepository)
+                .setRedBloodCellRepository(redBloodCellRepository)
+                .setPlateletRepository(plateletRepository)
+                .setDonorRepository(donorRepository)
+                .setDoctorRepository(doctorRepository)
+                .setPatientRepository(patientRepository)
+                .setPersonnelRepository(personnelRepository)
+                .setClinicRepository(clinicRepository)
+                .setDonationRepository(donationRepository)
+                .setDonationRequestRepository(donationRequestRepository)
+                .setHospitalRepository(hospitalRepository)
+                .setLocationRepository(locationRepository)
+                .setRequestRepository(requestRepository)
+                .setDistanceRepository(distanceRepository)
+                .setPreviousScene(primaryStage.getScene())
+                .setDonationAppointmentRepository(donationAppointmentRepository));
+
+        Parent content = loader.load();
+
+        Scene selectScene = new Scene(content);
+        primaryStage.setScene(selectScene);
+        primaryStage.setTitle("Login");
+
+    }
+
     public void openAdminLogin() throws IOException
     {
         FXMLLoader loader = new FXMLLoader();
