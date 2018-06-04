@@ -499,9 +499,29 @@ public class DonorMainWindowController implements Initializable
         }
     }
 
-    public void initializeAppointmentLabel()
+    private void initializeAppointmentLabel()
     {
-        //TODO put donor in appointment class to see if any appointments for current donor => make label visible/invisible
+        List<DonationRequest> thisDonorDonationRequests = currentDonor.getDonationRequests(donationRequestRepository);
+        List<DonationAppointment> thisDonorAppointments = donationAppointmentRepository.getAll().stream()
+                .filter(appointment -> thisDonorDonationRequests.contains(appointment.getDonationRequest()))
+                .collect(Collectors.toList());
+        if (thisDonorAppointments.size() == 0)
+            appointmentLabel.setVisible(false);
+        else
+        {
+            appointmentLabel.setVisible(true);
+            DonationAppointment appointment;
+
+            if (thisDonorAppointments.size() == 1)
+                appointment = thisDonorAppointments.get(0);
+            else
+                appointment = thisDonorAppointments.stream().reduce((first, second) -> second).get();
+
+            appointmentLabel.setText("You have an appointment on " + appointment.getAppointmentDate() +
+                        " at " + appointment.getAppointmentTime() + " at the " + appointment.getClinic() + " clinic");
+
+        }
+
     }
 
     @Override
@@ -530,7 +550,8 @@ public class DonorMainWindowController implements Initializable
 
 
         //create donation, persist it, show all but last -- would work if donation wouldn't be bound by blood, drequest and whatnot
-        ObservableList<Donation> thisDonorDonationsObservableList = FXCollections.observableArrayList(thisDonorDonations.stream().filter(donation -> donation.getDonor() != null).collect(Collectors.toList()));
+        ObservableList<Donation> thisDonorDonationsObservableList = FXCollections.observableArrayList(thisDonorDonations
+                .stream().filter(donation -> donation.getDonor() != null).collect(Collectors.toList()));
 
         donationTableView.setItems(thisDonorDonationsObservableList);
 
@@ -541,8 +562,7 @@ public class DonorMainWindowController implements Initializable
             initializeLabels(currentDonationRequest);
         });
 
-        //TODO somewhere here show the latest appointment from the appointment repository
-        appointmentLabel.setText(donationAppointmentRepository.toString());
+        initializeAppointmentLabel();
 
         //my Profile tab initialization
         lastNameLabel.setText(currentDonor.getLastName());
