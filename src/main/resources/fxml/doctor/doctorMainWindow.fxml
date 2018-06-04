@@ -44,13 +44,13 @@
                                     </Label>
                                  </top>
                                  <center>
-                                    <TableView prefHeight="423.0" prefWidth="749.0" BorderPane.alignment="CENTER">
+                                    <TableView fx:id="donationRequestTableView" prefHeight="423.0" prefWidth="749.0" BorderPane.alignment="CENTER">
                                       <columns>
-                                        <TableColumn prefWidth="150.0" text="Name" />
-                                        <TableColumn minWidth="2.0" prefWidth="150.0" text="Age" />
-                                          <TableColumn minWidth="2.0" prefWidth="150.0" text="Blood pressure" />
-                                          <TableColumn minWidth="2.0" prefWidth="150.0" text="Pulse" />
-                                          <TableColumn minWidth="2.0" prefWidth="140.0" text="Weight" />
+                                        <TableColumn fx:id="drNameColumn" prefWidth="150.0" text="Name" />
+                                        <TableColumn fx:id="drAgeColumn" minWidth="2.0" prefWidth="150.0" text="Age" />
+                                          <TableColumn fx:id="drBloodPressureColumn" minWidth="2.0" prefWidth="150.0" text="Blood pressure" />
+                                          <TableColumn fx:id="drPulseColumn" minWidth="2.0" prefWidth="150.0" text="Pulse" />
+                                          <TableColumn fx:id="drWeightColumn" minWidth="2.0" prefWidth="140.0" text="Weight" />
                                       </columns>
                                        <BorderPane.margin>
                                           <Insets left="10.0" right="10.0" top="10.0" />
@@ -60,7 +60,7 @@
                                  <bottom>
                                     <HBox alignment="CENTER" prefHeight="54.0" prefWidth="769.0" BorderPane.alignment="CENTER_RIGHT">
                                        <children>
-                                          <Button alignment="CENTER" mnemonicParsing="false" text="Approve">
+                                          <Button fx:id="approveButton" alignment="CENTER" mnemonicParsing="false" text="Approve">
                                              <font>
                                                 <Font size="20.0" />
                                              </font>
@@ -68,7 +68,7 @@
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </HBox.margin>
                                           </Button>
-                                          <Button alignment="CENTER" mnemonicParsing="false" text="Shall not pass">
+                                          <Button fx:id="notApproveButton" alignment="CENTER" mnemonicParsing="false" text="Shall not pass">
                                              <font>
                                                 <Font size="20.0" />
                                              </font>

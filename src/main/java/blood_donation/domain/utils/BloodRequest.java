@@ -1,6 +1,8 @@
 package blood_donation.domain.utils;
 
 import blood_donation.domain.blood.Blood;
+import blood_donation.domain.blood.BloodGroup;
+import blood_donation.domain.people.Doctor;
 import blood_donation.domain.people.Patient;
 
 import javax.persistence.*;
@@ -12,7 +14,12 @@ public class BloodRequest
 {
     private int id;
     private Patient patient;
+    private BloodGroup bloodGroup;
+    private Integer quantity;
+    private Priority priority = Priority.LOW;
+    private Hospital hospital;
     private Status status = Status.PENDING;
+    private Doctor doctor;
     private Set<Blood> requiredBlood;
 
     public BloodRequest(Patient patient, Set<Blood> requiredBlood)
@@ -69,6 +76,57 @@ public class BloodRequest
     public void setRequiredBlood(Set<Blood> requiredBlood)
     {
         this.requiredBlood = requiredBlood;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "bloodGroupID")
+    public BloodGroup getBloodGroup() { return bloodGroup; }
+
+    public void setBloodGroup(BloodGroup bloodGroup) { this.bloodGroup = bloodGroup; }
+
+    public Integer getQuantity()
+    {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity)
+    {
+        this.quantity = quantity;
+    }
+
+    @Enumerated(EnumType.STRING)
+    public Priority getPriority()
+    {
+        return priority;
+    }
+
+    public void setPriority(Priority priority)
+    {
+        this.priority = priority;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "hospitalID")
+    public Hospital getHospital()
+    {
+        return hospital;
+    }
+
+    public void setHospital(Hospital hospital)
+    {
+        this.hospital = hospital;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "doctorID")
+    public Doctor getDoctor()
+    {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor)
+    {
+        this.doctor = doctor;
     }
 
     public void process()
