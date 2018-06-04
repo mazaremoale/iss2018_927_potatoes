@@ -1,13 +1,195 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="619.0" prefWidth="769.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefHeight="638.0" prefWidth="769.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox>
+               <children>
+                  <Button fx:id="backButton" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" mnemonicParsing="false" onAction="#goBack" prefHeight="24.0" prefWidth="53.0" text="Back">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button alignment="TOP_RIGHT" mnemonicParsing="false" text="Refresh">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="630.0" right="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <TabPane prefHeight="561.0" prefWidth="759.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Donation requests">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <BorderPane layoutX="35.0" layoutY="122.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <top>
+                                    <Label text="Information about donor" BorderPane.alignment="TOP_LEFT">
+                                       <BorderPane.margin>
+                                          <Insets left="10.0" top="10.0" />
+                                       </BorderPane.margin>
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </top>
+                                 <center>
+                                    <TableView prefHeight="423.0" prefWidth="749.0" BorderPane.alignment="CENTER">
+                                      <columns>
+                                        <TableColumn prefWidth="150.0" text="Name" />
+                                        <TableColumn minWidth="2.0" prefWidth="150.0" text="Age" />
+                                          <TableColumn minWidth="2.0" prefWidth="150.0" text="Blood pressure" />
+                                          <TableColumn minWidth="2.0" prefWidth="150.0" text="Pulse" />
+                                          <TableColumn minWidth="2.0" prefWidth="140.0" text="Weight" />
+                                      </columns>
+                                       <BorderPane.margin>
+                                          <Insets left="10.0" right="10.0" top="10.0" />
+                                       </BorderPane.margin>
+                                    </TableView>
+                                 </center>
+                                 <bottom>
+                                    <HBox alignment="CENTER" prefHeight="54.0" prefWidth="769.0" BorderPane.alignment="CENTER_RIGHT">
+                                       <children>
+                                          <Button alignment="CENTER" mnemonicParsing="false" text="Approve">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button alignment="CENTER" mnemonicParsing="false" text="Shall not pass">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </bottom>
+                              </BorderPane>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Available stocks">
+                     <content>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <center>
+                                    <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                      <columns>
+                                        <TableColumn prefWidth="100.0" text="Blood Type" />
+                                        <TableColumn prefWidth="100.0" text="Group" />
+                                          <TableColumn prefWidth="100.0" text="RH" />
+                                          <TableColumn prefWidth="100.0" text="Quantity" />
+                                          <TableColumn prefWidth="120.0" text="Donation date" />
+                                          <TableColumn prefWidth="120.0" text="Expiration date" />
+                                          <TableColumn prefWidth="100.0" text="Location" />
+                                      </columns>
+                                       <BorderPane.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </BorderPane.margin>
+                                    </TableView>
+                                 </center>
+                                 <top>
+                                    <VBox prefHeight="64.0" prefWidth="769.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Label text="Blood ready for usage">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets left="10.0" top="10.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <ComboBox prefHeight="32.0" prefWidth="196.0" promptText="Pick a location">
+                                             <VBox.margin>
+                                                <Insets left="10.0" />
+                                             </VBox.margin>
+                                          </ComboBox>
+                                       </children>
+                                    </VBox>
+                                 </top>
+                              </BorderPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                </Tab>
+                  <Tab text="Blood requests">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="444.0" prefWidth="680.0">
+                           <children>
+                              <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <center>
+                                    <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                      <columns>
+                                        <TableColumn prefWidth="100.0" text="Pacient" />
+                                        <TableColumn text="Blood type" />
+                                          <TableColumn text="RH" />
+                                          <TableColumn text="Quantity" />
+                                          <TableColumn prefWidth="100.0" text="Urgency level" />
+                                          <TableColumn prefWidth="100.0" text="Location" />
+                                          <TableColumn prefWidth="100.0" text="Status" />
+                                          <TableColumn prefWidth="100.0" text="Donated blood" />
+                                      </columns>
+                                       <BorderPane.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </BorderPane.margin>
+                                    </TableView>
+                                 </center>
+                                 <bottom>
+                                    <HBox alignment="CENTER" prefHeight="51.0" prefWidth="769.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#openMakeNewRequestForm" text="Make new request">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button mnemonicParsing="false" text="Delete request">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </bottom>
+                                 <top>
+                                    <Label text="Blood requests history" BorderPane.alignment="TOP_LEFT">
+                                       <BorderPane.margin>
+                                          <Insets left="10.0" right="10.0" top="10.0" />
+                                       </BorderPane.margin>
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </top></BorderPane>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+         </children>
+      </VBox>
+   </children>
 </AnchorPane>
