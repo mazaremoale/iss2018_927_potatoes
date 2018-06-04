@@ -10,13 +10,16 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 import org.hibernate.Session;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -271,19 +274,66 @@ public class PersonnelMainWindowController implements Initializable
     @FXML
     public void sendDonationRequest()
     {
+        if(!donationRequestsTableView.getSelectionModel().isEmpty())
+        {
+            // TODO check if all fields are set (or add another flag to the class donation request
 
+            DonationRequest selectedDonationRequest = donationRequestsTableView.getSelectionModel().getSelectedItem().getDonationRequest();
+
+            selectedDonationRequest.setValidatedByPersonnel(true);
+
+            donationRequestRepository.update(selectedDonationRequest);
+        }
     }
 
     @FXML
-    public void  updateDonorMedicalData()
+    public void  updateDonorMedicalData() throws IOException
     {
+        // change to Personnel Donor Medical Data Form Window
+        if(!donationRequestsTableView.getSelectionModel().isEmpty())
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/personnel/personnelDonorMedicalDataWindow.fxml"));
 
+
+            loader.setController(new PersonnelDonorMedicalDataWindowController()
+                    .setPrimaryStage(primaryStage)
+                    .setSession(session)
+                    .setPreviousScene(primaryStage.getScene())
+                    .setCurrentPersonnel(currentPersonnel)
+                    // current donation = selected item in table view
+                    .setDonationAppointment(donationRequestsTableView.getSelectionModel().getSelectedItem())
+                    .setDonationRepository(donationRepository)
+                    .setDonationRequestRepository(donationRequestRepository)
+                    .setClinicRepository(clinicRepository)
+                    .setBloodRepository(bloodRepository)
+                    .setBloodGroupRepository(bloodGroupRepository)
+                    .setDistanceRepository(distanceRepository)
+                    .setPatientRepository(patientRepository)
+                    .setDonationAppointmentRepository(donationAppointmentRepository)
+            );
+
+            Parent content = loader.load();
+
+            Scene selectScene = new Scene(content);
+            primaryStage.setScene(selectScene);
+            primaryStage.setTitle("Personnel main menu");
+        }
     }
 
     @FXML
     public void cancelDonationRequest()
     {
+        if(!donationRequestsTableView.getSelectionModel().isEmpty())
+        {
+            // TODO check if all fields are set (or add another flag to the class donation request
 
+            DonationRequest selectedDonationRequest = donationRequestsTableView.getSelectionModel().getSelectedItem().getDonationRequest();
+
+            selectedDonationRequest.setValidatedByPersonnel(false);
+
+            donationRequestRepository.update(selectedDonationRequest);
+        }
     }
 
     private void initializeDonationRequestAppointmentTable()
@@ -310,6 +360,7 @@ public class PersonnelMainWindowController implements Initializable
                         .stream()
                         // TODO might need to check the flags from DonationRequest (to see only unhandled requests)
                         .filter(donationAppointment -> donationAppointment.getClinic() == currentPersonnel.getClinic())
+                        .filter(donationAppointment -> donationAppointment.getDonationRequest().getValidatedByPersonnel() == null)
                         .collect(Collectors.toList());
 
         ObservableList<DonationAppointment> thisPersonnelDonationAppointmentsObservableList =

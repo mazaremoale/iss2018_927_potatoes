@@ -1,10 +1,7 @@
 package blood_donation.domain.utils;
 
 import blood_donation.domain.people.Donor;
-import javafx.beans.property.FloatProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleFloatProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.*;
 import javafx.fxml.FXML;
 
 import javax.persistence.*;
@@ -56,6 +53,9 @@ public class DonationRequest
 
     @FXML
     private FloatProperty bloodPressure = new SimpleFloatProperty();
+
+    @FXML
+    private StringProperty otherInformation = new SimpleStringProperty();
 
     public DonationRequest()
     {
@@ -195,6 +195,17 @@ public class DonationRequest
             this.bloodPressure.setValue(bloodPressure);
     }
 
+    public String getOtherInformation()
+    {
+        return otherInformation.get();
+    }
+
+    public void setOtherInformation(String otherInformation)
+    {
+        this.otherInformation.set(otherInformation);
+    }
+
+
     public IntegerProperty ageProperty()
     {
         return age;
@@ -213,6 +224,11 @@ public class DonationRequest
     public FloatProperty bloodPressureProperty()
     {
         return bloodPressure;
+    }
+
+    public StringProperty otherInformationProperty()
+    {
+        return otherInformation;
     }
 
     public Boolean getHasConsumedFatRecently()
