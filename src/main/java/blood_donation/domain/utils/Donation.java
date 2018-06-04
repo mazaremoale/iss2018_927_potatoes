@@ -19,7 +19,6 @@ public class Donation
 
     private Donor donor;
     private LocalDate donationDate;
-    //private LocalDate appointmentDate;
     private Status status = Status.PENDING;
     private Patient patient;
     private Blood donatedBlood;

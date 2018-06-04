@@ -49,6 +49,7 @@ public class Main extends Application
         Repository<BloodRequest> requestRepository = new Repository<>(BloodRequest.class, session);
         Repository<BloodGroup> bloodGroupRepository = new Repository<>(BloodGroup.class, session);
         Repository<Distance> distanceRepository = new Repository<>(Distance.class, session);
+        Repository<DonationAppointment> donationAppointmentRepository = new Repository<>(DonationAppointment.class, session);
 
 
 
@@ -200,7 +201,8 @@ public class Main extends Application
                 .setLocationRepository(locationRepository)
                 .setRequestRepository(requestRepository)
                 .setBloodGroupRepository(bloodGroupRepository)
-                .setDistanceRepository(distanceRepository));
+                .setDistanceRepository(distanceRepository)
+                .setDonationAppointmentRepository(donationAppointmentRepository));
 
 
         Parent content = loader.load();

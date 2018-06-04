@@ -55,6 +55,7 @@ public final class LoginWindowController implements Initializable
     private Repository<BloodRequest> requestRepository;
     private Repository<BloodGroup> bloodGroupRepository;
     private Repository<Distance> distanceRepository;
+    private Repository<DonationAppointment> donationAppointmentRepository;
 
     @FXML
     private TextField usernameTextField;
@@ -203,6 +204,17 @@ public final class LoginWindowController implements Initializable
         return this;
     }
 
+    public Repository<DonationAppointment> getDonationAppointmentRepository()
+    {
+        return donationAppointmentRepository;
+    }
+
+    public LoginWindowController setDonationAppointmentRepository(Repository<DonationAppointment> donationAppointmentRepository)
+    {
+        this.donationAppointmentRepository = donationAppointmentRepository;
+        return this;
+    }
+
     LoginWindowController(Stage primaryStage)
     {
         this.primaryStage = primaryStage;
@@ -281,7 +293,8 @@ public final class LoginWindowController implements Initializable
                             .setBloodRepository(bloodRepository)
                             .setBloodGroupRepository(bloodGroupRepository)
                             .setDistanceRepository(distanceRepository)
-                            .setPatientRepository(patientRepository));
+                            .setPatientRepository(patientRepository)
+                            .setDonationAppointmentRepository(donationAppointmentRepository));
 
                     Parent content = loader.load();
 

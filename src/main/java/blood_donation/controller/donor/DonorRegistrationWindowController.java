@@ -2,10 +2,7 @@ package blood_donation.controller.donor;
 
 import blood_donation.domain.people.Donor;
 import blood_donation.domain.people.Patient;
-import blood_donation.domain.utils.Clinic;
-import blood_donation.domain.utils.Distance;
-import blood_donation.domain.utils.Donation;
-import blood_donation.domain.utils.Location;
+import blood_donation.domain.utils.*;
 import blood_donation.repository.Repository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -41,6 +38,7 @@ public final class DonorRegistrationWindowController implements Initializable
     private Repository<Clinic> clinicRepository;
     private Repository<Distance> distanceRepository;
     private Repository<Patient> patientRepository;
+    private Repository<DonationAppointment> donationAppointmentRepository;
 
 
     @FXML
@@ -96,7 +94,8 @@ public final class DonorRegistrationWindowController implements Initializable
                 .setDonationRepository(donationRepository)
                 .setClinicRepository(clinicRepository)
                 .setDistanceRepository(distanceRepository)
-                .setPatientRepository(patientRepository));
+                .setPatientRepository(patientRepository)
+                .setDonationAppointmentRepository(donationAppointmentRepository));
 
         Parent content = loader.load();
 
@@ -263,6 +262,17 @@ public final class DonorRegistrationWindowController implements Initializable
     public DonorRegistrationWindowController setPatientRepository(Repository<Patient> patientRepository)
     {
         this.patientRepository = patientRepository;
+        return this;
+    }
+
+    public Repository<DonationAppointment> getDonationAppointmentRepository()
+    {
+        return donationAppointmentRepository;
+    }
+
+    public DonorRegistrationWindowController setDonationAppointmentRepository(Repository<DonationAppointment> donationAppointmentRepository)
+    {
+        this.donationAppointmentRepository = donationAppointmentRepository;
         return this;
     }
 

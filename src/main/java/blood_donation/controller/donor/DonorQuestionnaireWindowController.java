@@ -4,10 +4,7 @@ import blood_donation.domain.blood.Blood;
 import blood_donation.domain.blood.BloodGroup;
 import blood_donation.domain.people.Donor;
 import blood_donation.domain.people.Patient;
-import blood_donation.domain.utils.Clinic;
-import blood_donation.domain.utils.Distance;
-import blood_donation.domain.utils.Donation;
-import blood_donation.domain.utils.DonationRequest;
+import blood_donation.domain.utils.*;
 import blood_donation.repository.Repository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,6 +22,8 @@ import org.hibernate.Session;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -42,9 +41,8 @@ public final class DonorQuestionnaireWindowController implements Initializable
     private Repository<BloodGroup> bloodGroupRepository;
     private Repository<Distance> distanceRepository;
     private Repository<Patient> patientRepository;
+    private Repository<DonationAppointment> donationAppointmentRepository;
 
-    @FXML
-    private Scene donorMainScene;
 
     @FXML
     private CheckBox romanianCitizenCheckBox;
@@ -225,16 +223,6 @@ public final class DonorQuestionnaireWindowController implements Initializable
         return this;
     }
 
-    public Scene getDonorMainScene()
-    {
-        return donorMainScene;
-    }
-
-    public DonorQuestionnaireWindowController setDonorMainScene(Scene donorMainScene)
-    {
-        this.donorMainScene = donorMainScene;
-        return this;
-    }
 
     public Repository<Patient> getPatientRepository()
     {
@@ -244,6 +232,17 @@ public final class DonorQuestionnaireWindowController implements Initializable
     public DonorQuestionnaireWindowController setPatientRepository(Repository<Patient> patientRepository)
     {
         this.patientRepository = patientRepository;
+        return this;
+    }
+
+    public Repository<DonationAppointment> getDonationAppointmentRepository()
+    {
+        return donationAppointmentRepository;
+    }
+
+    public DonorQuestionnaireWindowController setDonationAppointmentRepository(Repository<DonationAppointment> donationAppointmentRepository)
+    {
+        this.donationAppointmentRepository = donationAppointmentRepository;
         return this;
     }
 
@@ -284,6 +283,16 @@ public final class DonorQuestionnaireWindowController implements Initializable
             return;
         }
 
+        DonationRequest donationRequest = new DonationRequest();
+        donationRequest.setAge(Period.between(currentDonor.getBirthDate(), LocalDate.now()).getYears());
+        donationRequest.setHasConsumedFatRecently(alcoholCheckBox.isSelected());
+        donationRequest.setHasConsumedAlcoholRecently(alcoholCheckBox.isSelected());
+        donationRequest.setHadSurgeryRecently(surgeryCheckBox.isSelected());
+        donationRequest.setUnderTreatment(treatmentCheckBox.isSelected());
+        donationRequest.setHasTB(tuberculosisCheckBox.isSelected());
+
+        //TODO in progress, working on it right now, I will create a DonationRequest and add it to the database here
+
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/donor/donorDonationScheduleWindow.fxml"));
         loader.setController(new DonorDonationScheduleWindowController()
@@ -294,8 +303,8 @@ public final class DonorQuestionnaireWindowController implements Initializable
                 .setDonationRepository(donationRepository)
                 .setDistanceRepository(distanceRepository)
                 .setClinicRepository(clinicRepository)
-                .setDonorMainScene(donorMainScene)
-                .setPatientRepository(patientRepository));
+                .setPatientRepository(patientRepository)
+                .setDonationAppointmentRepository(donationAppointmentRepository));
 
 
         Parent content = loader.load();
