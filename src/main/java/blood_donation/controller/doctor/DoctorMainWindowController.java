@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -20,6 +21,7 @@ import org.hibernate.Session;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DoctorMainWindowController implements Initializable
 {
@@ -49,6 +51,12 @@ public class DoctorMainWindowController implements Initializable
 
     @FXML
     private TableColumn<DonationRequest, String> drWeightColumn;
+
+    @FXML
+    private Button approveButton;
+
+    @FXML
+    private Button notApproveButton;
 
 
 
@@ -131,14 +139,40 @@ public class DoctorMainWindowController implements Initializable
         primaryStage.setTitle("Doctor management panel");
     }
 
+    @FXML
+    public void approveDonor()
+    {
+        DonationRequest currentDonationRequest = donationRequestTableView.getSelectionModel().getSelectedItem();
+
+        currentDonationRequest.setValidatedByDoctor(true);
+        donationRequestRepository.update(currentDonationRequest);
+
+        donationRequestTableView.getItems().remove(donationRequestTableView.getSelectionModel().getSelectedItem());
+    }
+
+    @FXML
+    public void notApproveDonor()
+    {
+        DonationRequest currentDonationRequest = donationRequestTableView.getSelectionModel().getSelectedItem();
+
+        currentDonationRequest.setValidatedByDoctor(false);
+        donationRequestRepository.update(currentDonationRequest);
+
+        donationRequestTableView.getItems().remove(donationRequestTableView.getSelectionModel().getSelectedItem());
+
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
         System.out.println(donationRequestRepository);
-        List<DonationRequest> donationRequests = donationRequestRepository.getAll();
+        List<DonationRequest> donationRequests = donationRequestRepository.getAll().stream()
+                                                .filter(DonationRequest::getValidatedByPersonnel)
+                                                .filter(dr -> dr.getValidatedByDoctor() == null)
+                                                .collect(Collectors.toList());
+
         ObservableList<DonationRequest> donationRequestsObservableList
                 = FXCollections.observableList(donationRequests);
-
 
         drNameColumn.setCellValueFactory(data -> data.getValue().getDonor().fullNameProperty());
         drAgeColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
@@ -148,5 +182,13 @@ public class DoctorMainWindowController implements Initializable
 
         donationRequestTableView.setItems(donationRequestsObservableList);
 
+        approveButton.setDisable(true);
+        notApproveButton.setDisable(true);
+
+        donationRequestTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+        {
+            approveButton.setDisable(false);
+            notApproveButton.setDisable(false);
+        });
     }
 }
