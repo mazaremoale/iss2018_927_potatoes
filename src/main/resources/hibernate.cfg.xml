@@ -62,6 +62,7 @@
         <mapping class="blood_donation.domain.utils.Distance"/>
         <mapping class="blood_donation.domain.utils.BloodRequest"/>
         <mapping class="blood_donation.domain.utils.DonationRequest"/>
+        <mapping class="blood_donation.domain.utils.DonationAppointment"/>
 
     </session-factory>
 </hibernate-configuration>

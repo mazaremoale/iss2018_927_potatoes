@@ -295,6 +295,7 @@ public final class UserSelectWindowController implements Initializable
                 .setClinicRepository(clinicRepository)
                 .setDistanceRepository(distanceRepository)
                 .setPatientRepository(patientRepository)
+                .setDonationRequestRepository(donationRequestRepository)
                 .setDonationAppointmentRepository(donationAppointmentRepository));
 
 

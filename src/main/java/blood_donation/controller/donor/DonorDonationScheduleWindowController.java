@@ -33,6 +33,7 @@ public class DonorDonationScheduleWindowController implements Initializable
     private Scene previousScene;
 
     private Donor currentDonor;
+    private DonationRequest currentDonationRequest;
     private Repository<Donation> donationRepository;
     private Repository<DonationRequest> donationRequestRepository;
     private Repository<Clinic> clinicRepository;
@@ -104,6 +105,17 @@ public class DonorDonationScheduleWindowController implements Initializable
     public DonorDonationScheduleWindowController setCurrentDonor(Donor currentDonor)
     {
         this.currentDonor = currentDonor;
+        return this;
+    }
+
+    public DonationRequest getCurrentDonationRequest()
+    {
+        return currentDonationRequest;
+    }
+
+    public DonorDonationScheduleWindowController setCurrentDonationRequest(DonationRequest currentDonationRequest)
+    {
+        this.currentDonationRequest = currentDonationRequest;
         return this;
     }
 
@@ -361,6 +373,8 @@ public class DonorDonationScheduleWindowController implements Initializable
 
                     DonationAppointment donationAppointment =
                             new DonationAppointment(appointmentDate, appointmentTime, clinic);
+                    donationAppointment.setDonationRequest(currentDonationRequest);
+
                     donationAppointmentRepository.add(donationAppointment);
 
                     try

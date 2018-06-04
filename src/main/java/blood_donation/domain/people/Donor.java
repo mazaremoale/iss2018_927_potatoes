@@ -139,6 +139,13 @@ public class Donor extends Person
         return donationRepository.getAll().stream().filter(donation -> donation.getDonor() == this).collect(Collectors.toList());
     }
 
+    @Transient
+    public List<DonationRequest> getDonationRequests(Repository<DonationRequest> donationRequestRepository)
+    {
+        return donationRequestRepository.getAll().stream().filter(donationRequest -> donationRequest.getDonor() == this)
+                .collect(Collectors.toList());
+    }
+
     public Donation getLatestDonation(Repository<Donation> donationRepository)
     {
         List<Donation> donations = getDonations(donationRepository);

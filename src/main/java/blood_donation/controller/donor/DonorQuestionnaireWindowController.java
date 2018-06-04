@@ -290,8 +290,21 @@ public final class DonorQuestionnaireWindowController implements Initializable
         donationRequest.setHadSurgeryRecently(surgeryCheckBox.isSelected());
         donationRequest.setUnderTreatment(treatmentCheckBox.isSelected());
         donationRequest.setHasTB(tuberculosisCheckBox.isSelected());
+        donationRequest.setHasPox(poxCheckBox.isSelected());
+        donationRequest.setHasMalaria(malariaCheckBox.isSelected());
+        donationRequest.setHasEpilepsy(epilepsyCheckBox.isSelected());
+        donationRequest.setHasOtherNeurologicalDisease(epilepsyCheckBox.isSelected());
+        donationRequest.setHasMentalIllness(mentalIllnessCheckBox.isSelected());
+        donationRequest.setHasBrucellosis(brucellosisCheckBox.isSelected());
+        donationRequest.setHasUlcer(ulcerCheckBox.isSelected());
+        donationRequest.setHasDiabetes(diabetesCheckBox.isSelected());
+        donationRequest.setHasHeartDisease(heartDiseaseCheckBox.isSelected());
+        donationRequest.setHasMyopiaOverOrUnder6(miopiaCheckBox.isSelected());
+        donationRequest.setHasCancer(cancerCheckBox.isSelected());
 
-        //TODO in progress, working on it right now, I will create a DonationRequest and add it to the database here
+        donationRequest.setDonor(currentDonor);
+
+        donationRequestRepository.add(donationRequest);
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/donor/donorDonationScheduleWindow.fxml"));
@@ -300,10 +313,12 @@ public final class DonorQuestionnaireWindowController implements Initializable
                 .setSession(session)
                 .setPreviousScene(primaryStage.getScene())
                 .setCurrentDonor(currentDonor)
+                .setCurrentDonationRequest(donationRequest)
                 .setDonationRepository(donationRepository)
                 .setDistanceRepository(distanceRepository)
                 .setClinicRepository(clinicRepository)
                 .setPatientRepository(patientRepository)
+                .setDonationRequestRepository(donationRequestRepository)
                 .setDonationAppointmentRepository(donationAppointmentRepository));
 
 
