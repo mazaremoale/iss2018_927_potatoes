@@ -3,6 +3,7 @@ package blood_donation.domain.people;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -60,6 +61,11 @@ public abstract class Person implements Serializable
         return password.get();
     }
 
+    public StringProperty fullNameProperty()
+    {
+        String fullname = this.firstName.get() + " " + this.lastName.get();
+        return new SimpleStringProperty(fullname);
+    }
 
     public void setId(int id)
     {

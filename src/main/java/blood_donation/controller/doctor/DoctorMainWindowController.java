@@ -1,17 +1,25 @@
 package blood_donation.controller.doctor;
 
 import blood_donation.domain.people.Doctor;
+import blood_donation.domain.utils.DonationRequest;
+import blood_donation.repository.Repository;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.hibernate.Session;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class DoctorMainWindowController implements Initializable
 {
@@ -20,6 +28,29 @@ public class DoctorMainWindowController implements Initializable
     private Scene previousScene;
 
     private Doctor currentDoctor;
+
+    private Repository<DonationRequest> donationRequestRepository;
+
+
+    @FXML
+    private TableView<DonationRequest> donationRequestTableView;
+
+    @FXML
+    private TableColumn<DonationRequest, String> drNameColumn;
+
+    @FXML
+    private TableColumn<DonationRequest, String> drAgeColumn;
+
+    @FXML
+    private TableColumn<DonationRequest, String> drBloodPressureColumn;
+
+    @FXML
+    private TableColumn<DonationRequest, String> drPulseColumn;
+
+    @FXML
+    private TableColumn<DonationRequest, String> drWeightColumn;
+
+
 
     public Stage getPrimaryStage()
     {
@@ -65,6 +96,17 @@ public class DoctorMainWindowController implements Initializable
         return this;
     }
 
+    public Repository<DonationRequest> getDonationRequestRepository()
+    {
+        return donationRequestRepository;
+    }
+
+    public DoctorMainWindowController setDonationRequestRepository(Repository<DonationRequest> donationRequestRepository)
+    {
+        this.donationRequestRepository = donationRequestRepository;
+        return this;
+    }
+
     @FXML
     public void goBack()
     {
@@ -92,6 +134,19 @@ public class DoctorMainWindowController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        System.out.println(donationRequestRepository);
+        List<DonationRequest> donationRequests = donationRequestRepository.getAll();
+        ObservableList<DonationRequest> donationRequestsObservableList
+                = FXCollections.observableList(donationRequests);
+
+
+        drNameColumn.setCellValueFactory(data -> data.getValue().getDonor().fullNameProperty());
+        drAgeColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
+        drPulseColumn.setCellValueFactory(new PropertyValueFactory<>("pulse"));
+        drWeightColumn.setCellValueFactory(new PropertyValueFactory<>("weight"));
+        drBloodPressureColumn.setCellValueFactory(new PropertyValueFactory<>("bloodPressure"));
+
+        donationRequestTableView.setItems(donationRequestsObservableList);
 
     }
 }

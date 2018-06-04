@@ -1,6 +1,11 @@
 package blood_donation.domain.utils;
 
 import blood_donation.domain.people.Donor;
+import javafx.beans.property.FloatProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.fxml.FXML;
 
 import javax.persistence.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -11,10 +16,9 @@ public class DonationRequest
 {
     private int id;
 
-    private int age;
-    private float pulse;
-    private float weight;
-    private float bloodPressure;
+    private Boolean validatedByPersonnel;
+    private Boolean validatedByDoctor;
+
     private Boolean hasConsumedFatRecently;
     private Boolean hasConsumedAlcoholRecently;
     private Boolean hadSurgeryRecently;
@@ -41,6 +45,18 @@ public class DonationRequest
 
     private Donor donor;
 
+    @FXML
+    private IntegerProperty age = new SimpleIntegerProperty();
+
+    @FXML
+    private FloatProperty pulse = new SimpleFloatProperty();
+
+    @FXML
+    private FloatProperty weight = new SimpleFloatProperty();
+
+    @FXML
+    private FloatProperty bloodPressure = new SimpleFloatProperty();
+
     public DonationRequest()
     {
     }
@@ -58,10 +74,10 @@ public class DonationRequest
                            Boolean hasUlcer, Boolean hasDiabetes, Boolean hasHeartDisease, Boolean hasPsoriasis,
                            Boolean hasVitiligo, Boolean hasMyopiaOverOrUnder6, Boolean hasCancer)
     {
-        this.age = age;
-        this.pulse = pulse;
-        this.weight = weight;
-        this.bloodPressure = bloodPressure;
+        this.age.setValue(age);
+        this.pulse.setValue(pulse);
+        this.weight.setValue(weight);
+        this.bloodPressure.setValue(bloodPressure);
         this.hasConsumedFatRecently = hasConsumedFatRecently;
         this.hasConsumedAlcoholRecently = hasConsumedAlcoholRecently;
         this.hadSurgeryRecently = hadSurgeryRecently;
@@ -119,45 +135,84 @@ public class DonationRequest
         this.id = id;
     }
 
+    public Boolean getValidatedByPersonnel()
+    {
+        return validatedByPersonnel;
+    }
+
+    public void setValidatedByPersonnel(Boolean validatedByPersonnel)
+    {
+        this.validatedByPersonnel = validatedByPersonnel;
+    }
+
+    public Boolean getValidatedByDoctor()
+    {
+        return validatedByDoctor;
+    }
+
+    public void setValidatedByDoctor(Boolean validatedByDoctor)
+    {
+        this.validatedByDoctor = validatedByDoctor;
+    }
 
     public int getAge()
     {
-        return age;
+        return age.get();
     }
 
     public void setAge(int age)
     {
-        this.age = age;
+        this.age.setValue(age);
     }
 
     public float getPulse()
     {
-        return pulse;
+        return pulse.get();
     }
 
     public void setPulse(float pulse)
     {
-        this.pulse = pulse;
+        if(pulse != 0f)
+            this.pulse.setValue(pulse);
     }
 
     public float getWeight()
     {
-        return weight;
+        return weight.get();
     }
 
     public void setWeight(float weight)
     {
-        this.weight = weight;
+        if(weight != 0f)
+            this.weight.setValue(weight);
     }
 
-    public float getBloodPressure()
-    {
-        return bloodPressure;
-    }
+    public float getBloodPressure() { return bloodPressure.get(); }
 
     public void setBloodPressure(float bloodPressure)
     {
-        this.bloodPressure = bloodPressure;
+        if(bloodPressure != 0f)
+            this.bloodPressure.setValue(bloodPressure);
+    }
+
+    public IntegerProperty ageProperty()
+    {
+        return age;
+    }
+
+    public FloatProperty pulseProperty()
+    {
+        return pulse;
+    }
+
+    public FloatProperty weightProperty()
+    {
+        return weight;
+    }
+
+    public FloatProperty bloodPressureProperty()
+    {
+        return bloodPressure;
     }
 
     public Boolean getHasConsumedFatRecently()
@@ -379,6 +434,8 @@ public class DonationRequest
     {
         this.hasCancer = hasCancer;
     }
+
+
 
     @ManyToOne
     @JoinColumn(name = "donorID")
