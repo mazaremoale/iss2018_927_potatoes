@@ -9,13 +9,16 @@ import blood_donation.repository.Repository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.hibernate.Session;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -37,9 +40,7 @@ public class DonorDonationScheduleWindowController implements Initializable
     private Repository<BloodGroup> bloodGroupRepository;
     private Repository<Distance> distanceRepository;
     private Repository<Patient> patientRepository;
-
-    @FXML
-    private Scene donorMainScene;
+    private Repository<DonationAppointment> donationAppointmentRepository;
 
     @FXML
     private Label dateLabel;
@@ -172,17 +173,6 @@ public class DonorDonationScheduleWindowController implements Initializable
         return this;
     }
 
-    public Scene getDonorMainScene()
-    {
-        return donorMainScene;
-    }
-
-    public DonorDonationScheduleWindowController setDonorMainScene(Scene donorMainScene)
-    {
-        this.donorMainScene = donorMainScene;
-        return this;
-    }
-
     public Repository<Patient> getPatientRepository()
     {
         return patientRepository;
@@ -191,6 +181,17 @@ public class DonorDonationScheduleWindowController implements Initializable
     public DonorDonationScheduleWindowController setPatientRepository(Repository<Patient> patientRepository)
     {
         this.patientRepository = patientRepository;
+        return this;
+    }
+
+    public Repository<DonationAppointment> getDonationAppointmentRepository()
+    {
+        return donationAppointmentRepository;
+    }
+
+    public DonorDonationScheduleWindowController setDonationAppointmentRepository(Repository<DonationAppointment> donationAppointmentRepository)
+    {
+        this.donationAppointmentRepository = donationAppointmentRepository;
         return this;
     }
 
@@ -338,10 +339,14 @@ public class DonorDonationScheduleWindowController implements Initializable
             {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Confirmation");
+
+                LocalDate appointmentDate = donationDatePicker.getValue();
+                Integer appointmentTime = timeComboBox.getSelectionModel().getSelectedItem();
+                Clinic clinic = clinicComboBox.getSelectionModel().getSelectedItem();
+
                 alert.setHeaderText("You are about to book an appointment on " +
-                        donationDatePicker.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) +
-                        " at " + timeComboBox.getSelectionModel().getSelectedItem() + " o'clock" +
-                        " at " + clinicComboBox.getSelectionModel().getSelectedItem());
+                        appointmentDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) +
+                        " at " + appointmentTime + " o'clock" + " at " + clinic);
                 alert.setContentText("Are you sure about this?");
 
                 result = alert.showAndWait();
@@ -354,7 +359,39 @@ public class DonorDonationScheduleWindowController implements Initializable
                     successAlert.setContentText("Press OK to continue");
                     successAlert.showAndWait();
 
-                    primaryStage.setScene(donorMainScene);
+                    DonationAppointment donationAppointment =
+                            new DonationAppointment(appointmentDate, appointmentTime, clinic);
+                    donationAppointmentRepository.add(donationAppointment);
+
+                    try
+                    {
+                        FXMLLoader loader = new FXMLLoader();
+                        loader.setLocation(getClass().getResource("/fxml/donor/donorMainWindow.fxml"));
+
+                        loader.setController(new DonorMainWindowController()
+                                .setPrimaryStage(primaryStage)
+                                .setSession(session)
+                                .setPreviousScene(primaryStage.getScene())
+                                .setCurrentDonor(currentDonor)
+                                .setDonationRepository(donationRepository)
+                                .setDonationRequestRepository(donationRequestRepository)
+                                .setClinicRepository(clinicRepository)
+                                .setBloodRepository(bloodRepository)
+                                .setBloodGroupRepository(bloodGroupRepository)
+                                .setDistanceRepository(distanceRepository)
+                                .setPatientRepository(patientRepository)
+                                .setDonationAppointmentRepository(donationAppointmentRepository));
+
+                        Parent content = loader.load();
+
+                        Scene selectScene = new Scene(content);
+                        primaryStage.setScene(selectScene);
+                        primaryStage.setTitle("Donor main menu");
+                    }
+                    catch(IOException e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
             }
             else if(targettedDonationCheckBox.isSelected())

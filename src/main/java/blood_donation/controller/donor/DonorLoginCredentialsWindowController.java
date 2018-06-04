@@ -6,6 +6,7 @@ import blood_donation.domain.people.Person;
 import blood_donation.domain.utils.Clinic;
 import blood_donation.domain.utils.Distance;
 import blood_donation.domain.utils.Donation;
+import blood_donation.domain.utils.DonationAppointment;
 import blood_donation.repository.Repository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,6 +38,7 @@ public class DonorLoginCredentialsWindowController implements Initializable
     private Repository<Clinic> clinicRepository;
     private Repository<Distance> distanceRepository;
     private Repository<Patient> patientRepository;
+    private Repository<DonationAppointment> donationAppointmentRepository;
 
     private List<String> usernames;
 
@@ -159,6 +161,17 @@ public class DonorLoginCredentialsWindowController implements Initializable
         return this;
     }
 
+    public Repository<DonationAppointment> getDonationAppointmentRepository()
+    {
+        return donationAppointmentRepository;
+    }
+
+    public DonorLoginCredentialsWindowController setDonationAppointmentRepository(Repository<DonationAppointment> donationAppointmentRepository)
+    {
+        this.donationAppointmentRepository = donationAppointmentRepository;
+        return this;
+    }
+
     @FXML
     public void goBack()
     {
@@ -189,7 +202,8 @@ public class DonorLoginCredentialsWindowController implements Initializable
                     .setDonationRepository(donationRepository)
                     .setClinicRepository(clinicRepository)
                     .setDistanceRepository(distanceRepository)
-                    .setPatientRepository(patientRepository));
+                    .setPatientRepository(patientRepository)
+                    .setDonationAppointmentRepository(donationAppointmentRepository));
 
 
             Parent content = loader.load();

@@ -4,10 +4,7 @@ import blood_donation.domain.blood.Blood;
 import blood_donation.domain.blood.BloodGroup;
 import blood_donation.domain.people.Donor;
 import blood_donation.domain.people.Patient;
-import blood_donation.domain.utils.Clinic;
-import blood_donation.domain.utils.Distance;
-import blood_donation.domain.utils.Donation;
-import blood_donation.domain.utils.DonationRequest;
+import blood_donation.domain.utils.*;
 import blood_donation.repository.Repository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -40,6 +37,7 @@ public class DonorMainWindowController implements Initializable
     private Repository<BloodGroup> bloodGroupRepository;
     private Repository<Distance> distanceRepository;
     private Repository<Patient> patientRepository;
+    private Repository<DonationAppointment> donationAppointmentRepository;
 
     @FXML
     private Label appointmentLabel;
@@ -281,6 +279,17 @@ public class DonorMainWindowController implements Initializable
         return this;
     }
 
+    public Repository<DonationAppointment> getDonationAppointmentRepository()
+    {
+        return donationAppointmentRepository;
+    }
+
+    public DonorMainWindowController setDonationAppointmentRepository(Repository<DonationAppointment> donationAppointmentRepository)
+    {
+        this.donationAppointmentRepository = donationAppointmentRepository;
+        return this;
+    }
+
     @FXML
     public void goBack()
     {
@@ -335,8 +344,8 @@ public class DonorMainWindowController implements Initializable
                 .setBloodRepository(bloodRepository)
                 .setBloodGroupRepository(bloodGroupRepository)
                 .setDistanceRepository(distanceRepository)
-                .setDonorMainScene(primaryStage.getScene())
-                .setPatientRepository(patientRepository));
+                .setPatientRepository(patientRepository)
+                .setDonationAppointmentRepository(donationAppointmentRepository));
 
         Parent content = loader.load();
 
@@ -490,6 +499,11 @@ public class DonorMainWindowController implements Initializable
         }
     }
 
+    public void initializeAppointmentLabel()
+    {
+        //TODO put donor in appointment class to see if any appointments for current donor => make label visible/invisible
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
@@ -527,7 +541,8 @@ public class DonorMainWindowController implements Initializable
             initializeLabels(currentDonationRequest);
         });
 
-
+        //TODO somewhere here show the latest appointment from the appointment repository
+        appointmentLabel.setText(donationAppointmentRepository.toString());
 
         //my Profile tab initialization
         lastNameLabel.setText(currentDonor.getLastName());

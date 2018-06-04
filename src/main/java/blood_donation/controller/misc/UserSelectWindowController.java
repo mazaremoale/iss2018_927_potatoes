@@ -40,6 +40,7 @@ public final class UserSelectWindowController implements Initializable
     private Repository<BloodRequest> requestRepository;
     private Repository<BloodGroup> bloodGroupRepository;
     private Repository<Distance> distanceRepository;
+    private Repository<DonationAppointment> donationAppointmentRepository;
 
 
     private Stage primaryStage;
@@ -255,6 +256,17 @@ public final class UserSelectWindowController implements Initializable
         return this;
     }
 
+    public Repository<DonationAppointment> getDonationAppointmentRepository()
+    {
+        return donationAppointmentRepository;
+    }
+
+    public UserSelectWindowController setDonationAppointmentRepository(Repository<DonationAppointment> donationAppointmentRepository)
+    {
+        this.donationAppointmentRepository = donationAppointmentRepository;
+        return this;
+    }
+
     @FXML
     public void exit()
     {
@@ -282,7 +294,8 @@ public final class UserSelectWindowController implements Initializable
                 .setDonationRepository(donationRepository)
                 .setClinicRepository(clinicRepository)
                 .setDistanceRepository(distanceRepository)
-                .setPatientRepository(patientRepository));
+                .setPatientRepository(patientRepository)
+                .setDonationAppointmentRepository(donationAppointmentRepository));
 
 
         Parent content = loader.load();
@@ -317,7 +330,8 @@ public final class UserSelectWindowController implements Initializable
                 .setRequestRepository(requestRepository)
                 .setBloodGroupRepository(bloodGroupRepository)
                 .setPreviousScene(primaryStage.getScene())
-                .setDistanceRepository(distanceRepository));
+                .setDistanceRepository(distanceRepository)
+                .setDonationAppointmentRepository(donationAppointmentRepository));
 
         Parent content = loader.load();
 
