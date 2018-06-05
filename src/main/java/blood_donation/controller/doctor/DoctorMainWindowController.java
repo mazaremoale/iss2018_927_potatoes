@@ -230,9 +230,11 @@ public class DoctorMainWindowController implements Initializable
     {
         //Donation requests tab
         List<DonationRequest> donationRequests = donationRequestRepository.getAll().stream()
-                                            .filter(DonationRequest::getValidatedByPersonnel)
-                                            .filter(donationRequest -> donationRequest.getValidatedByDoctor() == null)
-                                            .collect(Collectors.toList());
+
+                                                .filter(donationRequest -> donationRequest.getValidatedByPersonnel() != null)
+                                                .filter(DonationRequest::getValidatedByPersonnel)
+                                                .filter(donationRequest -> donationRequest.getValidatedByDoctor() == null)
+                                                .collect(Collectors.toList());
 
         ObservableList<DonationRequest> donationRequestsObservableList
                 = FXCollections.observableList(donationRequests);
