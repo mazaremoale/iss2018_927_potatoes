@@ -150,8 +150,11 @@
                         <Label text="Pending Donations" />
                         <TableView fx:id="pendingDonationsTableView" prefHeight="351.0" prefWidth="610.0">
                           <columns>
-                            <TableColumn fx:id="pendingDonationsDonorNameTableColumn" prefWidth="261.5999940633774" text="Donor Name" />
-                            <TableColumn fx:id="pendingDonationsDonationDateTableColumn" minWidth="0.0" prefWidth="196.79998779296875" text="Donation Date" />
+                            <TableColumn fx:id="pendingDonationsDonorNameTableColumn" prefWidth="240.79996621608734" text="Donor Name" />
+                            <TableColumn fx:id="pendingDonationsDonationDateTableColumn" minWidth="0.0" prefWidth="127.99998474121094" text="Donation Date" />
+                              <TableColumn fx:id="pendingDonationsClinicTableColumn" prefWidth="152.79989624023438" text="Clinic" />
+                              <TableColumn fx:id="pendingDonationsPatientNameTableColumn" prefWidth="208.00006103515625" text="Patien Name" />
+                              <TableColumn fx:id="pendingDonationsDoctorNameTableColumn" minWidth="0.0" prefWidth="175.20001220703125" text="Patient's Doctor Name" />
                           </columns>
                         </TableView>
                      </children>
