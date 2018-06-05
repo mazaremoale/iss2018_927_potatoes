@@ -23,8 +23,6 @@ public class Main extends Application
 
     public static Session session;
 
-
-
     @Override
     public void start(Stage primaryStage) throws Exception
     {
@@ -144,6 +142,7 @@ public class Main extends Application
             locationRepository.add(location41);
             locationRepository.add(location42);
 
+            distanceRepository.add(new Distance(location1,location1, 0));
             distanceRepository.add(new Distance(location1,location2,ThreadLocalRandom.current().nextInt(50,800)));
             distanceRepository.add(new Distance(location1,location3,ThreadLocalRandom.current().nextInt(50,800)));
             distanceRepository.add(new Distance(location1,location4,ThreadLocalRandom.current().nextInt(50,800)));

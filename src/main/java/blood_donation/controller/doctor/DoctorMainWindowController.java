@@ -167,8 +167,9 @@ public class DoctorMainWindowController implements Initializable
     {
         System.out.println(donationRequestRepository);
         List<DonationRequest> donationRequests = donationRequestRepository.getAll().stream()
+                                                .filter(donationRequest -> donationRequest.getValidatedByPersonnel() != null)
                                                 .filter(DonationRequest::getValidatedByPersonnel)
-                                                .filter(dr -> dr.getValidatedByDoctor() == null)
+                                                .filter(donationRequest -> donationRequest.getValidatedByDoctor() == null)
                                                 .collect(Collectors.toList());
 
         ObservableList<DonationRequest> donationRequestsObservableList
