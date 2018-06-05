@@ -4,6 +4,9 @@ import blood_donation.domain.utils.BloodRequest;
 import blood_donation.domain.utils.Donation;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.fxml.FXML;
 
 import javax.persistence.*;
 import java.time.*;
@@ -18,16 +21,25 @@ public class Blood
     private IntegerProperty id = new SimpleIntegerProperty();
     private IntegerProperty quantity = new SimpleIntegerProperty();
     private BloodGroup bloodGroup;
-    private LocalDate lifeSpan;
+    private LocalDate expirationDate;
     private BloodRequest bloodRequest;
     private Donation donation;
 
+    @FXML
+    private StringProperty bloodGroupProperty = new SimpleStringProperty();
 
-    public Blood(IntegerProperty quantity, BloodGroup bloodGroup, LocalDate lifeSpan)
+    @FXML
+    private StringProperty expirationDateProperty = new SimpleStringProperty();
+
+
+    public Blood(IntegerProperty quantity, BloodGroup bloodGroup, LocalDate expirationDate)
     {
         this.quantity = quantity;
         this.bloodGroup = bloodGroup;
-        this.lifeSpan = lifeSpan;
+        this.expirationDate = expirationDate;
+
+        bloodGroupProperty.setValue(bloodGroup.toString());
+        expirationDateProperty.setValue(expirationDate.toString());
     }
 
     public Blood()
@@ -43,10 +55,10 @@ public class Blood
 
 
 
-    public LocalDate getLifeSpan()
+    public LocalDate getExpirationDate()
     {
-        if(lifeSpan != null)
-            return lifeSpan;
+        if(expirationDate != null)
+            return expirationDate;
         return null;
     }
 
@@ -56,10 +68,17 @@ public class Blood
     }
 
 
-    public void setLifeSpan(LocalDate lifeSpan)
+    public void setExpirationDate(LocalDate expirationDate)
     {
-        if(this.lifeSpan != null)
-            this.lifeSpan = lifeSpan;
+        if(this.expirationDate != null)
+            this.expirationDate = expirationDate;
+        if(expirationDate != null)
+            this.expirationDateProperty.setValue(expirationDate.toString());
+    }
+
+    public StringProperty expirationDateProperty()
+    {
+        return expirationDateProperty;
     }
 
     public int getQuantity()
@@ -67,9 +86,9 @@ public class Blood
         return quantity.get();
     }
 
-    public int quantityProperty()
+    public IntegerProperty quantityProperty()
     {
-        return quantity.get();
+        return quantity;
     }
 
     public void setQuantity(int quantity)
@@ -87,6 +106,8 @@ public class Blood
     public void setBloodGroup(BloodGroup bloodGroup)
     {
         this.bloodGroup = bloodGroup;
+        if(bloodGroup != null)
+            this.bloodGroupProperty.setValue(bloodGroup.toString());
     }
 
     @ManyToOne
@@ -110,6 +131,11 @@ public class Blood
     public Donation getDonation()
     {
         return donation;
+    }
+
+    public StringProperty bloodGroupProperty()
+    {
+        return bloodGroupProperty;
     }
 
     @Override
