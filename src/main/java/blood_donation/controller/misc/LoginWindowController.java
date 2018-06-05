@@ -370,7 +370,10 @@ public final class LoginWindowController implements Initializable
                             .setSession(session)
                             .setPreviousScene(primaryStage.getScene())
                             .setCurrentDonor(currentDoctor)
-                            .setDonationRequestRepository(donationRequestRepository));
+                            .setDonationRequestRepository(donationRequestRepository)
+                            .setLocationRepository(locationRepository)
+                            .setDonationRepository(donationRepository)
+                            .setBloodRepository(bloodRepository));
 
                     Parent content = loader.load();
 
