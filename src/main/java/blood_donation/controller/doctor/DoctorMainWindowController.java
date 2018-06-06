@@ -1,11 +1,10 @@
 package blood_donation.controller.doctor;
 
 import blood_donation.domain.blood.Blood;
+import blood_donation.domain.blood.BloodGroup;
 import blood_donation.domain.people.Doctor;
-import blood_donation.domain.utils.Clinic;
-import blood_donation.domain.utils.Donation;
-import blood_donation.domain.utils.DonationRequest;
-import blood_donation.domain.utils.Location;
+import blood_donation.domain.people.Patient;
+import blood_donation.domain.utils.*;
 import blood_donation.repository.Repository;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -42,6 +41,10 @@ public class DoctorMainWindowController implements Initializable
     private Repository<Location> locationRepository;
     private Repository<Donation> donationRepository;
     private Repository<Blood> bloodRepository;
+    private Repository<Hospital> hospitalRepository;
+    private Repository<Patient> patientRepository;
+    private Repository<BloodRequest> bloodRequestRepository;
+    private Repository<BloodGroup> bloodGroupRepository;
 
 
     @FXML
@@ -178,6 +181,50 @@ public class DoctorMainWindowController implements Initializable
         return this;
     }
 
+    public Repository<Hospital> getHospitalRepository()
+    {
+        return hospitalRepository;
+    }
+
+    public DoctorMainWindowController setHospitalRepository(Repository<Hospital> hospitalRepository)
+    {
+        this.hospitalRepository = hospitalRepository;
+        return this;
+    }
+
+    public Repository<Patient> getPatientRepository()
+    {
+        return patientRepository;
+    }
+
+    public DoctorMainWindowController setPatientRepository(Repository<Patient> patientRepository)
+    {
+        this.patientRepository = patientRepository;
+        return this;
+    }
+
+    public Repository<BloodRequest> getBloodRequestRepository()
+    {
+        return bloodRequestRepository;
+    }
+
+    public DoctorMainWindowController setBloodRequestRepository(Repository<BloodRequest> bloodRequestRepository)
+    {
+        this.bloodRequestRepository = bloodRequestRepository;
+        return this;
+    }
+
+    public Repository<BloodGroup> getBloodGroupRepository()
+    {
+        return bloodGroupRepository;
+    }
+
+    public DoctorMainWindowController setBloodGroupRepository(Repository<BloodGroup> bloodGroupRepository)
+    {
+        this.bloodGroupRepository = bloodGroupRepository;
+        return this;
+    }
+
     @FXML
     public void goBack()
     {
@@ -193,7 +240,12 @@ public class DoctorMainWindowController implements Initializable
         loader.setController(new DoctorNewBloodRequestController()
                 .setPrimaryStage(primaryStage)
                 .setSession(session)
-                .setPreviousScene(primaryStage.getScene()));
+                .setPreviousScene(primaryStage.getScene())
+                .setCurrentDonor(currentDoctor)
+                .setHospitalRepository(hospitalRepository)
+                .setPatientRepository(patientRepository)
+                .setBloodRequestRepository(bloodRequestRepository)
+                .setBloodGroupRepository(bloodGroupRepository));
 
         Parent content = loader.load();
 
@@ -295,8 +347,6 @@ public class DoctorMainWindowController implements Initializable
                 Clinic clinicRelatedToBlood = donationRelatedToBlood.get(0).getClinic();
                 return (StringProperty) new SimpleStringProperty(clinicRelatedToBlood.getName());
         });
-
-
 
 
         ObservableList<Blood> bloodObservableList = FXCollections.observableList(bloodFromDonations);
