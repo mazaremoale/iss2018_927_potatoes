@@ -9,10 +9,13 @@ import javax.persistence.*;
 public class Patient extends Person
 {
     private Doctor doctor;
+    private Integer age;
 
-    public Patient(String firstName, String lastName, String username, String password)
+    public Patient(String firstName, String lastName, String username, String password, Integer age)
     {
         super(firstName, lastName, username, password);
+
+        this.age = age;
     }
 
     public Patient()
@@ -29,6 +32,22 @@ public class Patient extends Person
     public void setDoctor(Doctor doctor)
     {
         this.doctor = doctor;
+    }
+
+    public Integer getAge()
+    {
+        return age;
+    }
+
+    public void setAge(Integer age)
+    {
+        this.age = age;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Patient " + getFirstName() + " " + getLastName();
     }
 
     //private List<Blood> requiredBlood;

@@ -6,7 +6,8 @@ import blood_donation.domain.people.Doctor;
 import blood_donation.domain.people.Patient;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "BloodRequests")
@@ -15,17 +16,22 @@ public class BloodRequest
     private int id;
     private Patient patient;
     private BloodGroup bloodGroup;
-    private Integer quantity;
+    private Float quantity;
     private Priority priority = Priority.LOW;
     private Hospital hospital;
     private Status status = Status.PENDING;
     private Doctor doctor;
-    private Set<Blood> requiredBlood;
+    private List<Blood> givenBlood = new ArrayList<>();
 
-    public BloodRequest(Patient patient, Set<Blood> requiredBlood)
+    public BloodRequest(Patient patient, BloodGroup bloodGroup, Priority priority, Hospital hospital,
+                        Float quantity, Doctor doctor)
     {
         this.patient = patient;
-        this.requiredBlood = requiredBlood;
+        this.bloodGroup = bloodGroup;
+        this.priority = priority;
+        this.hospital = hospital;
+        this.quantity = quantity;
+        this.doctor = doctor;
     }
 
     public BloodRequest()
@@ -68,14 +74,14 @@ public class BloodRequest
     }
 
     @OneToMany(mappedBy = "bloodRequest")
-    public Set<Blood> getRequiredBlood()
+    public List<Blood> getGivenBlood()
     {
-        return requiredBlood;
+        return givenBlood;
     }
 
-    public void setRequiredBlood(Set<Blood> requiredBlood)
+    public void setGivenBlood(List<Blood> givenBlood)
     {
-        this.requiredBlood = requiredBlood;
+        this.givenBlood = givenBlood;
     }
 
     @ManyToOne
@@ -84,12 +90,12 @@ public class BloodRequest
 
     public void setBloodGroup(BloodGroup bloodGroup) { this.bloodGroup = bloodGroup; }
 
-    public Integer getQuantity()
+    public Float getQuantity()
     {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity)
+    public void setQuantity(Float quantity)
     {
         this.quantity = quantity;
     }
