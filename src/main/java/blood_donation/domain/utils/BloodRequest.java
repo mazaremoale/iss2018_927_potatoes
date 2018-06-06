@@ -39,6 +39,9 @@ public class BloodRequest
     @FXML
     private StringProperty statusProperty = new SimpleStringProperty();
 
+    @FXML
+    private StringProperty bloodGroupProperty = new SimpleStringProperty();
+
 
     public BloodRequest(Patient patient, BloodGroup bloodGroup, Priority priority, Hospital hospital,
                         Float quantity, Doctor doctor)
@@ -53,6 +56,7 @@ public class BloodRequest
         this.priorityProperty.set(priority.toString());
         this.hospitalProperty.set(hospital.toString());
         this.statusProperty.set(status.toString());
+        this.bloodGroupProperty.set(bloodGroup.toString());
     }
 
     public BloodRequest()
@@ -115,7 +119,13 @@ public class BloodRequest
     @JoinColumn(name = "bloodGroupID")
     public BloodGroup getBloodGroup() { return bloodGroup; }
 
-    public void setBloodGroup(BloodGroup bloodGroup) { this.bloodGroup = bloodGroup; }
+    public StringProperty bloodGroupProperty() { return bloodGroupProperty; }
+
+    public void setBloodGroup(BloodGroup bloodGroup)
+    {
+        this.bloodGroup = bloodGroup;
+        this.bloodGroupProperty.set(bloodGroup.toString());
+    }
 
     public float getQuantity()
     {

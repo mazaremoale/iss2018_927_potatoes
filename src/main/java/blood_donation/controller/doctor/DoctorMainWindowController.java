@@ -107,10 +107,7 @@ public class DoctorMainWindowController implements Initializable
     private TableColumn<BloodRequest, String> bloodRequestsPatientColumn;
 
     @FXML
-    private TableColumn<BloodRequest, String> bloodRequestsBloodTypeColumn;
-
-    @FXML
-    private TableColumn<BloodRequest, String> bloodRequestsRHColumn;
+    private TableColumn<BloodRequest, String> bloodRequestsBloodGroupColumn;
 
     @FXML
     private TableColumn<BloodRequest, String> bloodRequestsQuantityColumn;
@@ -369,8 +366,7 @@ public class DoctorMainWindowController implements Initializable
         ObservableList<BloodRequest> allBloodRequestsObservableList = FXCollections.observableList(allBloodRequests);
 
         bloodRequestsPatientColumn.setCellValueFactory(data -> data.getValue().getPatient().fullNameProperty());
-        bloodRequestsBloodTypeColumn.setCellValueFactory(data -> data.getValue().getBloodGroup().bloodTypeLetterProperty());
-        bloodRequestsRHColumn.setCellValueFactory(data -> data.getValue().getBloodGroup().bloodTypeRHProperty());
+        bloodRequestsBloodGroupColumn.setCellValueFactory(data -> data.getValue().bloodGroupProperty());
         bloodRequestsQuantityColumn.setCellValueFactory(data -> data.getValue().quantityProperty().asString());
         bloodRequestsPriorityColumn.setCellValueFactory(data -> data.getValue().priorityProperty());
         bloodRequestsHospitalColumn.setCellValueFactory(data -> data.getValue().hospitalProperty());
@@ -416,9 +412,6 @@ public class DoctorMainWindowController implements Initializable
                 Clinic clinicRelatedToBlood = donationRelatedToBlood.get(0).getClinic();
                 return (StringProperty) new SimpleStringProperty(clinicRelatedToBlood.getName());
         });
-
-
-
 
         ObservableList<Blood> bloodObservableList = FXCollections.observableList(bloodFromDonations);
         bloodStockTableView.setItems(bloodObservableList);

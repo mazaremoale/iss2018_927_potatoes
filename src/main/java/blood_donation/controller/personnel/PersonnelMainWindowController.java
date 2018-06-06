@@ -42,6 +42,7 @@ public class PersonnelMainWindowController implements Initializable
     private Repository<Distance> distanceRepository;
     private Repository<Patient> patientRepository;
     private Repository<DonationAppointment> donationAppointmentRepository;
+    private Repository<Location> locationRepository;
 
     @FXML
     private Button backButton;
@@ -122,19 +123,17 @@ public class PersonnelMainWindowController implements Initializable
     @FXML
     private TableView stocksTableView;
     @FXML
-    private TableColumn stocksTypeTableColumn;
+    private TableColumn stocksBloodTypeTableColumn;
     @FXML
     private TableColumn stocksBloodGroupTableColumn;
     @FXML
-    private TableColumn stocksRHTableColumn;
-    @FXML
     private TableColumn stocksQuantityTableColumn;
-    @FXML
-    private TableColumn stocksDonationDateTableColumn;
     @FXML
     private TableColumn stocksExpirationDateTableColumn;
     @FXML
     private TableColumn stocksLocationTableColumn;
+    @FXML
+    private ComboBox<Location> stocksLocationComboBox;
 
     @FXML
     private TableView<Donation> journeyBloodInTestingTableView;
@@ -284,6 +283,16 @@ public class PersonnelMainWindowController implements Initializable
         return this;
     }
 
+    public Repository<Location> getLocationRepository()
+    {
+        return locationRepository;
+    }
+
+    public PersonnelMainWindowController setLocationRepository(Repository<Location> locationRepository)
+    {
+        this.locationRepository = locationRepository;
+        return this;
+    }
 
     @FXML
     public void goBack()
@@ -453,6 +462,23 @@ public class PersonnelMainWindowController implements Initializable
 //        approvedDonationRequestsTableView.setItems(pendingDonationRequestsObservableList);
     }
 
+    private void initializeAvailableStocksTable()
+    {
+        List<Location> locations = locationRepository.getAll();
+        ObservableList<Location> locationsObservableList = FXCollections.observableList(locations);
+        stocksLocationComboBox.setItems(locationsObservableList);
+
+        stocksLocationComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+        {
+            populateBloodStockTableView(newValue);
+        });
+    }
+
+    private void populateBloodStockTableView(Location selectedLocation)
+    {
+
+    }
+
     private void initializeBloodContainerJourneyTab()
     {
         // Donations in testing table and related buttons
@@ -513,7 +539,7 @@ public class PersonnelMainWindowController implements Initializable
         initializeBloodRequestsTable();
 
         // AVAILABLE STOCKS TAB
-
+        initializeAvailableStocksTable();
 
         // BLOOD CONTAINER JOURNEY TAB
 //        initializeBloodContainerJourneyTab();

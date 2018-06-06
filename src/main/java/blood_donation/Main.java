@@ -142,24 +142,36 @@ public class Main extends Application
             locationRepository.add(location41);
             locationRepository.add(location42);
 
-            distanceRepository.add(new Distance(location1,location1, 0));
-            distanceRepository.add(new Distance(location1,location2,ThreadLocalRandom.current().nextInt(50,800)));
-            distanceRepository.add(new Distance(location1,location3,ThreadLocalRandom.current().nextInt(50,800)));
-            distanceRepository.add(new Distance(location1,location4,ThreadLocalRandom.current().nextInt(50,800)));
-            distanceRepository.add(new Distance(location1,location5,ThreadLocalRandom.current().nextInt(50,800)));
-            distanceRepository.add(new Distance(location1,location6,ThreadLocalRandom.current().nextInt(50,800)));
-            distanceRepository.add(new Distance(location1,location7,ThreadLocalRandom.current().nextInt(50,800)));
-            distanceRepository.add(new Distance(location1,location8,ThreadLocalRandom.current().nextInt(50,800)));
-            distanceRepository.add(new Distance(location1,location9,ThreadLocalRandom.current().nextInt(50,800)));
-            distanceRepository.add(new Distance(location1,location10,ThreadLocalRandom.current().nextInt(50,800)));
-            distanceRepository.add(new Distance(location1,location11,ThreadLocalRandom.current().nextInt(50,800)));
-            distanceRepository.add(new Distance(location1,location12,ThreadLocalRandom.current().nextInt(50,800)));
-            distanceRepository.add(new Distance(location1,location13,ThreadLocalRandom.current().nextInt(50,800)));
-            distanceRepository.add(new Distance(location1,location14,ThreadLocalRandom.current().nextInt(50,800)));
-            distanceRepository.add(new Distance(location1,location15,ThreadLocalRandom.current().nextInt(50,800)));
-            distanceRepository.add(new Distance(location1,location16,ThreadLocalRandom.current().nextInt(50,800)));
-            distanceRepository.add(new Distance(location1,location17,ThreadLocalRandom.current().nextInt(50,800)));
-            distanceRepository.add(new Distance(location1,location18,ThreadLocalRandom.current().nextInt(50,800)));
+            for (int i = 1; i <= 42; ++i)
+                for (int j = i; j <= 42; ++j)
+                {
+                    if (i == j)
+                        distanceRepository.add(new Distance(locationRepository.getByID(i), locationRepository.getByID(i), 0));
+                    else
+                    {
+                        distanceRepository.add(new Distance(locationRepository.getByID(i), locationRepository.getByID(j),
+                                ThreadLocalRandom.current().nextInt(50,800) ));
+                    }
+                }
+
+//            distanceRepository.add(new Distance(location1,location1, 0));
+//            distanceRepository.add(new Distance(location1,location2,ThreadLocalRandom.current().nextInt(50,800)));
+//            distanceRepository.add(new Distance(location1,location3,ThreadLocalRandom.current().nextInt(50,800)));
+//            distanceRepository.add(new Distance(location1,location4,ThreadLocalRandom.current().nextInt(50,800)));
+//            distanceRepository.add(new Distance(location1,location5,ThreadLocalRandom.current().nextInt(50,800)));
+//            distanceRepository.add(new Distance(location1,location6,ThreadLocalRandom.current().nextInt(50,800)));
+//            distanceRepository.add(new Distance(location1,location7,ThreadLocalRandom.current().nextInt(50,800)));
+//            distanceRepository.add(new Distance(location1,location8,ThreadLocalRandom.current().nextInt(50,800)));
+//            distanceRepository.add(new Distance(location1,location9,ThreadLocalRandom.current().nextInt(50,800)));
+//            distanceRepository.add(new Distance(location1,location10,ThreadLocalRandom.current().nextInt(50,800)));
+//            distanceRepository.add(new Distance(location1,location11,ThreadLocalRandom.current().nextInt(50,800)));
+//            distanceRepository.add(new Distance(location1,location12,ThreadLocalRandom.current().nextInt(50,800)));
+//            distanceRepository.add(new Distance(location1,location13,ThreadLocalRandom.current().nextInt(50,800)));
+//            distanceRepository.add(new Distance(location1,location14,ThreadLocalRandom.current().nextInt(50,800)));
+//            distanceRepository.add(new Distance(location1,location15,ThreadLocalRandom.current().nextInt(50,800)));
+//            distanceRepository.add(new Distance(location1,location16,ThreadLocalRandom.current().nextInt(50,800)));
+//            distanceRepository.add(new Distance(location1,location17,ThreadLocalRandom.current().nextInt(50,800)));
+//            distanceRepository.add(new Distance(location1,location18,ThreadLocalRandom.current().nextInt(50,800)));
         }
 
 
