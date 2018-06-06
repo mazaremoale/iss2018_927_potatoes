@@ -97,7 +97,7 @@ public class Main extends Application
         Location location42 = new Location("Vrancea");
 
         if(locationRepository.getAll().size() != 42 &&
-                distanceRepository.getAll().size() != 1722) //lazy, unefficient, works fine.
+                distanceRepository.getAll().size() != 1764) //lazy, unefficient, works fine.
         {
             locationRepository.add(location1);
             locationRepository.add(location2);
