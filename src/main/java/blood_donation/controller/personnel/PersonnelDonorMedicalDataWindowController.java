@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -333,14 +334,14 @@ public class PersonnelDonorMedicalDataWindowController implements Initializable
 
         if(citizenComboBox.getSelectionModel().getSelectedItem().equals("No"))
             errorString = errorString.concat("Only Romanian citizens or EU citizens living in Romania can donate.\n");
-        if(Integer.parseInt(ageTextField.getText()) < 18 || Integer.parseInt(ageTextField.getText()) > 60)
-            errorString = errorString.concat("The age must be between 18 and 60.\n");
-        if(Float.parseFloat(weightTextField.getText()) < 50)
-            errorString = errorString.concat("The weight must be at least 50kg.\n");
-        if(Float.parseFloat(pulseTextField.getText()) < 60 || Float.parseFloat(pulseTextField.getText()) > 100)
-            errorString = errorString.concat("The pulse must be between 60 and 100 beats.\n");
-        if(Float.parseFloat(bloodPressureTextField.getText()) < 100 || Float.parseFloat(bloodPressureTextField.getText()) > 180)
-            errorString = errorString.concat("The systolic blood pressure must be between 100 and 180 mmHg.\n");
+//        if(Integer.parseInt(ageTextField.getText()) < 18 || Integer.parseInt(ageTextField.getText()) > 60)
+//            errorString = errorString.concat("The age must be between 18 and 60.\n");
+//        if(Float.parseFloat(weightTextField.getText()) < 50)
+//            errorString = errorString.concat("The weight must be at least 50kg.\n");
+//        if(Float.parseFloat(pulseTextField.getText()) < 60 || Float.parseFloat(pulseTextField.getText()) > 100)
+//            errorString = errorString.concat("The pulse must be between 60 and 100 beats.\n");
+//        if(Float.parseFloat(bloodPressureTextField.getText()) < 100 || Float.parseFloat(bloodPressureTextField.getText()) > 180)
+//            errorString = errorString.concat("The systolic blood pressure must be between 100 and 180 mmHg.\n");
         if(surgeriesComboBox.getSelectionModel().getSelectedItem().equals("Yes"))
             errorString = errorString.concat("The donor had surgeries less that 6 months before donating.\n");
         if(pregnantComboBox.getSelectionModel().getSelectedItem().equals("Yes"))
@@ -356,33 +357,33 @@ public class PersonnelDonorMedicalDataWindowController implements Initializable
         if(wellSleptComboBox.getSelectionModel().getSelectedItem().equals("No"))
             errorString = errorString.concat("The donor hasn't slept well before donating.\n");
 
-        if(hepatitisCheckBox.isSelected()) 
+        if(hepatitisCheckBox.isSelected())
             diseasesString = diseasesString.concat("Hepatitis\n");
-        if(tbCheckBox.isSelected()) 
+        if(tbCheckBox.isSelected())
             diseasesString = diseasesString.concat("TB\n");
-        if(poxCheckBox.isSelected()) 
+        if(poxCheckBox.isSelected())
             diseasesString = diseasesString.concat("Pox\n");
-        if(malariaCheckBox.isSelected()) 
+        if(malariaCheckBox.isSelected())
             diseasesString = diseasesString.concat("Malaria\n");
-        if(epilepsyCheckBox.isSelected()) 
+        if(epilepsyCheckBox.isSelected())
             diseasesString = diseasesString.concat("Epilepsy\n");
-        if(mentalIllnessCheckBox.isSelected()) 
+        if(mentalIllnessCheckBox.isSelected())
             diseasesString = diseasesString.concat("Mental Illness\n");
-        if(brucellosisCheckBox.isSelected()) 
+        if(brucellosisCheckBox.isSelected())
             diseasesString = diseasesString.concat("Brucellosis\n");
-        if(ulcerCheckBox.isSelected()) 
+        if(ulcerCheckBox.isSelected())
             diseasesString = diseasesString.concat("Ulcer\n");
-        if(diabetesCheckBox.isSelected()) 
+        if(diabetesCheckBox.isSelected())
             diseasesString = diseasesString.concat("Diabetes\n");
-        if(heartDiseasesCheckBox.isSelected()) 
+        if(heartDiseasesCheckBox.isSelected())
             diseasesString = diseasesString.concat("Heart Diseases\n");
-        if(skinDeseasesCheckBox.isSelected()) 
+        if(skinDeseasesCheckBox.isSelected())
             diseasesString = diseasesString.concat("Skin Diseases\n");
-        if(myopiaCheckBox.isSelected()) 
+        if(myopiaCheckBox.isSelected())
             diseasesString = diseasesString.concat("Myopia over (-) 6 diopters\n");
-        if(cancerCheckBox.isSelected()) 
+        if(cancerCheckBox.isSelected())
             diseasesString = diseasesString.concat("Cancer\n");
-        if(hivCheckBox.isSelected()) 
+        if(hivCheckBox.isSelected())
             diseasesString = diseasesString.concat("HIV\n");
 
         if(!diseasesString.equals(""))
@@ -405,7 +406,6 @@ public class PersonnelDonorMedicalDataWindowController implements Initializable
             alert.setContentText("Please fill in all the fields before continuing!");
 
             Optional<ButtonType> result = alert.showAndWait();
-
         }
         else if(!areTextBoxesValid())
         {
@@ -415,7 +415,6 @@ public class PersonnelDonorMedicalDataWindowController implements Initializable
             alert.setContentText("Please make sure that the data has the correct format before continuing!");
 
             Optional<ButtonType> result = alert.showAndWait();
-
         }
         else if(!validateData().equals(""))
         {
@@ -439,61 +438,65 @@ public class PersonnelDonorMedicalDataWindowController implements Initializable
                 // user pressed OK button
 
                 // current donation request
-                DonationRequest cdr = donationAppointment.getDonationRequest();
+                DonationRequest currentDonationRequest = donationAppointment.getDonationRequest();
 
                 // combo boxes
-                cdr.setHadSurgeryRecently(!surgeriesComboBox.getSelectionModel().getSelectedItem().equals("No"));
-                cdr.setUnderTreatment(!inTreatmentComboBox.getSelectionModel().getSelectedItem().equals("No"));
-                cdr.setHasConsumedAlcoholRecently(!alcoholConsumtionComboBox.getSelectionModel().getSelectedItem().equals("No"));
-                cdr.setHasConsumedFatRecently(!fatConsumptionComboBox.getSelectionModel().getSelectedItem().equals("No"));
-                cdr.setHasSmokedRecently(!smokedComboBox.getSelectionModel().getSelectedItem().equals("No"));
-                cdr.setWellSlept(wellSleptComboBox.getSelectionModel().getSelectedItem().equals("Yes"));
+                currentDonationRequest
+                        .setHadSurgeryRecently(!surgeriesComboBox.getSelectionModel().getSelectedItem().equals("No"));
+                currentDonationRequest
+                        .setUnderTreatment(!inTreatmentComboBox.getSelectionModel().getSelectedItem().equals("No"));
+                currentDonationRequest
+                        .setHasConsumedAlcoholRecently(!alcoholConsumtionComboBox.getSelectionModel().getSelectedItem().equals("No"));
+                currentDonationRequest
+                        .setHasConsumedFatRecently(!fatConsumptionComboBox.getSelectionModel().getSelectedItem().equals("No"));
+                currentDonationRequest
+                        .setHasSmokedRecently(!smokedComboBox.getSelectionModel().getSelectedItem().equals("No"));
+                currentDonationRequest
+                        .setWellSlept(wellSleptComboBox.getSelectionModel().getSelectedItem().equals("Yes"));
 
                 // text fields
-                cdr.setAge(Integer.parseInt(ageTextField.getText()));
-                cdr.setWeight(Float.parseFloat(weightTextField.getText()));
-                cdr.setPulse(Float.parseFloat(pulseTextField.getText()));
-                cdr.setBloodPressure(Float.parseFloat(bloodPressureTextField.getText()));
+                currentDonationRequest.setAge(Integer.parseInt(ageTextField.getText()));
+                currentDonationRequest.setWeight(Float.parseFloat(weightTextField.getText()));
+                currentDonationRequest.setPulse(Float.parseFloat(pulseTextField.getText()));
+                currentDonationRequest.setBloodPressure(Float.parseFloat(bloodPressureTextField.getText()));
 
                 // check boxes
-                cdr.setHasHepatitis(hepatitisCheckBox.isSelected());
-                cdr.setHasTB(tbCheckBox.isSelected());
-                cdr.setHasPox(poxCheckBox.isSelected());
-                cdr.setHasMalaria(malariaCheckBox.isSelected());
-                cdr.setHasEpilepsy(epilepsyCheckBox.isSelected());
-                cdr.setHasOtherNeurologicalDisease(epilepsyCheckBox.isSelected());
-                cdr.setHasMentalIllness(mentalIllnessCheckBox.isSelected());
-                cdr.setHasBrucellosis(brucellosisCheckBox.isSelected());
-                cdr.setHasUlcer(ulcerCheckBox.isSelected());
-                cdr.setHasDiabetes(diabetesCheckBox.isSelected());
-                cdr.setHasHeartDisease(heartDiseasesCheckBox.isSelected());
-                cdr.setHasVitiligo(skinDeseasesCheckBox.isSelected());
-                cdr.setHasPsoriasis(skinDeseasesCheckBox.isSelected());
-                cdr.setHasMyopiaOverOrUnder6(myopiaCheckBox.isSelected());
-                cdr.setHasCancer(cancerCheckBox.isSelected());
-                cdr.setHasHIV(hivCheckBox.isSelected());
+                currentDonationRequest.setHasHepatitis(hepatitisCheckBox.isSelected());
+                currentDonationRequest.setHasTB(tbCheckBox.isSelected());
+                currentDonationRequest.setHasPox(poxCheckBox.isSelected());
+                currentDonationRequest.setHasMalaria(malariaCheckBox.isSelected());
+                currentDonationRequest.setHasEpilepsy(epilepsyCheckBox.isSelected());
+                currentDonationRequest.setHasOtherNeurologicalDisease(epilepsyCheckBox.isSelected());
+                currentDonationRequest.setHasMentalIllness(mentalIllnessCheckBox.isSelected());
+                currentDonationRequest.setHasBrucellosis(brucellosisCheckBox.isSelected());
+                currentDonationRequest.setHasUlcer(ulcerCheckBox.isSelected());
+                currentDonationRequest.setHasDiabetes(diabetesCheckBox.isSelected());
+                currentDonationRequest.setHasHeartDisease(heartDiseasesCheckBox.isSelected());
+                currentDonationRequest.setHasVitiligo(skinDeseasesCheckBox.isSelected());
+                currentDonationRequest.setHasPsoriasis(skinDeseasesCheckBox.isSelected());
+                currentDonationRequest.setHasMyopiaOverOrUnder6(myopiaCheckBox.isSelected());
+                currentDonationRequest.setHasCancer(cancerCheckBox.isSelected());
+                currentDonationRequest.setHasHIV(hivCheckBox.isSelected());
 
                 // text area
-                cdr.setOtherInformation(otherInformationTextArea.getText());
+                currentDonationRequest.setOtherInformation(otherInformationTextArea.getText());
 
                 // actually update the values in the repo and database
-                donationRequestRepository.update(cdr);
+                donationRequestRepository.update(currentDonationRequest);
 
                 // send request to doctor for validation
-                cdr.setValidatedByPersonnel(true);
-                donationRequestRepository.update(cdr);
+                currentDonationRequest.setValidatedByPersonnel(true);
+                donationRequestRepository.update(currentDonationRequest);
 
-//                // create a donation with the status PENDING
+                // create a donation with the status PENDING
 //
 //                Donation newDonation = new Donation();
 //                Blood donatedBlood = new Blood();
 //
-//                // actually adding the donation in the repository
-//                bloodRepository.add(donatedBlood);
-//                donationRepository.add(newDonation);
-//
 ////                donatedBlood.setQuantity(0.3);
-//                donatedBlood.setBloodGroup(cdr.getDonor().getBloodGroup());
+////                donatedBlood.setBloodGroup(cdr.getDonor().getBloodGroup());  // PROBLEM
+//                List<BloodGroup> bloodGroupList = bloodGroupRepository.getAll();
+//
 //                donatedBlood.setExpirationDate(computeExpirationDate(donationAppointment.getAppointmentDate()));
 //
 //                newDonation.setDonor(cdr.getDonor());
@@ -502,15 +505,15 @@ public class PersonnelDonorMedicalDataWindowController implements Initializable
 ////                newDonation.setPatient(cdr.getPatient());
 //                newDonation.setDonationRequest(cdr);
 //                newDonation.setClinic(donationAppointment.getClinic());
-//                newDonation.setBloodContainerJourneyStatus(BloodContainerJourneyStatus.SAMPLING);
+//                newDonation.setBloodContainerJourneyStatus(JourneyStatus.SAMPLING);
 //
 //                // cancer
 //                newDonation.setDonatedBlood(donatedBlood);
 //                donatedBlood.setDonation(newDonation);
 //
 //                // more cancer
-//                bloodRepository.update(donatedBlood);
-//                donationRepository.update(newDonation);
+//                bloodRepository.add(donatedBlood);
+//                donationRepository.add(newDonation);
 
 
                 // change to Personnel Main Window
@@ -537,27 +540,27 @@ public class PersonnelDonorMedicalDataWindowController implements Initializable
             cdr.setValidatedByPersonnel(false);
             donationRequestRepository.update(cdr);
 
-            // create a donation with the status REJECTED
-            Blood donatedBlood = new Blood();
-//                donatedBlood.setQuantity(0.3);
-            donatedBlood.setBloodGroup(cdr.getDonor().getBloodGroup());
-            donatedBlood.setExpirationDate(computeExpirationDate(donationAppointment.getAppointmentDate()));
-
-            Donation newDonation = new Donation();
-            newDonation.setDonor(cdr.getDonor());
-            newDonation.setDonationDate(donationAppointment.getAppointmentDate());
-            newDonation.setStatus(Status.REJECTED);
-//                newDonation.setPatient(cdr.getPatient());
-            newDonation.setDonationRequest(cdr);
-            newDonation.setClinic(donationAppointment.getClinic());
-            newDonation.setBloodContainerJourneyStatus(BloodContainerJourneyStatus.SAMPLING);
-
-            // cancer
-            newDonation.setDonatedBlood(donatedBlood);
-            donatedBlood.setDonation(newDonation);
-
-            // actually adding the donation in the repository
-            donationRepository.add(newDonation);
+//            // create a donation with the status REJECTED
+//            Blood donatedBlood = new Blood();
+////                donatedBlood.setQuantity(0.3);
+//            donatedBlood.setBloodGroup(cdr.getDonor().getBloodGroup());
+//            donatedBlood.setExpirationDate(computeExpirationDate(donationAppointment.getAppointmentDate()));
+//
+//            Donation newDonation = new Donation();
+//            newDonation.setDonor(cdr.getDonor());
+//            newDonation.setDonationDate(donationAppointment.getAppointmentDate());
+//            newDonation.setStatus(Status.REJECTED);
+////                newDonation.setPatient(cdr.getPatient());
+//            newDonation.setDonationRequest(cdr);
+//            newDonation.setClinic(donationAppointment.getClinic());
+//            newDonation.setBloodContainerJourneyStatus(JourneyStatus.SAMPLING);
+//
+//            // cancer
+//            newDonation.setDonatedBlood(donatedBlood);
+//            donatedBlood.setDonation(newDonation);
+//
+//            // actually adding the donation in the repository
+//            donationRepository.add(newDonation);
 
             // change to Personnel Main Window
             goToPersonnelMainWindow();

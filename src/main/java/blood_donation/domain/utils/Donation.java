@@ -24,7 +24,7 @@ public class Donation
     private Blood donatedBlood;
     private DonationRequest donationRequest;
     private Clinic clinic;
-    private BloodContainerJourneyStatus bloodContainerJourneyStatus = BloodContainerJourneyStatus.SAMPLING;
+    private JourneyStatus bloodContainerJourneyStatus = JourneyStatus.SAMPLING;
 
 
     @FXML
@@ -100,7 +100,7 @@ public class Donation
         return donatedBlood;
     }
 
-    public BloodContainerJourneyStatus getBloodContainerJourneyStatus()
+    public JourneyStatus getBloodContainerJourneyStatus()
     {
         return bloodContainerJourneyStatus;
     }
@@ -171,7 +171,7 @@ public class Donation
         this.donationRequest = donationRequest;
     }
 
-    public void setBloodContainerJourneyStatus(BloodContainerJourneyStatus status)
+    public void setBloodContainerJourneyStatus(JourneyStatus status)
     {
         this.bloodContainerJourneyStatus = status;
         if(status != null)

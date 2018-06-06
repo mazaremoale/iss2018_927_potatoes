@@ -1,6 +1,6 @@
 package blood_donation.domain.utils;
 
-public enum BloodContainerJourneyStatus
+public enum JourneyStatus
 {
     SAMPLING,
     PREPARATION,
