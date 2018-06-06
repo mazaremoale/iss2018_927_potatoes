@@ -365,6 +365,7 @@ public final class UserSelectWindowController implements Initializable
                 .setLocationRepository(locationRepository)
                 .setRequestRepository(requestRepository)
                 .setDistanceRepository(distanceRepository)
+                .setBloodGroupRepository(bloodGroupRepository)
                 .setPreviousScene(primaryStage.getScene()));
 
         Parent content = loader.load();

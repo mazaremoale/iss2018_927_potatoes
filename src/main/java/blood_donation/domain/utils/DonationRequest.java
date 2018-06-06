@@ -1,6 +1,7 @@
 package blood_donation.domain.utils;
 
 import blood_donation.domain.people.Donor;
+import blood_donation.domain.people.Patient;
 import javafx.beans.property.*;
 import javafx.fxml.FXML;
 
@@ -41,6 +42,7 @@ public class DonationRequest
     private Boolean hasCancer;
 
     private Donor donor;
+    private Patient patient;
 
     @FXML
     private IntegerProperty age = new SimpleIntegerProperty();
@@ -463,5 +465,17 @@ public class DonationRequest
     public void setDonor(Donor donor)
     {
         this.donor = donor;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "patientID")
+    public Patient getPatient()
+    {
+        return patient;
+    }
+
+    public void setPatient(Patient patient)
+    {
+        this.patient = patient;
     }
 }
