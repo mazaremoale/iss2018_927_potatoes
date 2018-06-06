@@ -205,11 +205,6 @@ public class Donation
         return bloodContainerStatusProperty;
     }
 
-    public StringProperty bloodContainerStatusPropertyProperty()
-    {
-        return bloodContainerStatusProperty;
-    }
-
     @Override
     public String toString()
     {
