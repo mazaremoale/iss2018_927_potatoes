@@ -2,10 +2,7 @@ package blood_donation.domain.blood;
 
 import blood_donation.domain.utils.BloodRequest;
 import blood_donation.domain.utils.Donation;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.fxml.FXML;
 
 import javax.persistence.*;
@@ -19,7 +16,7 @@ import java.time.*;
 public class Blood
 {
     private IntegerProperty id = new SimpleIntegerProperty();
-    private IntegerProperty quantity = new SimpleIntegerProperty();
+    private FloatProperty quantity = new SimpleFloatProperty();
     private BloodGroup bloodGroup;
     private LocalDate expirationDate;
     private BloodRequest bloodRequest;
@@ -32,7 +29,7 @@ public class Blood
     private StringProperty expirationDateProperty = new SimpleStringProperty();
 
 
-    public Blood(IntegerProperty quantity, BloodGroup bloodGroup, LocalDate expirationDate)
+    public Blood(FloatProperty quantity, BloodGroup bloodGroup, LocalDate expirationDate)
     {
         this.quantity = quantity;
         this.bloodGroup = bloodGroup;
@@ -81,17 +78,17 @@ public class Blood
         return expirationDateProperty;
     }
 
-    public int getQuantity()
+    public float getQuantity()
     {
         return quantity.get();
     }
 
-    public IntegerProperty quantityProperty()
+    public FloatProperty quantityProperty()
     {
         return quantity;
     }
 
-    public void setQuantity(int quantity)
+    public void setQuantity(float quantity)
     {
         this.quantity.set(quantity);
     }
