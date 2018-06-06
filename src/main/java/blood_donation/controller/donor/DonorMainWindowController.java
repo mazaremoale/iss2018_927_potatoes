@@ -290,6 +290,7 @@ public class DonorMainWindowController implements Initializable
         return this;
     }
 
+
     public Repository<Location> getLocationRepository()
     {
         return locationRepository;
