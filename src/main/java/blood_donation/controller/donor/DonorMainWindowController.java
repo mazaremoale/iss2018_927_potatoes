@@ -39,6 +39,8 @@ public class DonorMainWindowController implements Initializable
     private Repository<Distance> distanceRepository;
     private Repository<Patient> patientRepository;
     private Repository<DonationAppointment> donationAppointmentRepository;
+    private Repository<Location> locationRepository;
+    private Repository<Hospital> hospitalRepository;
 
     @FXML
     private Label appointmentLabel;
@@ -288,6 +290,28 @@ public class DonorMainWindowController implements Initializable
         return this;
     }
 
+    public Repository<Location> getLocationRepository()
+    {
+        return locationRepository;
+    }
+
+    public DonorMainWindowController setLocationRepository(Repository<Location> locationRepository)
+    {
+        this.locationRepository = locationRepository;
+        return this;
+    }
+
+    public Repository<Hospital> getHospitalRepository()
+    {
+        return hospitalRepository;
+    }
+
+    public DonorMainWindowController setHospitalRepository(Repository<Hospital> hospitalRepository)
+    {
+        this.hospitalRepository = hospitalRepository;
+        return this;
+    }
+
     //TODO edit profile with the already existing Window, with a different controller
     //TODO modify donating to a certain patient
 
@@ -359,7 +383,9 @@ public class DonorMainWindowController implements Initializable
                 .setBloodGroupRepository(bloodGroupRepository)
                 .setDistanceRepository(distanceRepository)
                 .setPatientRepository(patientRepository)
-                .setDonationAppointmentRepository(donationAppointmentRepository));
+                .setDonationAppointmentRepository(donationAppointmentRepository)
+                .setLocationRepository(locationRepository)
+                .setHospitalRepository(hospitalRepository));
 
         Parent content = loader.load();
 
@@ -536,6 +562,33 @@ public class DonorMainWindowController implements Initializable
 
         }
 
+    }
+
+    public void openDonorProfileEdit() throws IOException
+    {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/donor/donorRegistrationWindow.fxml"));
+
+        loader.setController(new DonorEditProfileWindowController()
+                .setPrimaryStage(primaryStage)
+                .setSession(session)
+                .setPreviousScene(primaryStage.getScene())
+                .setCurrentDonor(currentDonor)
+                .setDonationRepository(donationRepository)
+                .setDonationRequestRepository(donationRequestRepository)
+                .setClinicRepository(clinicRepository)
+                .setBloodRepository(bloodRepository)
+                .setBloodGroupRepository(bloodGroupRepository)
+                .setDistanceRepository(distanceRepository)
+                .setPatientRepository(patientRepository)
+                .setDonationAppointmentRepository(donationAppointmentRepository)
+                .setLocationRepository(locationRepository));
+
+        Parent content = loader.load();
+
+        Scene selectScene = new Scene(content);
+        primaryStage.setScene(selectScene);
+        primaryStage.setTitle("Donor main menu");
     }
 
     @Override

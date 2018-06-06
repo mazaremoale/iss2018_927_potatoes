@@ -211,6 +211,7 @@ public class Main extends Application
         primaryStage.setTitle("User selection");
 
         primaryStage.show();
+
     }
 
     public static void main(String[] args)
