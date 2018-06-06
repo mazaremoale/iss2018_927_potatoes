@@ -83,7 +83,7 @@ public class DonationAppointment
     }
 
     @OneToOne
-    @MapsId
+    @JoinColumn(unique = true)
     public DonationRequest getDonationRequest()
     {
         return donationRequest;

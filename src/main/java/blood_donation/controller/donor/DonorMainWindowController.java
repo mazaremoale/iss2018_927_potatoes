@@ -39,6 +39,7 @@ public class DonorMainWindowController implements Initializable
     private Repository<Distance> distanceRepository;
     private Repository<Patient> patientRepository;
     private Repository<DonationAppointment> donationAppointmentRepository;
+    private Repository<Location> locationRepository;
 
     @FXML
     private Label appointmentLabel;
@@ -285,6 +286,17 @@ public class DonorMainWindowController implements Initializable
     public DonorMainWindowController setDonationAppointmentRepository(Repository<DonationAppointment> donationAppointmentRepository)
     {
         this.donationAppointmentRepository = donationAppointmentRepository;
+        return this;
+    }
+
+    public Repository<Location> getLocationRepository()
+    {
+        return locationRepository;
+    }
+
+    public DonorMainWindowController setLocationRepository(Repository<Location> locationRepository)
+    {
+        this.locationRepository = locationRepository;
         return this;
     }
 
@@ -536,6 +548,33 @@ public class DonorMainWindowController implements Initializable
 
         }
 
+    }
+
+    public void openDonorProfileEdit() throws IOException
+    {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/donor/donorRegistrationWindow.fxml"));
+
+        loader.setController(new DonorEditProfileWindowController()
+                .setPrimaryStage(primaryStage)
+                .setSession(session)
+                .setPreviousScene(primaryStage.getScene())
+                .setCurrentDonor(currentDonor)
+                .setDonationRepository(donationRepository)
+                .setDonationRequestRepository(donationRequestRepository)
+                .setClinicRepository(clinicRepository)
+                .setBloodRepository(bloodRepository)
+                .setBloodGroupRepository(bloodGroupRepository)
+                .setDistanceRepository(distanceRepository)
+                .setPatientRepository(patientRepository)
+                .setDonationAppointmentRepository(donationAppointmentRepository)
+                .setLocationRepository(locationRepository));
+
+        Parent content = loader.load();
+
+        Scene selectScene = new Scene(content);
+        primaryStage.setScene(selectScene);
+        primaryStage.setTitle("Donor main menu");
     }
 
     @Override
