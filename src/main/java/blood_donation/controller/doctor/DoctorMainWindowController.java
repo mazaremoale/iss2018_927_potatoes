@@ -327,6 +327,7 @@ public class DoctorMainWindowController implements Initializable
     {
         //Donation requests tab
         List<DonationRequest> donationRequests = donationRequestRepository.getAll().stream()
+
                                                 .filter(donationRequest -> donationRequest.getValidatedByPersonnel() != null)
                                                 .filter(DonationRequest::getValidatedByPersonnel)
                                                 .filter(donationRequest -> donationRequest.getValidatedByDoctor() == null)
@@ -415,6 +416,8 @@ public class DoctorMainWindowController implements Initializable
                 Clinic clinicRelatedToBlood = donationRelatedToBlood.get(0).getClinic();
                 return (StringProperty) new SimpleStringProperty(clinicRelatedToBlood.getName());
         });
+
+
 
 
         ObservableList<Blood> bloodObservableList = FXCollections.observableList(bloodFromDonations);
