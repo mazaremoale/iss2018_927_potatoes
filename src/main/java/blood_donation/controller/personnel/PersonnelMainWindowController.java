@@ -21,7 +21,10 @@ import org.hibernate.Session;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -334,6 +337,7 @@ public class PersonnelMainWindowController implements Initializable
                     .setDistanceRepository(distanceRepository)
                     .setPatientRepository(patientRepository)
                     .setDonationAppointmentRepository(donationAppointmentRepository)
+                    .setBloodGroupRepository(bloodGroupRepository)
             );
 
             Parent content = loader.load();
@@ -359,17 +363,60 @@ public class PersonnelMainWindowController implements Initializable
 //        }
 //    }
 
+    private LocalDate computeExpirationDate(LocalDate donationDate)
+    {
+        return donationDate.plusDays(42);  // blood expires after 42 days
+    }
+
     @FXML
     public void beginSampling()
     {
-//        if(!pendingDonationRequestsTableView.getSelectionModel().isEmpty())
-//        {
-//            DonationRequest selectedDonationRequest = pendingDonationRequestsTableView.getSelectionModel().getSelectedItem();
-//
-////            selectedDonationRequest.setStatus(Status.TESTING);
-//
-////            donationRepository.update(selectedDonationRequest);
-//        }
+        if(!approvedDonationRequestsTableView.getSelectionModel().isEmpty())
+        {
+            DonationRequest selectedDonationRequest = approvedDonationRequestsTableView.getSelectionModel().getSelectedItem();
+
+            // create a donation
+            Blood blood = new Blood();
+
+            Donation donation = new Donation();
+
+            // check if the donor has donated before
+            if(selectedDonationRequest.getDonor().getBloodGroup() == null)
+            {
+                // first time donor : alert with combo box to select blood group; set the blood group of donor
+                List<BloodGroup> choices = bloodGroupRepository.getAll();
+
+                ChoiceDialog<BloodGroup> dialog = new ChoiceDialog<>(choices.get(0), choices);
+                dialog.setTitle("Choose Donor Blood Group Dialog");
+                dialog.setHeaderText("This person is donating for the first time");
+                dialog.setContentText("Choose their blood group:");
+
+                Optional<BloodGroup> result = dialog.showAndWait();
+
+                result.ifPresent(bloodGroup -> selectedDonationRequest.getDonor().setBloodGroup(bloodGroup));
+                blood.setBloodGroup(selectedDonationRequest.getDonor().getBloodGroup());
+            }
+
+            blood.setBloodGroup(selectedDonationRequest.getDonor().getBloodGroup());
+            blood.setExpirationDate(LocalDate.now());
+            blood.setQuantity(0.35f);
+
+            bloodRepository.add(blood);
+
+
+            donation.setDonationRequest(selectedDonationRequest);
+            donation.setDonatedBlood(blood);
+            donation.setDonor(selectedDonationRequest.getDonor());
+            donation.setDonationDate(LocalDate.now());
+            donation.setStatus(Status.PENDING);
+            donation.setPatient(selectedDonationRequest.getPatient());
+            donation.setClinic(currentPersonnel.getClinic());
+            donation.setBloodContainerJourneyStatus(JourneyStatus.SAMPLING);
+
+//            blood.setDonation(donation);  // DO I HAVE TO DO THIS TOO????
+
+            donationRepository.add(donation);
+        }
     }
 
     private void populateDonationAppointmentTable()
@@ -417,47 +464,46 @@ public class PersonnelMainWindowController implements Initializable
 
     private void populateDonationsInTestingTable()
     {
-//        journeyTestingDonationDateTableColumn.setCellValueFactory(data ->
-//                data.getValue().donationDateProperty());
-//        journeyTestingBloodGroupTableColumn.setCellValueFactory(data ->
-//                data.getValue().donatedBloodProperty());
-//        journeyTestingStatusTableColumn.setCellValueFactory(data ->
-//                data.getValue().bloodContainerStatusProperty());
-//
-//        List<Donation> donationsInTesting = donationRepository.getAll()
-//                .stream()
-//                .filter(donation -> donation.getDonationRequest().getValidatedByPersonnel() && donation.getDonationRequest().getValidatedByDoctor())
-//                .filter(donation -> donation.getStatus() == Status.TESTING)
-//                .collect(Collectors.toList());
-//
-//        ObservableList<Donation> donationObservableList = FXCollections.observableList(donationsInTesting);
-//
-//        journeyBloodInTestingTableView.setItems(donationObservableList);
+        journeyTestingDonationDateTableColumn.setCellValueFactory(data ->
+                data.getValue().donationDateProperty());
+        journeyTestingBloodGroupTableColumn.setCellValueFactory(data ->
+                data.getValue().donatedBloodProperty());
+        journeyTestingStatusTableColumn.setCellValueFactory(data ->
+                data.getValue().bloodContainerStatusProperty());
+
+        List<Donation> donationsInTesting = donationRepository.getAll()
+                .stream()
+                .filter(donation -> donation.getDonationRequest().getValidatedByPersonnel() && donation.getDonationRequest().getValidatedByDoctor())
+                .collect(Collectors.toList());
+
+        ObservableList<Donation> donationObservableList = FXCollections.observableList(donationsInTesting);
+
+        journeyBloodInTestingTableView.setItems(donationObservableList);
     }
 
     private void populatePendingDonationRequestsTable()
     {
-//        approvedDonationRequestsDonorNameTableColumn.setCellValueFactory(data ->
-//                data.getValue().getDonor().fullNameProperty());
-//        approvedDonationRequestsAprovedByDoctorTableColumn.setCellValueFactory(data ->
-//                new SimpleStringProperty(data.getValue().getValidatedByDoctor().toString()));
-//
-//        List<DonationRequest> pendingDonationRequests = donationRequestRepository.getAll()
-//                .stream()
-//                .filter(donationRequest -> donationRequest.getValidatedByPersonnel() &&
-//                        donationRequest.getValidatedByDoctor())
-//                .collect(Collectors.toList());
-//
-//        ObservableList<DonationRequest> pendingDonationRequestsObservableList = FXCollections.observableList(pendingDonationRequests);
-//
-//        approvedDonationRequestsTableView.setItems(pendingDonationRequestsObservableList);
+        approvedDonationRequestsDonorNameTableColumn.setCellValueFactory(data ->
+                data.getValue().getDonor().fullNameProperty());
+        approvedDonationRequestsAprovedByDoctorTableColumn.setCellValueFactory(data ->
+                new SimpleStringProperty(data.getValue().getValidatedByDoctor().toString()));
+
+        List<DonationRequest> pendingDonationRequests = donationRequestRepository.getAll()
+                .stream()
+                .filter(donationRequest -> donationRequest.getValidatedByDoctor() != null)
+                .filter(donationRequest -> donationRequest.getValidatedByPersonnel() && donationRequest.getValidatedByDoctor())
+                .collect(Collectors.toList());
+
+        ObservableList<DonationRequest> pendingDonationRequestsObservableList = FXCollections.observableList(pendingDonationRequests);
+
+        approvedDonationRequestsTableView.setItems(pendingDonationRequestsObservableList);
     }
 
     private void initializeBloodContainerJourneyTab()
     {
         // Donations in testing table and related buttons
 
-//        populatePendingDonationRequestsTable();
+        populatePendingDonationRequestsTable();
 
         populateDonationsInTestingTable();
 
@@ -516,7 +562,7 @@ public class PersonnelMainWindowController implements Initializable
 
 
         // BLOOD CONTAINER JOURNEY TAB
-//        initializeBloodContainerJourneyTab();
+        initializeBloodContainerJourneyTab();
 
 
     }
