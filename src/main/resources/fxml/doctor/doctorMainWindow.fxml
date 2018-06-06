@@ -133,16 +133,16 @@
                            <children>
                               <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <center>
-                                    <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                    <TableView fx:id="bloodRequestsTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                       <columns>
-                                        <TableColumn prefWidth="100.0" text="Pacient" />
-                                        <TableColumn text="Blood type" />
-                                          <TableColumn text="RH" />
-                                          <TableColumn text="Quantity" />
-                                          <TableColumn prefWidth="100.0" text="Priority" />
-                                          <TableColumn prefWidth="100.0" text="Hospital" />
-                                          <TableColumn prefWidth="100.0" text="Status" />
-                                          <TableColumn prefWidth="110.0" text="Donated blood" />
+                                        <TableColumn fx:id="bloodRequestsPatientColumn" prefWidth="100.0" text="Patient" />
+                                        <TableColumn fx:id="bloodRequestsBloodTypeColumn" text="Blood type" />
+                                          <TableColumn fx:id="bloodRequestsRHColumn" prefWidth="62.0" text="RH" />
+                                          <TableColumn fx:id="bloodRequestsQuantityColumn" prefWidth="67.0" text="Quantity" />
+                                          <TableColumn fx:id="bloodRequestsPriorityColumn" prefWidth="86.0" text="Priority" />
+                                          <TableColumn fx:id="bloodRequestsHospitalColumn" prefWidth="145.0" text="Hospital" />
+                                          <TableColumn fx:id="bloodRequestsStatusColumn" prefWidth="98.0" text="Status" />
+                                          <TableColumn fx:id="bloodRequestsDonatedBloodColumn" prefWidth="112.0" text="Donated blood" />
                                       </columns>
                                        <BorderPane.margin>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -160,7 +160,7 @@
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </HBox.margin>
                                           </Button>
-                                          <Button mnemonicParsing="false" text="Delete request">
+                                          <Button fx:id="deleteRequestButton" mnemonicParsing="false" onAction="#deleteSelectedRequest" text="Delete request">
                                              <font>
                                                 <Font size="20.0" />
                                              </font>
