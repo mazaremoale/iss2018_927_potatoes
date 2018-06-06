@@ -9,14 +9,22 @@ import blood_donation.repository.Repository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.hibernate.Session;
 
+import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class DonorEditProfileWindowController implements Initializable
@@ -235,9 +243,94 @@ public class DonorEditProfileWindowController implements Initializable
     }
 
     @FXML
-    void goNext()
+    private void openDonorMainWindow() throws IOException
     {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/donor/donorMainWindow.fxml"));
+        loader.setController(new DonorMainWindowController()
+                .setPrimaryStage(primaryStage)
+                .setSession(session)
+                .setPreviousScene(primaryStage.getScene())
+                .setCurrentDonor(currentDonor)
+                .setDonationRepository(donationRepository)
+                .setClinicRepository(clinicRepository)
+                .setDistanceRepository(distanceRepository)
+                .setPatientRepository(patientRepository)
+                .setDonationRequestRepository(donationRequestRepository)
+                .setDonationAppointmentRepository(donationAppointmentRepository)
+                .setLocationRepository(locationRepository));
 
+        Parent content = loader.load();
+
+        Scene selectScene = new Scene(content);
+        primaryStage.setScene(selectScene);
+        primaryStage.setTitle("Choose a username and password");
+    }
+
+
+    @FXML
+    void goNext() throws IOException
+    {
+        if (firstNameTextField.getText().length() > 0 &&
+                lastNameTextField.getText().length() > 0 &&
+                !yearComboBox.getSelectionModel().isEmpty() &&
+                !monthComboBox.getSelectionModel().isEmpty() &&
+                idAddressTextField.getText().length() > 0 &&
+                idCityTextField.getText().length() > 0 &&
+                !idCountyComboBox.getSelectionModel().isEmpty())
+        {
+            currentDonor.setFirstName(firstNameTextField.getText());
+            currentDonor.setLastName(lastNameTextField.getText());
+
+            int year = yearComboBox.getSelectionModel().getSelectedItem();
+            Month month = Month.valueOf(monthComboBox.getSelectionModel().getSelectedItem().toUpperCase());
+            int day = dayComboBox.getSelectionModel().getSelectedItem();
+            LocalDate localDate = LocalDate.of(year, month, day);
+
+            currentDonor.setBirthDate(localDate);
+            currentDonor.setIdAddress(idAddressTextField.getText());
+            currentDonor.setIdCity(idCityTextField.getText());
+            currentDonor.setIdCounty(idCountyComboBox.getSelectionModel().getSelectedItem());
+
+            if (residenceAddressTextField.getText().length() > 0 &&
+                    !residenceCountyComboBox.getSelectionModel().isEmpty() &&
+                    residenceCityTextField.getText().length() > 0)
+            {
+                currentDonor.setResidenceAddress(residenceAddressTextField.getText());
+                currentDonor.setResidenceCity(residenceCityTextField.getText());
+                currentDonor.setResidenceCounty(residenceCountyComboBox.getSelectionModel().getSelectedItem());
+
+                openDonorMainWindow();
+            }
+
+            else if (residenceAddressTextField.getText().length() > 0 ||
+                    !residenceCountyComboBox.getSelectionModel().isEmpty() ||
+                    residenceCityTextField.getText().length() > 0)
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("If you fill in one of the optional fields, you should fill all of them!");
+                alert.setContentText("Please fill in all the 3 optional fields");
+
+                Optional<ButtonType> result = alert.showAndWait();
+            }
+            else
+            {
+                currentDonor.setResidenceCity(idCityTextField.getText());
+                currentDonor.setResidenceAddress(idAddressTextField.getText());
+                currentDonor.setResidenceCounty(idCountyComboBox.getSelectionModel().getSelectedItem());
+                openDonorMainWindow();
+            }
+        }
+        else
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("In order to continue, all required fields should be filled");
+            alert.setContentText("Please fill in all the required fields");
+
+            alert.showAndWait();
+        }
     }
 
 
@@ -325,35 +418,29 @@ public class DonorEditProfileWindowController implements Initializable
                 }));
 
 
-
-
-
-
-
-
-
         firstNameTextField.setText(currentDonor.getFirstName());
         lastNameTextField.setText(currentDonor.getLastName());
 
 
 
         int yearIndex = yearComboBox.getItems().indexOf(currentDonor.getBirthDate().getYear());
-        int dayIndex = dayComboBox.getItems().indexOf(currentDonor.getBirthDate().getDayOfMonth());
-        System.out.println(dayIndex);
-        System.out.println(currentDonor.getBirthDate().getDayOfMonth());
+        int countyIndex = idCountyComboBox.getItems().indexOf(currentDonor.getIdCounty());
 
 
         yearComboBox.getSelectionModel().select(yearIndex);
         monthComboBox.getSelectionModel().select(currentDonor.getBirthDate().getMonthValue() - 1);
-        dayComboBox.getSelectionModel().select(dayIndex);
+        dayComboBox.getSelectionModel().select(currentDonor.getBirthDate().getDayOfMonth() - 1);
 
 
         idAddressTextField.setText(currentDonor.getIdAddress());
-        idCountyComboBox.getSelectionModel();
+        idCityTextField.setText(currentDonor.getIdCity());
+        idCountyComboBox.getSelectionModel().select(countyIndex);
 
         if(currentDonor.getResidenceCounty() != null)
         {
-
+            residenceAddressTextField.setText(currentDonor.getResidenceAddress());
+            residenceCityTextField.setText(currentDonor.getResidenceCity());
+            residenceCountyComboBox.getSelectionModel().select(countyIndex);
         }
 
     }

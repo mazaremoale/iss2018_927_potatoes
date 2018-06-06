@@ -40,6 +40,7 @@ public class DonorMainWindowController implements Initializable
     private Repository<Patient> patientRepository;
     private Repository<DonationAppointment> donationAppointmentRepository;
     private Repository<Location> locationRepository;
+    private Repository<Hospital> hospitalRepository;
 
     @FXML
     private Label appointmentLabel;
@@ -300,6 +301,17 @@ public class DonorMainWindowController implements Initializable
         return this;
     }
 
+    public Repository<Hospital> getHospitalRepository()
+    {
+        return hospitalRepository;
+    }
+
+    public DonorMainWindowController setHospitalRepository(Repository<Hospital> hospitalRepository)
+    {
+        this.hospitalRepository = hospitalRepository;
+        return this;
+    }
+
     //TODO edit profile with the already existing Window, with a different controller
     //TODO modify donating to a certain patient
 
@@ -371,7 +383,9 @@ public class DonorMainWindowController implements Initializable
                 .setBloodGroupRepository(bloodGroupRepository)
                 .setDistanceRepository(distanceRepository)
                 .setPatientRepository(patientRepository)
-                .setDonationAppointmentRepository(donationAppointmentRepository));
+                .setDonationAppointmentRepository(donationAppointmentRepository)
+                .setLocationRepository(locationRepository)
+                .setHospitalRepository(hospitalRepository));
 
         Parent content = loader.load();
 

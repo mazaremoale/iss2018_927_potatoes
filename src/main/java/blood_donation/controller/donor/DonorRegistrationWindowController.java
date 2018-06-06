@@ -40,6 +40,7 @@ public final class DonorRegistrationWindowController implements Initializable
     private Repository<Patient> patientRepository;
     private Repository<DonationRequest> donationRequestRepository;
     private Repository<DonationAppointment> donationAppointmentRepository;
+    private Repository<Hospital> hospitalRepository;
 
 
     @FXML
@@ -97,7 +98,9 @@ public final class DonorRegistrationWindowController implements Initializable
                 .setDistanceRepository(distanceRepository)
                 .setPatientRepository(patientRepository)
                 .setDonationRequestRepository(donationRequestRepository)
-                .setDonationAppointmentRepository(donationAppointmentRepository));
+                .setDonationAppointmentRepository(donationAppointmentRepository)
+                .setLocationRepository(locationRepository)
+                .setHospitalRepository(hospitalRepository));
 
         Parent content = loader.load();
 
@@ -286,6 +289,17 @@ public final class DonorRegistrationWindowController implements Initializable
     public DonorRegistrationWindowController setDonationAppointmentRepository(Repository<DonationAppointment> donationAppointmentRepository)
     {
         this.donationAppointmentRepository = donationAppointmentRepository;
+        return this;
+    }
+
+    public Repository<Hospital> getHospitalRepository()
+    {
+        return hospitalRepository;
+    }
+
+    public DonorRegistrationWindowController setHospitalRepository(Repository<Hospital> hospitalRepository)
+    {
+        this.hospitalRepository = hospitalRepository;
         return this;
     }
 
