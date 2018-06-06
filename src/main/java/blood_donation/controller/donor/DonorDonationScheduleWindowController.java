@@ -42,6 +42,8 @@ public class DonorDonationScheduleWindowController implements Initializable
     private Repository<Distance> distanceRepository;
     private Repository<Patient> patientRepository;
     private Repository<DonationAppointment> donationAppointmentRepository;
+    private Repository<Location> locationRepository;
+    private Repository<Hospital> hospitalRepository;
 
     @FXML
     private Label dateLabel;
@@ -59,7 +61,19 @@ public class DonorDonationScheduleWindowController implements Initializable
     private CheckBox targettedDonationCheckBox;
 
     @FXML
-    private Label whoLabel;
+    private Label countyLabel;
+
+    @FXML
+    private ComboBox<Location> countyComboBox;
+
+    @FXML
+    private Label hospitalLabel;
+
+    @FXML
+    private ComboBox<Hospital> hospitalComboBox;
+
+    @FXML
+    private Label patientLabel;
 
     @FXML
     private ComboBox<Patient> patientComboBox;
@@ -207,6 +221,28 @@ public class DonorDonationScheduleWindowController implements Initializable
         return this;
     }
 
+    public Repository<Location> getLocationRepository()
+    {
+        return locationRepository;
+    }
+
+    public DonorDonationScheduleWindowController setLocationRepository(Repository<Location> locationRepository)
+    {
+        this.locationRepository = locationRepository;
+        return this;
+    }
+
+    public Repository<Hospital> getHospitalRepository()
+    {
+        return hospitalRepository;
+    }
+
+    public DonorDonationScheduleWindowController setHospitalRepository(Repository<Hospital> hospitalRepository)
+    {
+        this.hospitalRepository = hospitalRepository;
+        return this;
+    }
+
     @FXML
     private void initializeDatePickerFormat()
     {
@@ -283,7 +319,6 @@ public class DonorDonationScheduleWindowController implements Initializable
     @FXML
     private void initializeClinics()
     {
-        //TODO fix this so it works if you register aswell
         List<Clinic> clinics = clinicRepository.getAll();
 
         List<Integer> distances = new ArrayList<>();
@@ -294,6 +329,7 @@ public class DonorDonationScheduleWindowController implements Initializable
                 .filter(distance -> distance.getLocation1() == currentLocation)
                 .sorted(Comparator.comparing(Distance::getDistance))
                 .map(Distance::getLocation2)
+                .distinct()
                 .collect(Collectors.toList());
 
         for(Location loc : locationsList)
@@ -319,16 +355,47 @@ public class DonorDonationScheduleWindowController implements Initializable
     @FXML
     private void initializeTargettedDonation()
     {
-        whoLabel.setVisible(false);
+        countyLabel.setVisible(false);
+        countyComboBox.setVisible(false);
+        hospitalLabel.setVisible(false);
+        hospitalComboBox.setVisible(false);
+        patientLabel.setVisible(false);
         patientComboBox.setVisible(false);
 
-        patientComboBox.setItems(FXCollections.observableArrayList(patientRepository.getAll()));
+        countyComboBox.setItems(FXCollections.observableArrayList(locationRepository.getAll()));
 
         targettedDonationCheckBox.selectedProperty().addListener((observable, oldValue, newValue) ->
         {
-            whoLabel.setVisible(newValue);
-            patientComboBox.setVisible(newValue);
+            countyLabel.setVisible(newValue);
+            countyComboBox.setVisible(newValue);
         });
+
+        countyComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+        {
+            hospitalComboBox.setItems(FXCollections.observableArrayList(hospitalRepository.getAll()
+                    .stream()
+                    .filter(hospital -> hospital.getLocation() == newValue)
+                    .collect(Collectors.toList())));
+
+            hospitalComboBox.setVisible(true);
+            hospitalLabel.setVisible(true);
+        });
+
+        hospitalComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+        {
+            patientComboBox.setItems(FXCollections.observableArrayList(patientRepository.getAll()
+                    .stream()
+                    .filter(patient -> patient.getDoctor().getHospital() == newValue)
+                    .collect(Collectors.toList())));
+
+            patientComboBox.setVisible(true);
+            patientLabel.setVisible(true);
+        });
+
+
+
+
+
     }
 
     @FXML
@@ -375,6 +442,13 @@ public class DonorDonationScheduleWindowController implements Initializable
                             new DonationAppointment(appointmentDate, appointmentTime, clinic);
                     donationAppointment.setDonationRequest(currentDonationRequest);
 
+                    if(!patientComboBox.getSelectionModel().isEmpty())
+                    {
+                        currentDonationRequest.setPatient(patientComboBox.getSelectionModel().getSelectedItem());
+                        donationRequestRepository.update(currentDonationRequest);
+
+                    }
+                    System.out.println(donationRequestRepository.getLastEntity().getPatient());
                     donationAppointmentRepository.add(donationAppointment);
 
                     try

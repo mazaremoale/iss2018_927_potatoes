@@ -57,6 +57,41 @@ public class PersonnelMainWindowController implements Initializable
     private Button donorMedicalDataButton;
     @FXML
     private Button cancelDonationRequestButton;
+    @FXML
+    private Button journeySetBloodGroupButton;
+    @FXML
+    private Button journeyBeginPreparationButton;
+    @FXML
+    private Button journeyBeginBiologicalQualityControlButton;
+    @FXML
+    private Button journeyBeginRedistributionButton;
+    @FXML
+    private Button journyBeginSamplingButton;
+
+    @FXML
+    private void journeySetBloodGroup()
+    {
+
+    }
+
+    @FXML
+    private void journeyBeginPreparation()
+    {
+
+    }
+
+    @FXML
+    private void journeyBeginBiologicalQualityControl()
+    {
+
+    }
+
+    @FXML
+    private void journeyBeginRedistribution()
+    {
+
+    }
+
 
     @FXML
     private TableView<DonationAppointment> donationRequestsTableView;
@@ -102,17 +137,20 @@ public class PersonnelMainWindowController implements Initializable
     private TableColumn stocksLocationTableColumn;
 
     @FXML
-    private TableView journeyBloodInTestingTableView;
+    private TableView<Donation> journeyBloodInTestingTableView;
     @FXML
-    private TableColumn journeyTestingStatusTableColumn;
+    private TableColumn<Donation, String> journeyTestingDonationDateTableColumn;
+    @FXML
+    private TableColumn<Donation, String> journeyTestingBloodGroupTableColumn;
+    @FXML
+    private TableColumn<Donation, String> journeyTestingStatusTableColumn;
 
     @FXML
-    private TableView pendingDonationsTableView;
+    private TableView<DonationRequest> approvedDonationRequestsTableView;
     @FXML
-    private TableColumn pendingDonationsDonorNameTableColumn;
+    private TableColumn<DonationRequest, String> approvedDonationRequestsDonorNameTableColumn;
     @FXML
-    private TableColumn pendingDonationsDonationDateTableColumn;
-
+    private TableColumn<DonationRequest, String> approvedDonationRequestsAprovedByDoctorTableColumn;
 
     public Stage getPrimaryStage()
     {
@@ -272,21 +310,6 @@ public class PersonnelMainWindowController implements Initializable
     }
 
     @FXML
-    public void sendDonationRequest()
-    {
-        if(!donationRequestsTableView.getSelectionModel().isEmpty())
-        {
-            // TODO check if all fields are set (or add another flag to the class donation request
-
-            DonationRequest selectedDonationRequest = donationRequestsTableView.getSelectionModel().getSelectedItem().getDonationRequest();
-
-            selectedDonationRequest.setValidatedByPersonnel(true);
-
-            donationRequestRepository.update(selectedDonationRequest);
-        }
-    }
-
-    @FXML
     public void  updateDonorMedicalData() throws IOException
     {
         // change to Personnel Donor Medical Data Form Window
@@ -321,28 +344,36 @@ public class PersonnelMainWindowController implements Initializable
         }
     }
 
+//    @FXML
+//    public void cancelDonationRequest()
+//    {
+//        if(!donationRequestsTableView.getSelectionModel().isEmpty())
+//        {
+//            // TODO check if all fields are set (or add another flag to the class donation request
+//
+//            DonationRequest selectedDonationRequest = donationRequestsTableView.getSelectionModel().getSelectedItem().getDonationRequest();
+//
+//            selectedDonationRequest.setValidatedByPersonnel(false);
+//
+//            donationRequestRepository.update(selectedDonationRequest);
+//        }
+//    }
+
     @FXML
-    public void cancelDonationRequest()
+    public void beginSampling()
     {
-        if(!donationRequestsTableView.getSelectionModel().isEmpty())
-        {
-            // TODO check if all fields are set (or add another flag to the class donation request
-
-            DonationRequest selectedDonationRequest = donationRequestsTableView.getSelectionModel().getSelectedItem().getDonationRequest();
-
-            selectedDonationRequest.setValidatedByPersonnel(false);
-
-            donationRequestRepository.update(selectedDonationRequest);
-        }
+//        if(!pendingDonationRequestsTableView.getSelectionModel().isEmpty())
+//        {
+//            DonationRequest selectedDonationRequest = pendingDonationRequestsTableView.getSelectionModel().getSelectedItem();
+//
+////            selectedDonationRequest.setStatus(Status.TESTING);
+//
+////            donationRepository.update(selectedDonationRequest);
+//        }
     }
 
-    private void initializeDonationRequestAppointmentTable()
+    private void populateDonationAppointmentTable()
     {
-        // DONATION REQUESTS TAB
-
-        // populate donation requests table
-        // a personnel can only see the requests made at their clinic
-
         donationRequestDonorFirstNameTableColumn.setCellValueFactory(data ->
                 new SimpleStringProperty(data.getValue().getDonationRequest().getDonor().getFirstName()));
         donationRequestDonorLastNameTableColumn.setCellValueFactory(data ->
@@ -369,9 +400,104 @@ public class PersonnelMainWindowController implements Initializable
         donationRequestsTableView.setItems(thisPersonnelDonationAppointmentsObservableList);
     }
 
+    private void initializeDonationRequestsTab()
+    {
+        // DONATION REQUESTS TAB
+
+        // populate donation requests table
+        // a personnel can only see the requests made at their clinic
+        populateDonationAppointmentTable();
+
+    }
+
     private void initializeBloodRequestsTable()
     {
         // TODO wait for Tatiana to add some attributes to class BloodRequest
+    }
+
+    private void populateDonationsInTestingTable()
+    {
+//        journeyTestingDonationDateTableColumn.setCellValueFactory(data ->
+//                data.getValue().donationDateProperty());
+//        journeyTestingBloodGroupTableColumn.setCellValueFactory(data ->
+//                data.getValue().donatedBloodProperty());
+//        journeyTestingStatusTableColumn.setCellValueFactory(data ->
+//                data.getValue().bloodContainerStatusProperty());
+//
+//        List<Donation> donationsInTesting = donationRepository.getAll()
+//                .stream()
+//                .filter(donation -> donation.getDonationRequest().getValidatedByPersonnel() && donation.getDonationRequest().getValidatedByDoctor())
+//                .filter(donation -> donation.getStatus() == Status.TESTING)
+//                .collect(Collectors.toList());
+//
+//        ObservableList<Donation> donationObservableList = FXCollections.observableList(donationsInTesting);
+//
+//        journeyBloodInTestingTableView.setItems(donationObservableList);
+    }
+
+    private void populatePendingDonationRequestsTable()
+    {
+//        approvedDonationRequestsDonorNameTableColumn.setCellValueFactory(data ->
+//                data.getValue().getDonor().fullNameProperty());
+//        approvedDonationRequestsAprovedByDoctorTableColumn.setCellValueFactory(data ->
+//                new SimpleStringProperty(data.getValue().getValidatedByDoctor().toString()));
+//
+//        List<DonationRequest> pendingDonationRequests = donationRequestRepository.getAll()
+//                .stream()
+//                .filter(donationRequest -> donationRequest.getValidatedByPersonnel() &&
+//                        donationRequest.getValidatedByDoctor())
+//                .collect(Collectors.toList());
+//
+//        ObservableList<DonationRequest> pendingDonationRequestsObservableList = FXCollections.observableList(pendingDonationRequests);
+//
+//        approvedDonationRequestsTableView.setItems(pendingDonationRequestsObservableList);
+    }
+
+    private void initializeBloodContainerJourneyTab()
+    {
+        // Donations in testing table and related buttons
+
+//        populatePendingDonationRequestsTable();
+
+        populateDonationsInTestingTable();
+
+//        journeyBloodInTestingTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+//            if (newSelection != null)
+//            {
+//                // TODO check if they work as expected
+//                switch (newSelection.getBloodContainerJourneyStatus())
+//                {
+//                    case SAMPLING:
+//                        journeySetBloodGroupButton.setDisable(false);
+//                        journeyBeginPreparationButton.setDisable(true);
+//                        journeyBeginBiologicalQualityControlButton.setDisable(true);
+//                        journeyBeginRedistributionButton.setDisable(true);
+//                        break;
+//                    case PREPARATION:
+//                        journeySetBloodGroupButton.setDisable(true);
+//                        journeyBeginPreparationButton.setDisable(false);
+//                        journeyBeginBiologicalQualityControlButton.setDisable(true);
+//                        journeyBeginRedistributionButton.setDisable(true);
+//                        break;
+//                    case BIOLOGICAL_QUALITY_CONTROL:
+//                        journeySetBloodGroupButton.setDisable(true);
+//                        journeyBeginPreparationButton.setDisable(true);
+//                        journeyBeginBiologicalQualityControlButton.setDisable(false);
+//                        journeyBeginRedistributionButton.setDisable(true);
+//                        break;
+//                    case REDISTRIBUTION:
+//                        journeySetBloodGroupButton.setDisable(true);
+//                        journeyBeginPreparationButton.setDisable(true);
+//                        journeyBeginBiologicalQualityControlButton.setDisable(true);
+//                        journeyBeginRedistributionButton.setDisable(false);
+//                        break;
+//                }
+//            }
+//        });
+
+
+        // Pending donations table
+
     }
 
     @Override
@@ -380,7 +506,7 @@ public class PersonnelMainWindowController implements Initializable
         // populate table views
 
         // DONATION REQUESTS TAB
-        initializeDonationRequestAppointmentTable();
+        initializeDonationRequestsTab();
         // TODO add event listeners when selecting a row (if needed)
 
         // BLOOD REQUESTS TAB
@@ -390,7 +516,7 @@ public class PersonnelMainWindowController implements Initializable
 
 
         // BLOOD CONTAINER JOURNEY TAB
-
+//        initializeBloodContainerJourneyTab();
 
 
     }
