@@ -20,6 +20,7 @@ import org.hibernate.Session;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -56,9 +57,6 @@ public class DonorMainWindowController implements Initializable
 
     @FXML
     private TableColumn<Donation, String> patientTableColumn;
-
-    @FXML
-    private TableView<Donor> resultsTableView;
 
     @FXML
     private TableColumn<Donation, String> clinicTableColumn;
@@ -290,6 +288,9 @@ public class DonorMainWindowController implements Initializable
         return this;
     }
 
+    //TODO edit profile with the already existing Window, with a different controller
+    //TODO modify donating to a certain patient
+
     @FXML
     public void goBack()
     {
@@ -300,6 +301,19 @@ public class DonorMainWindowController implements Initializable
     public void donateBlood() throws IOException
     {
         Donation latestDonation = currentDonor.getLatestDonation(donationRepository);
+
+        Period timePeriod = Period.between(currentDonor.getBirthDate(), LocalDate.now());
+        if (timePeriod.getYears() < 18)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("You must be at least 18 to donate.");
+            alert.setContentText("Sorry for the inconvenience.");
+
+            alert.showAndWait();
+
+            return;
+        }
 
         if(latestDonation != null)
         {
