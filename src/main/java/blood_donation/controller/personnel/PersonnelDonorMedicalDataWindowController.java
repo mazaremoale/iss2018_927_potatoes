@@ -287,6 +287,11 @@ public class PersonnelDonorMedicalDataWindowController implements Initializable
         return Period.between(birthDate, LocalDate.now()).getYears();
     }
 
+    private LocalDate computeExpirationDate(LocalDate donationDate)
+    {
+        return donationDate.plusDays(42);  // blood expires after 42 days
+    }
+
     private Boolean isFormCompleted()
     {
         // check combo boxes and text fields
@@ -478,6 +483,36 @@ public class PersonnelDonorMedicalDataWindowController implements Initializable
                 cdr.setValidatedByPersonnel(true);
                 donationRequestRepository.update(cdr);
 
+//                // create a donation with the status PENDING
+//
+//                Donation newDonation = new Donation();
+//                Blood donatedBlood = new Blood();
+//
+//                // actually adding the donation in the repository
+//                bloodRepository.add(donatedBlood);
+//                donationRepository.add(newDonation);
+//
+////                donatedBlood.setQuantity(0.3);
+//                donatedBlood.setBloodGroup(cdr.getDonor().getBloodGroup());
+//                donatedBlood.setExpirationDate(computeExpirationDate(donationAppointment.getAppointmentDate()));
+//
+//                newDonation.setDonor(cdr.getDonor());
+//                newDonation.setDonationDate(donationAppointment.getAppointmentDate());
+//                newDonation.setStatus(Status.PENDING);
+////                newDonation.setPatient(cdr.getPatient());
+//                newDonation.setDonationRequest(cdr);
+//                newDonation.setClinic(donationAppointment.getClinic());
+//                newDonation.setBloodContainerJourneyStatus(BloodContainerJourneyStatus.SAMPLING);
+//
+//                // cancer
+//                newDonation.setDonatedBlood(donatedBlood);
+//                donatedBlood.setDonation(newDonation);
+//
+//                // more cancer
+//                bloodRepository.update(donatedBlood);
+//                donationRepository.update(newDonation);
+
+
                 // change to Personnel Main Window
                 goToPersonnelMainWindow();
             }
@@ -501,6 +536,28 @@ public class PersonnelDonorMedicalDataWindowController implements Initializable
             DonationRequest cdr = donationAppointment.getDonationRequest();
             cdr.setValidatedByPersonnel(false);
             donationRequestRepository.update(cdr);
+
+            // create a donation with the status REJECTED
+            Blood donatedBlood = new Blood();
+//                donatedBlood.setQuantity(0.3);
+            donatedBlood.setBloodGroup(cdr.getDonor().getBloodGroup());
+            donatedBlood.setExpirationDate(computeExpirationDate(donationAppointment.getAppointmentDate()));
+
+            Donation newDonation = new Donation();
+            newDonation.setDonor(cdr.getDonor());
+            newDonation.setDonationDate(donationAppointment.getAppointmentDate());
+            newDonation.setStatus(Status.REJECTED);
+//                newDonation.setPatient(cdr.getPatient());
+            newDonation.setDonationRequest(cdr);
+            newDonation.setClinic(donationAppointment.getClinic());
+            newDonation.setBloodContainerJourneyStatus(BloodContainerJourneyStatus.SAMPLING);
+
+            // cancer
+            newDonation.setDonatedBlood(donatedBlood);
+            donatedBlood.setDonation(newDonation);
+
+            // actually adding the donation in the repository
+            donationRepository.add(newDonation);
 
             // change to Personnel Main Window
             goToPersonnelMainWindow();

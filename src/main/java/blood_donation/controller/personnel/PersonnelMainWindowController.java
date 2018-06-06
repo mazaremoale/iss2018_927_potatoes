@@ -395,13 +395,8 @@ public class PersonnelMainWindowController implements Initializable
         }
     }
 
-    private void initializeDonationRequestAppointmentTable()
+    private void populateDonationAppointmentTable()
     {
-        // DONATION REQUESTS TAB
-
-        // populate donation requests table
-        // a personnel can only see the requests made at their clinic
-
         donationRequestDonorFirstNameTableColumn.setCellValueFactory(data ->
                 new SimpleStringProperty(data.getValue().getDonationRequest().getDonor().getFirstName()));
         donationRequestDonorLastNameTableColumn.setCellValueFactory(data ->
@@ -428,15 +423,23 @@ public class PersonnelMainWindowController implements Initializable
         donationRequestsTableView.setItems(thisPersonnelDonationAppointmentsObservableList);
     }
 
+    private void initializeDonationRequestsTab()
+    {
+        // DONATION REQUESTS TAB
+
+        // populate donation requests table
+        // a personnel can only see the requests made at their clinic
+        populateDonationAppointmentTable();
+
+    }
+
     private void initializeBloodRequestsTable()
     {
         // TODO wait for Tatiana to add some attributes to class BloodRequest
     }
 
-    private void intializeBloodContainerJourneyTab()
+    private void populateDonationsInTestingTable()
     {
-        // Donations in testing table and related buttons
-
         journeyTestingDonationDateTableColumn.setCellValueFactory(data ->
                 data.getValue().donationDateProperty());
 //        journeyTestingTypeTableColumn.setCellValueFactory(data ->
@@ -455,9 +458,38 @@ public class PersonnelMainWindowController implements Initializable
         ObservableList<Donation> donationObservableList = FXCollections.observableList(donationsInTesting);
 
         journeyBloodInTestingTableView.setItems(donationObservableList);
+    }
 
-        journeyBloodInTestingTableView.getSelectionModel().selectedItemProperty()
-                .addListener((obs, oldSelection, newSelection) -> {
+    private void populatePendingDonationsTable()
+    {
+        pendingDonationsDonorNameTableColumn.setCellValueFactory(data ->
+                data.getValue().getDonor().fullNameProperty());
+        pendingDonationsDonationDateTableColumn.setCellValueFactory(data ->
+                data.getValue().donationDateProperty());
+        pendingDonationsClinicTableColumn.setCellValueFactory(data ->
+                data.getValue().clinicProperty());
+        pendingDonationsPatientNameTableColumn.setCellValueFactory(data ->
+                data.getValue().patientProperty());
+        pendingDonationsDoctorNameTableColumn.setCellValueFactory(data ->
+                data.getValue().getPatient().getDoctor().fullNameProperty());
+
+        List<Donation> pendingDonations = donationRepository.getAll()
+                .stream()
+                .filter(donation -> donation.getDonationRequest().getValidatedByPersonnel() &&
+//                        !donation.getDonationRequest().getValidatedByDoctor())  // not relevant at this point
+                        donation.getBloodContainerJourneyStatus() == BloodContainerJourneyStatus.SAMPLING)
+                .collect(Collectors.toList());
+
+        ObservableList<Donation> pendingDonationObservableList = FXCollections.observableList(pendingDonations);
+
+        pendingDonationsTableView.setItems(pendingDonationObservableList);
+    }
+
+    private void initializeBloodContainerJourneyTab()
+    {
+        // Donations in testing table and related buttons
+        populateDonationsInTestingTable();
+        journeyBloodInTestingTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null)
             {
                 // TODO check if they work as expected
@@ -494,26 +526,6 @@ public class PersonnelMainWindowController implements Initializable
 
         // Pending donations table
 
-        pendingDonationsDonorNameTableColumn.setCellValueFactory(data ->
-            data.getValue().getDonor().fullNameProperty());
-        pendingDonationsDonationDateTableColumn.setCellValueFactory(data ->
-            data.getValue().donationDateProperty());
-        pendingDonationsClinicTableColumn.setCellValueFactory(data ->
-            data.getValue().clinicProperty());
-        pendingDonationsPatientNameTableColumn.setCellValueFactory(data ->
-            data.getValue().patientProperty());
-        pendingDonationsDoctorNameTableColumn.setCellValueFactory(data ->
-            data.getValue().getPatient().getDoctor().fullNameProperty());
-
-        List<Donation> pendingDonations = donationRepository.getAll()
-                .stream()
-                .filter(donation -> donation.getDonationRequest().getValidatedByPersonnel() &&
-                                !donation.getDonationRequest().getValidatedByDoctor())
-                .collect(Collectors.toList());
-
-        ObservableList<Donation> pendingDonationObservableList = FXCollections.observableList(pendingDonations);
-
-        pendingDonationsTableView.setItems(pendingDonationObservableList);
     }
 
     @Override
@@ -522,7 +534,7 @@ public class PersonnelMainWindowController implements Initializable
         // populate table views
 
         // DONATION REQUESTS TAB
-        initializeDonationRequestAppointmentTable();
+        initializeDonationRequestsTab();
         // TODO add event listeners when selecting a row (if needed)
 
         // BLOOD REQUESTS TAB
@@ -532,7 +544,8 @@ public class PersonnelMainWindowController implements Initializable
 
 
         // BLOOD CONTAINER JOURNEY TAB
-        intializeBloodContainerJourneyTab();
+        populatePendingDonationsTable();
+        initializeBloodContainerJourneyTab();
 
 
     }
