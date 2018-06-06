@@ -456,6 +456,15 @@ public final class LoginWindowController implements Initializable
                             .setDistanceRepository(distanceRepository)
                             .setPatientRepository(patientRepository)
                             .setDonationAppointmentRepository(donationAppointmentRepository)
+//                            .setPlasmaRepository(plasmaRepository)
+//                            .setRedBloodCellRepository(redBloodCellRepository)
+//                            .setPlateletRepository(plateletRepository)
+//                            .setDonorRepository(donorRepository)
+//                            .setDoctorRepository(doctorRepository)
+//                            .setPersonnelRepository(personnelRepository)
+//                            .setHospitalRepository(hospitalRepository)
+//                            .setLocationRepository(locationRepository)
+//                            .setRequestRepository(bloodRequestRepository)
                         );
 
                     Parent content = loader.load();
