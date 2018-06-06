@@ -14,19 +14,10 @@ public class BloodGroup
     private BloodTypeLetter bloodTypeLetter;
     private BloodTypeRH bloodTypeRH;
 
-    @FXML
-    private StringProperty bloodTypeLetterProperty = new SimpleStringProperty();
-
-    @FXML
-    private StringProperty bloodTypeRHProperty = new SimpleStringProperty();
-
     public BloodGroup(BloodTypeLetter bloodTypeLetter, BloodTypeRH bloodTypeRH)
     {
         this.bloodTypeLetter = bloodTypeLetter;
         this.bloodTypeRH = bloodTypeRH;
-
-        bloodTypeLetterProperty.setValue(bloodTypeLetter.toString());
-        bloodTypeRHProperty.setValue(bloodTypeRH.toString());
     }
 
     public BloodGroup()
@@ -55,7 +46,6 @@ public class BloodGroup
     public void setBloodTypeLetter(BloodTypeLetter bloodTypeLetter)
     {
         this.bloodTypeLetter = bloodTypeLetter;
-        this.bloodTypeLetterProperty.set(bloodTypeLetter.toString());
     }
 
     @Enumerated(EnumType.STRING)
@@ -67,17 +57,6 @@ public class BloodGroup
     public void setBloodTypeRH(BloodTypeRH bloodTypeRH)
     {
         this.bloodTypeRH = bloodTypeRH;
-        this.bloodTypeRHProperty.set(bloodTypeRH.toString());
-    }
-
-    public StringProperty bloodTypeLetterProperty()
-    {
-        return bloodTypeLetterProperty;
-    }
-
-    public StringProperty bloodTypeRHProperty()
-    {
-        return bloodTypeRHProperty;
     }
 
     @Override
