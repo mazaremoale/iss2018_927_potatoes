@@ -212,6 +212,15 @@ public class Main extends Application
 
         primaryStage.show();
 
+//        Blood blood = new Blood();
+//        blood.setBloodGroup(bloodGroupRepository.getByID(1));
+//        bloodRepository.add(blood);
+//        DonationRequest donationRequest = new DonationRequest();
+//        donationRequestRepository.add(donationRequest);
+//        Donation donation = new Donation();
+//        donation.setDonationRequest(donationRequest);
+//        donation.setDonatedBlood(blood);
+//        donationRepository.add(donation);
 
     }
 

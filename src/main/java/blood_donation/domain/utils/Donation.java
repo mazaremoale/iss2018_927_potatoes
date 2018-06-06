@@ -24,6 +24,8 @@ public class Donation
     private Blood donatedBlood;
     private DonationRequest donationRequest;
     private Clinic clinic;
+    private JourneyStatus bloodContainerJourneyStatus = JourneyStatus.SAMPLING;
+
 
     @FXML
     private IntegerProperty id = new SimpleIntegerProperty();
@@ -42,6 +44,9 @@ public class Donation
 
     @FXML
     private StringProperty clinicProperty = new SimpleStringProperty();
+
+    @FXML
+    private StringProperty bloodContainerStatusProperty = new SimpleStringProperty();
 
     public Donation(Donor donor, Blood donatedBlood)
     {
@@ -93,6 +98,11 @@ public class Donation
     public Blood getDonatedBlood()
     {
         return donatedBlood;
+    }
+
+    public JourneyStatus getBloodContainerJourneyStatus()
+    {
+        return bloodContainerJourneyStatus;
     }
 
 
@@ -161,6 +171,13 @@ public class Donation
         this.donationRequest = donationRequest;
     }
 
+    public void setBloodContainerJourneyStatus(JourneyStatus status)
+    {
+        this.bloodContainerJourneyStatus = status;
+        if(status != null)
+            this.bloodContainerStatusProperty.setValue(status.toString());
+    }
+
     public StringProperty donationDateProperty()
     {
         return donationDateProperty;
@@ -182,6 +199,11 @@ public class Donation
     }
 
     public StringProperty clinicProperty(){return clinicProperty;}
+
+    public StringProperty bloodContainerStatusProperty()
+    {
+        return bloodContainerStatusProperty;
+    }
 
     @Override
     public String toString()
