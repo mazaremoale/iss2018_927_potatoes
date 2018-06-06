@@ -332,7 +332,8 @@ public final class UserSelectWindowController implements Initializable
                 .setBloodGroupRepository(bloodGroupRepository)
                 .setPreviousScene(primaryStage.getScene())
                 .setDistanceRepository(distanceRepository)
-                .setDonationAppointmentRepository(donationAppointmentRepository));
+                .setDonationAppointmentRepository(donationAppointmentRepository)
+                .setLocationRepository(locationRepository));
 
         Parent content = loader.load();
 
@@ -364,6 +365,7 @@ public final class UserSelectWindowController implements Initializable
                 .setLocationRepository(locationRepository)
                 .setRequestRepository(requestRepository)
                 .setDistanceRepository(distanceRepository)
+                .setBloodGroupRepository(bloodGroupRepository)
                 .setPreviousScene(primaryStage.getScene()));
 
         Parent content = loader.load();

@@ -53,7 +53,7 @@ public final class LoginWindowController implements Initializable
     private Repository<DonationRequest> donationRequestRepository;
     private Repository<Hospital> hospitalRepository;
     private Repository<Location> locationRepository;
-    private Repository<BloodRequest> requestRepository;
+    private Repository<BloodRequest> bloodRequestRepository;
     private Repository<BloodGroup> bloodGroupRepository;
     private Repository<Distance> distanceRepository;
     private Repository<DonationAppointment> donationAppointmentRepository;
@@ -155,7 +155,7 @@ public final class LoginWindowController implements Initializable
 
     public LoginWindowController setRequestRepository(Repository<BloodRequest> requestRepository)
     {
-        this.requestRepository = requestRepository;
+        this.bloodRequestRepository = requestRepository;
         return this;
     }
 
@@ -300,7 +300,8 @@ public final class LoginWindowController implements Initializable
                             .setBloodGroupRepository(bloodGroupRepository)
                             .setDistanceRepository(distanceRepository)
                             .setPatientRepository(patientRepository)
-                            .setDonationAppointmentRepository(donationAppointmentRepository));
+                            .setDonationAppointmentRepository(donationAppointmentRepository)
+                            .setLocationRepository(locationRepository));
 
                     Parent content = loader.load();
 
@@ -373,7 +374,11 @@ public final class LoginWindowController implements Initializable
                             .setDonationRequestRepository(donationRequestRepository)
                             .setLocationRepository(locationRepository)
                             .setDonationRepository(donationRepository)
-                            .setBloodRepository(bloodRepository));
+                            .setBloodRepository(bloodRepository)
+                            .setHospitalRepository(hospitalRepository)
+                            .setPatientRepository(patientRepository)
+                            .setBloodRequestRepository(bloodRequestRepository)
+                            .setBloodGroupRepository(bloodGroupRepository));
 
                     Parent content = loader.load();
 

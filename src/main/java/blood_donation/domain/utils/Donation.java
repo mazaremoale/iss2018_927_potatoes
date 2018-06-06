@@ -146,7 +146,7 @@ public class Donation
     }
 
     @OneToOne
-    @MapsId
+    @JoinColumn(unique = true)
     public DonationRequest getDonationRequest()
     {
         return donationRequest;
