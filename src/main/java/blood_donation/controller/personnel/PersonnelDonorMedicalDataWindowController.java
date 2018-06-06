@@ -274,6 +274,7 @@ public class PersonnelDonorMedicalDataWindowController implements Initializable
                 .setDistanceRepository(distanceRepository)
                 .setPatientRepository(patientRepository)
                 .setDonationAppointmentRepository(donationAppointmentRepository)
+                .setBloodGroupRepository(bloodGroupRepository)
         );
 
         Parent content = loader.load();

@@ -141,16 +141,13 @@
                            <children>
                               <TableView fx:id="journeyBloodInTestingTableView" prefHeight="314.0" prefWidth="610.0">
                                 <columns>
-                                  <TableColumn fx:id="journeyTestingDonationDateTableColumn" prefWidth="97.60000741481781" text="Donation Date" />
-                                    <TableColumn fx:id="journeyTestingTypeTableColumn" prefWidth="75.0" text="Type" />
-                                    <TableColumn fx:id="journeyTestingBloodGroupTableColumn" prefWidth="155.1999969482422" text="Blood Group" />
-                                  <TableColumn fx:id="journeyTestingStatusTableColumn" prefWidth="279.9999694824219" text="Journey Status" />
+                                  <TableColumn fx:id="journeyTestingDonationDateTableColumn" prefWidth="174.40003335475922" text="Donation Date" />
+                                    <TableColumn fx:id="journeyTestingBloodGroupTableColumn" prefWidth="193.59999084472656" text="Blood Group" />
+                                  <TableColumn fx:id="journeyTestingStatusTableColumn" prefWidth="240.79995727539062" text="Journey Status" />
                                 </columns>
                               </TableView>
                               <VBox alignment="CENTER" prefHeight="261.0" prefWidth="298.0" spacing="20.0">
                                  <children>
-                                    <Button fx:id="journeySetBloodGroupButton" mnemonicParsing="false" prefWidth="200.0" text="Set Blood Group" />
-                                    <Button fx:id="journyBeginSamplingButton" mnemonicParsing="false" onAction="#beginSampling" prefWidth="200.0" text="Begin Sampling" />
                                     <Button fx:id="journeyBeginPreparationButton" mnemonicParsing="false" prefWidth="200.0" text="Begin Preparation" />
                                     <Button fx:id="journeyBeginBiologicalQualityControlButton" mnemonicParsing="false" prefWidth="200.0" text="Begin Biological Quality Control" />
                                     <Button fx:id="journeyBeginRedistributionButton" mnemonicParsing="false" prefWidth="200.0" text="Begin Redistribution" />
@@ -163,13 +160,14 @@
                               <Insets bottom="5.0" top="5.0" />
                            </padding>
                         </Separator>
-                        <Label text="Pending Donation Requests" />
-                        <TableView fx:id="pendingDonationRequestsTableView" prefHeight="351.0" prefWidth="610.0">
+                        <Label text="Approved Donation Requests" />
+                        <TableView fx:id="approvedDonationRequestsTableView" prefHeight="351.0" prefWidth="610.0">
                           <columns>
-                            <TableColumn fx:id="pendingDonationRequestsDonorNameTableColumn" prefWidth="285.5999997854233" text="Donor Name" />
-                              <TableColumn fx:id="pendingDonationRequestsAprovedByDoctorTableColumn" prefWidth="618.4000061035156" text="Approved by Doctor" />
+                            <TableColumn fx:id="approvedDonationRequestsDonorNameTableColumn" prefWidth="285.5999997854233" text="Donor Name" />
+                              <TableColumn fx:id="approvedDonationRequestsAprovedByDoctorTableColumn" prefWidth="618.4000061035156" text="Approved by Doctor" />
                           </columns>
                         </TableView>
+                        <Button fx:id="journyBeginSamplingButton" mnemonicParsing="false" onAction="#beginSampling" prefWidth="200.0" text="Begin Sampling" />
                      </children>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

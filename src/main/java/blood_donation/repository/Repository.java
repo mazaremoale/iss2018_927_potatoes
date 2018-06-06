@@ -51,8 +51,9 @@ public final class Repository<T>
             if(tClass == Distance.class)
             {
                 Distance myDistance = (Distance) entity;
-                session.persist(new Distance(myDistance.getLocation2(), myDistance.getLocation1(),
-                        myDistance.getDistance()));
+                if(myDistance.getLocation1() != myDistance.getLocation2())
+                    session.persist(new Distance(myDistance.getLocation2(), myDistance.getLocation1(),
+                            myDistance.getDistance()));
 
             }
             //huge mistake not to make the repo with more possible functions like
