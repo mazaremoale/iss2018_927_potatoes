@@ -267,7 +267,8 @@ public class DoctorNewBloodRequestController implements Initializable
             if (!patientAgeString.equals(""))
                 patientAge = Integer.valueOf(patientAgeString);
             Integer bloodRequestQuantityInteger = Integer.valueOf(bloodRequestQuantityString);
-            bloodRequestQuantity = Float.valueOf(bloodRequestQuantityInteger);
+            bloodRequestQuantity = (float) (bloodRequestQuantityInteger / 1000.0);
+            System.out.println(bloodRequestQuantity);
 
             Patient patient = new Patient(patientFirstName, patientFirstName, "", "", patientAge);
             patientRepository.add(patient);
@@ -287,6 +288,15 @@ public class DoctorNewBloodRequestController implements Initializable
             BloodRequest bloodRequest = new BloodRequest(patient, allBloodGroup.get(0), priority, hospital,
                                                         bloodRequestQuantity, currentDoctor);
             bloodRequestRepository.add(bloodRequest);
+
+            patientFirstNameTextField.setText("");
+            patientLastNameTextField.setText("");
+            patientAgeTextField.setText("");
+            bloodGroupComboBox.setValue(BloodTypeLetter.A);
+            positiveRHRadioButton.setSelected(true);
+            lowPriorityRadioButton.setSelected(true);
+            hospitalComboBox.setValue(currentDoctor.getHospital());
+            bloodRequestQuantityTextField.setText("");
 
         }
     }

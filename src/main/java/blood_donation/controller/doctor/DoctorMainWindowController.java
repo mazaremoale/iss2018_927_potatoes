@@ -2,10 +2,13 @@ package blood_donation.controller.doctor;
 
 import blood_donation.domain.blood.Blood;
 import blood_donation.domain.blood.BloodGroup;
+import blood_donation.domain.blood.BloodTypeLetter;
 import blood_donation.domain.people.Doctor;
 import blood_donation.domain.people.Patient;
 import blood_donation.domain.utils.*;
 import blood_donation.repository.Repository;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
@@ -26,6 +29,7 @@ import org.hibernate.Session;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -46,7 +50,7 @@ public class DoctorMainWindowController implements Initializable
     private Repository<BloodRequest> bloodRequestRepository;
     private Repository<BloodGroup> bloodGroupRepository;
 
-
+    //-----------> First tab controls
     @FXML
     private TableView<DonationRequest> donationRequestTableView;
 
@@ -71,6 +75,8 @@ public class DoctorMainWindowController implements Initializable
     @FXML
     private Button notApproveButton;
 
+
+    //-----------> Second tab controls
     @FXML
     private ComboBox<Location> locationComboBox;
 
@@ -92,6 +98,37 @@ public class DoctorMainWindowController implements Initializable
     @FXML
     private TableColumn<Blood, String> bloodStockLocationTableColumn;
 
+
+    //-----------> Third tab controls
+    @FXML
+    private TableView<BloodRequest> bloodRequestsTableView;
+
+    @FXML
+    private TableColumn<BloodRequest, String> bloodRequestsPatientColumn;
+
+    @FXML
+    private TableColumn<BloodRequest, String> bloodRequestsBloodTypeColumn;
+
+    @FXML
+    private TableColumn<BloodRequest, String> bloodRequestsRHColumn;
+
+    @FXML
+    private TableColumn<BloodRequest, String> bloodRequestsQuantityColumn;
+
+    @FXML
+    private TableColumn<BloodRequest, String> bloodRequestsPriorityColumn;
+
+    @FXML
+    private TableColumn<BloodRequest, String> bloodRequestsHospitalColumn;
+
+    @FXML
+    private TableColumn<BloodRequest, String> bloodRequestsStatusColumn;
+
+    @FXML
+    private TableColumn<BloodRequest, String> bloodRequestsDonatedBloodColumn;
+
+    @FXML
+    private Button deleteRequestButton;
 
     public Stage getPrimaryStage()
     {
@@ -255,6 +292,14 @@ public class DoctorMainWindowController implements Initializable
     }
 
     @FXML
+    private void deleteSelectedRequest()
+    {
+        bloodRequestsTableView.getItems().remove(bloodRequestsTableView.getSelectionModel().getSelectedItem());
+
+        bloodRequestRepository.remove(bloodRequestsTableView.getSelectionModel().getSelectedItem().getId());
+    }
+
+    @FXML
     public void approveDonor()
     {
         DonationRequest currentDonationRequest = donationRequestTableView.getSelectionModel().getSelectedItem();
@@ -318,6 +363,30 @@ public class DoctorMainWindowController implements Initializable
         {
             populateBloodStockTableView(newValue);
         });
+
+        //Blood requests tab
+        List<BloodRequest> allBloodRequests = bloodRequestRepository.getAll();
+        ObservableList<BloodRequest> allBloodRequestsObservableList = FXCollections.observableList(allBloodRequests);
+
+        bloodRequestsPatientColumn.setCellValueFactory(data -> data.getValue().getPatient().fullNameProperty());
+        bloodRequestsBloodTypeColumn.setCellValueFactory(data -> data.getValue().getBloodGroup().bloodTypeLetterProperty());
+        bloodRequestsRHColumn.setCellValueFactory(data -> data.getValue().getBloodGroup().bloodTypeRHProperty());
+        bloodRequestsQuantityColumn.setCellValueFactory(data -> data.getValue().quantityProperty().asString());
+        bloodRequestsPriorityColumn.setCellValueFactory(data -> data.getValue().priorityProperty());
+        bloodRequestsHospitalColumn.setCellValueFactory(data -> data.getValue().hospitalProperty());
+        bloodRequestsStatusColumn.setCellValueFactory(data -> data.getValue().statusProperty());
+        bloodRequestsDonatedBloodColumn.setCellValueFactory(data -> {
+            double quantitySum = data.getValue().getGivenBlood().stream().mapToDouble(Blood::getQuantity).sum();
+            return (StringProperty) new SimpleStringProperty(String.valueOf(new DecimalFormat("##.##").format(quantitySum)));
+        });
+
+        deleteRequestButton.setDisable(true);
+        bloodRequestsTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+        {
+            deleteRequestButton.setDisable(false);
+        });
+
+        bloodRequestsTableView.setItems(allBloodRequestsObservableList);
     }
 
     private void populateBloodStockTableView(Location currentLocation)
@@ -347,6 +416,8 @@ public class DoctorMainWindowController implements Initializable
                 Clinic clinicRelatedToBlood = donationRelatedToBlood.get(0).getClinic();
                 return (StringProperty) new SimpleStringProperty(clinicRelatedToBlood.getName());
         });
+
+
 
 
         ObservableList<Blood> bloodObservableList = FXCollections.observableList(bloodFromDonations);

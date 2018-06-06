@@ -4,6 +4,11 @@ import blood_donation.domain.blood.Blood;
 import blood_donation.domain.blood.BloodGroup;
 import blood_donation.domain.people.Doctor;
 import blood_donation.domain.people.Patient;
+import javafx.beans.property.FloatProperty;
+import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.fxml.FXML;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,12 +21,24 @@ public class BloodRequest
     private int id;
     private Patient patient;
     private BloodGroup bloodGroup;
-    private Float quantity;
     private Priority priority = Priority.LOW;
     private Hospital hospital;
     private Status status = Status.PENDING;
     private Doctor doctor;
     private List<Blood> givenBlood = new ArrayList<>();
+
+    @FXML
+    private FloatProperty quantity = new SimpleFloatProperty();
+
+    @FXML
+    private StringProperty priorityProperty = new SimpleStringProperty();
+
+    @FXML
+    private StringProperty hospitalProperty = new SimpleStringProperty();
+
+    @FXML
+    private StringProperty statusProperty = new SimpleStringProperty();
+
 
     public BloodRequest(Patient patient, BloodGroup bloodGroup, Priority priority, Hospital hospital,
                         Float quantity, Doctor doctor)
@@ -30,8 +47,12 @@ public class BloodRequest
         this.bloodGroup = bloodGroup;
         this.priority = priority;
         this.hospital = hospital;
-        this.quantity = quantity;
         this.doctor = doctor;
+
+        this.quantity.set(quantity);
+        this.priorityProperty.set(priority.toString());
+        this.hospitalProperty.set(hospital.toString());
+        this.statusProperty.set(status.toString());
     }
 
     public BloodRequest()
@@ -68,9 +89,15 @@ public class BloodRequest
         return status;
     }
 
+    public StringProperty statusProperty()
+    {
+        return statusProperty;
+    }
+
     public void setStatus(Status status)
     {
         this.status = status;
+        this.statusProperty.set(status.toString());
     }
 
     @OneToMany(mappedBy = "bloodRequest")
@@ -90,14 +117,19 @@ public class BloodRequest
 
     public void setBloodGroup(BloodGroup bloodGroup) { this.bloodGroup = bloodGroup; }
 
-    public Float getQuantity()
+    public float getQuantity()
+    {
+        return quantity.get();
+    }
+
+    public FloatProperty quantityProperty()
     {
         return quantity;
     }
 
-    public void setQuantity(Float quantity)
+    public void setQuantity(float quantity)
     {
-        this.quantity = quantity;
+        this.quantity.setValue(quantity);
     }
 
     @Enumerated(EnumType.STRING)
@@ -106,9 +138,15 @@ public class BloodRequest
         return priority;
     }
 
+    public StringProperty priorityProperty()
+    {
+        return this.priorityProperty;
+    }
+
     public void setPriority(Priority priority)
     {
         this.priority = priority;
+        this.priorityProperty.set(priority.toString());
     }
 
     @ManyToOne
@@ -121,6 +159,12 @@ public class BloodRequest
     public void setHospital(Hospital hospital)
     {
         this.hospital = hospital;
+        this.hospitalProperty.set(hospital.toString());
+    }
+
+    public StringProperty hospitalProperty()
+    {
+        return hospitalProperty;
     }
 
     @ManyToOne
