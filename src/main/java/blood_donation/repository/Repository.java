@@ -94,9 +94,4 @@ public final class Repository<T>
         //bad function, slow, looks ugly, not faultproof - me tired.
     }
 
-    @Override
-    public String toString()
-    {
-        return tClass.getSimpleName() + " repository";
-    }
 }

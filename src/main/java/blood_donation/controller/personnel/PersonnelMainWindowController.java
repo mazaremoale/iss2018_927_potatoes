@@ -348,8 +348,8 @@ public class PersonnelMainWindowController implements Initializable
                     .setDistanceRepository(distanceRepository)
                     .setPatientRepository(patientRepository)
                     .setDonationAppointmentRepository(donationAppointmentRepository)
-                    .setBloodGroupRepository(bloodGroupRepository)
                     .setLocationRepository(locationRepository)
+                    .setBloodRequestRepository(bloodRequestRepository)
             );
 
             Parent content = loader.load();
@@ -605,6 +605,7 @@ public class PersonnelMainWindowController implements Initializable
 
     private void populateBloodRequestsTable()
     {
+        System.out.println(bloodRequestRepository);
         List<BloodRequest> bloodRequests = bloodRequestRepository.getAll().stream()
                 .filter(bloodRequest -> bloodRequest.getQuantity()
                         >= bloodRequest.calculateQuantityOfGivenBlood())
@@ -619,9 +620,7 @@ public class PersonnelMainWindowController implements Initializable
         bloodRequestsHospitalTableColumn.setCellValueFactory(data -> data.getValue().hospitalProperty());
         bloodRequestsStatusTableColumn.setCellValueFactory(data -> data.getValue().statusProperty());
         bloodRequestsRequestDateTableColumn.setCellValueFactory(data -> data.getValue().requestDateProperty());
-        bloodRequestsDonatedBloodTableColumn.setCellValueFactory(data -> {
-            return new SimpleStringProperty(String.valueOf(data.getValue().calculateQuantityOfGivenBlood()));
-        });
+        bloodRequestsDonatedBloodTableColumn.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().calculateQuantityOfGivenBlood())));
 
         bloodRequestsTableView.setItems(allBloodRequestsObservableList);
     }
@@ -680,6 +679,7 @@ public class PersonnelMainWindowController implements Initializable
     {
         Location selectedLocation = stocksLocationComboBox.getSelectionModel().getSelectedItem();
 
+        System.out.println(donationRepository);
         List<Donation> donations = donationRepository.getAll().stream()
                 .filter(d -> d.getClinic().getLocation().getName().equals(selectedLocation.getName()))
                 .collect(Collectors.toList());
@@ -694,9 +694,7 @@ public class PersonnelMainWindowController implements Initializable
         stocksBloodGroupTableColumn.setCellValueFactory(data -> data.getValue().bloodGroupProperty());
         stocksExpirationDateTableColumn.setCellValueFactory(data -> data.getValue().quantityProperty().asString());
         stocksQuantityTableColumn.setCellValueFactory(data ->
-        {
-            return data.getValue().expirationDateProperty();
-        });
+                data.getValue().expirationDateProperty());
         stocksLocationTableColumn.setCellValueFactory(data -> {
 
             List<Donation> donationRelatedToBlood = donations.stream()
