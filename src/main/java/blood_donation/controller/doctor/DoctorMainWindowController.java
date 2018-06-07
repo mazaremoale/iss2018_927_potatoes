@@ -403,24 +403,26 @@ public class DoctorMainWindowController implements Initializable
     {
         Location currentLocation = locationComboBox.getSelectionModel().getSelectedItem();
 
-        List<Donation> donations = donationRepository.getAll().stream()
-                                    .filter(d -> d.getClinic().getLocation().getName().equals(currentLocation.getName()))
-                                    .collect(Collectors.toList());
-
-        List<Blood> bloodFromDonations = donations.stream()
-                                                .map(Donation::getDonatedBlood)
-                                                .filter(blood -> blood.getReadyForUse() != null)
-                                                .filter(Blood::getReadyForUse)
-                                                .collect(Collectors.toList());
-
-        bloodStockBloodTypeTableColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getClass().getSimpleName()));
-        bloodStockGroupTableColumn.setCellValueFactory(data -> data.getValue().bloodGroupProperty());
-        bloodStockQuantityTableColumn.setCellValueFactory(data -> data.getValue().quantityProperty().asString());
-        bloodStockExpirationDateTableColumn.setCellValueFactory(data ->
+        if (currentLocation != null)
         {
-            return data.getValue().expirationDateProperty();
-        });
-        bloodStockLocationTableColumn.setCellValueFactory(data -> {
+            List<Donation> donations = donationRepository.getAll().stream()
+                    .filter(d -> d.getClinic().getLocation().getName().equals(currentLocation.getName()))
+                    .collect(Collectors.toList());
+
+            List<Blood> bloodFromDonations = donations.stream()
+                    .map(Donation::getDonatedBlood)
+                    .filter(blood -> blood.getReadyForUse() != null)
+                    .filter(Blood::getReadyForUse)
+                    .collect(Collectors.toList());
+
+            bloodStockBloodTypeTableColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getClass().getSimpleName()));
+            bloodStockGroupTableColumn.setCellValueFactory(data -> data.getValue().bloodGroupProperty());
+            bloodStockQuantityTableColumn.setCellValueFactory(data -> data.getValue().quantityProperty().asString());
+            bloodStockExpirationDateTableColumn.setCellValueFactory(data ->
+            {
+                return data.getValue().expirationDateProperty();
+            });
+            bloodStockLocationTableColumn.setCellValueFactory(data -> {
 
                 List<Donation> donationRelatedToBlood = donations.stream()
                         .filter(d -> d.getDonatedBlood() == data.getValue())
@@ -428,11 +430,14 @@ public class DoctorMainWindowController implements Initializable
 
                 Clinic clinicRelatedToBlood = donationRelatedToBlood.get(0).getClinic();
                 return new SimpleStringProperty(clinicRelatedToBlood.getName() + ", " +
-                                                    clinicRelatedToBlood.getLocation());
-        });
+                        clinicRelatedToBlood.getLocation());
+            });
 
-        ObservableList<Blood> bloodObservableList = FXCollections.observableList(bloodFromDonations);
-        bloodStockTableView.setItems(bloodObservableList);
+            ObservableList<Blood> bloodObservableList = FXCollections.observableList(bloodFromDonations);
+            bloodStockTableView.setItems(bloodObservableList);
+
+
+        }
 
     }
 
