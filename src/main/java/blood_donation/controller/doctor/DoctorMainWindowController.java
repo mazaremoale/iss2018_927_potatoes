@@ -441,7 +441,7 @@ public class DoctorMainWindowController implements Initializable
 
     }
 
-    private void initializeBloodRequestsTab()
+    private void initializeBloodRequestsTab() //please accept this function
     {
         List<BloodRequest> bloodRequests = bloodRequestRepository.getAll().stream()
                 .filter(bloodRequest -> bloodRequest.getQuantity()
