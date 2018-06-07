@@ -11,6 +11,8 @@ import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 
 import javax.persistence.*;
+import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +27,7 @@ public class BloodRequest
     private Hospital hospital;
     private Status status = Status.PENDING;
     private Doctor doctor;
+    private LocalDate requestDate;
     private List<Blood> givenBlood = new ArrayList<>();
 
     @FXML
@@ -42,6 +45,9 @@ public class BloodRequest
     @FXML
     private final StringProperty bloodGroupProperty = new SimpleStringProperty();
 
+    @FXML
+    private final StringProperty requestDateProperty = new SimpleStringProperty();
+
 
     public BloodRequest(Patient patient, BloodGroup bloodGroup, Priority priority, Hospital hospital,
                         Float quantity, Doctor doctor)
@@ -52,11 +58,14 @@ public class BloodRequest
         this.hospital = hospital;
         this.doctor = doctor;
 
+        this.requestDate = LocalDate.now();
+
         this.quantity.set(quantity);
         this.priorityProperty.set(priority.toString());
         this.hospitalProperty.set(hospital.toString());
         this.statusProperty.set(status.toString());
         this.bloodGroupProperty.set(bloodGroup.toString());
+        this.requestDateProperty.set(requestDate.toString());
     }
 
     public BloodRequest()
@@ -187,6 +196,30 @@ public class BloodRequest
     public void setDoctor(Doctor doctor)
     {
         this.doctor = doctor;
+    }
+
+    public LocalDate getRequestDate()
+    {
+        return requestDate;
+    }
+
+    public void setRequestDate(LocalDate requestDate)
+    {
+        this.requestDate = requestDate;
+        this.requestDateProperty.set(requestDate.toString());
+    }
+
+    public StringProperty requestDateProperty()
+    {
+        return requestDateProperty;
+    }
+
+    public float calculateQuantityOfGivenBlood()
+    {
+        float sum = 0;
+        for (Blood blood : this.givenBlood)
+            sum = sum + blood.getQuantity();
+        return sum;
     }
 
     public void process()

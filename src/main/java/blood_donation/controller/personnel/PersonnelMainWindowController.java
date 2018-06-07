@@ -122,17 +122,17 @@ public class PersonnelMainWindowController implements Initializable
     private TableColumn bloodRequestsStatusTableColumn;
 
     @FXML
-    private TableView stocksTableView;
+    private TableView<Blood> stocksTableView;
     @FXML
-    private TableColumn stocksBloodTypeTableColumn;
+    private TableColumn<Blood, String> stocksBloodTypeTableColumn;
     @FXML
-    private TableColumn stocksBloodGroupTableColumn;
+    private TableColumn<Blood, String> stocksBloodGroupTableColumn;
     @FXML
-    private TableColumn stocksQuantityTableColumn;
+    private TableColumn<Blood, String> stocksQuantityTableColumn;
     @FXML
-    private TableColumn stocksExpirationDateTableColumn;
+    private TableColumn<Blood, String> stocksExpirationDateTableColumn;
     @FXML
-    private TableColumn stocksLocationTableColumn;
+    private TableColumn<Blood, String> stocksLocationTableColumn;
     @FXML
     private ComboBox<Location> stocksLocationComboBox;
 
@@ -519,6 +519,34 @@ public class PersonnelMainWindowController implements Initializable
 
     private void populateBloodStockTableView(Location selectedLocation)
     {
+        List<Donation> donations = donationRepository.getAll().stream()
+                .filter(d -> d.getClinic().getLocation().getName().equals(selectedLocation.getName()))
+                .collect(Collectors.toList());
+
+        List<Blood> bloodFromDonations = donations.stream()
+                .map(Donation::getDonatedBlood)
+                .collect(Collectors.toList());
+
+        stocksBloodTypeTableColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getClass().getSimpleName()));
+        stocksBloodGroupTableColumn.setCellValueFactory(data -> data.getValue().bloodGroupProperty());
+        stocksExpirationDateTableColumn.setCellValueFactory(data -> data.getValue().quantityProperty().asString());
+        stocksQuantityTableColumn.setCellValueFactory(data ->
+        {
+            return data.getValue().expirationDateProperty();
+        });
+        stocksLocationTableColumn.setCellValueFactory(data -> {
+
+            List<Donation> donationRelatedToBlood = donations.stream()
+                    .filter(d -> d.getDonatedBlood() == data.getValue())
+                    .collect(Collectors.toList());
+
+            Clinic clinicRelatedToBlood = donationRelatedToBlood.get(0).getClinic();
+            return new SimpleStringProperty(clinicRelatedToBlood.getName() + ", " +
+                    clinicRelatedToBlood.getLocation());
+        });
+
+        ObservableList<Blood> bloodObservableList = FXCollections.observableList(bloodFromDonations);
+        stocksTableView.setItems(bloodObservableList);
 
     }
 
