@@ -44,6 +44,7 @@ public class PersonnelMainWindowController implements Initializable
     private Repository<Patient> patientRepository;
     private Repository<DonationAppointment> donationAppointmentRepository;
     private Repository<Location> locationRepository;
+    private Repository<BloodRequest> bloodRequestRepository;
 
     @FXML
     private Button backButton;
@@ -88,17 +89,25 @@ public class PersonnelMainWindowController implements Initializable
     private TableColumn<DonationAppointment, String> donationRequestStatusTableColumn;
 
     @FXML
-    private TableView bloodRequestsTableView;
+    private TableView<BloodRequest> bloodRequestsTableView;
     @FXML
-    private TableColumn bloodRequestsDoctorNameTableColumn;
+    private TableColumn<BloodRequest, String> bloodRequestsDoctorNameTableColumn;
     @FXML
-    private TableColumn bloodRequestsPatientNameTableColumn;
+    private TableColumn<BloodRequest, String> bloodRequestsPatientNameTableColumn;
     @FXML
-    private TableColumn bloodRequestsPriorityTableColumn;
+    private TableColumn<BloodRequest, String> bloodRequestsBloodGroupTableColumn;
     @FXML
-    private TableColumn bloodRequestsRequestedBloodTableColumn;
+    private TableColumn<BloodRequest, String> bloodRequestsQuantityTableColumn;
     @FXML
-    private TableColumn bloodRequestsStatusTableColumn;
+    private TableColumn<BloodRequest, String> bloodRequestsPriorityTableColumn;
+    @FXML
+    private TableColumn<BloodRequest, String> bloodRequestsHospitalTableColumn;
+    @FXML
+    private TableColumn<BloodRequest, String> bloodRequestsStatusTableColumn;
+    @FXML
+    private TableColumn<BloodRequest, String> bloodRequestsRequestDateTableColumn;
+    @FXML
+    private TableColumn<BloodRequest, String> bloodRequestsDonatedBloodTableColumn;
 
     @FXML
     private TableView<Blood> stocksTableView;
@@ -274,6 +283,17 @@ public class PersonnelMainWindowController implements Initializable
         return this;
     }
 
+    public Repository<BloodRequest> getBloodRequestRepository()
+    {
+        return bloodRequestRepository;
+    }
+
+    public PersonnelMainWindowController setBloodRequestRepository(Repository<BloodRequest> bloodRequestRepository)
+    {
+        this.bloodRequestRepository = bloodRequestRepository;
+        return this;
+    }
+
     @FXML
     public void goBack()
     {
@@ -285,7 +305,7 @@ public class PersonnelMainWindowController implements Initializable
     {
         //should be checked... it might have some issues
         populateDonationAppointmentTable();
-        initializeBloodRequestsTable(); //not sure this is the right function
+        populateBloodRequestsTable();
         populateBloodStockTableView();
         populatePendingDonationRequestsTable();
         populateDonationsInTestingTable();
@@ -580,7 +600,30 @@ public class PersonnelMainWindowController implements Initializable
 
     private void initializeBloodRequestsTable()
     {
-        // TODO wait for Tatiana to add some attributes to class BloodRequest
+        populateBloodRequestsTable();
+    }
+
+    private void populateBloodRequestsTable()
+    {
+        List<BloodRequest> bloodRequests = bloodRequestRepository.getAll().stream()
+                .filter(bloodRequest -> bloodRequest.getQuantity()
+                        >= bloodRequest.calculateQuantityOfGivenBlood())
+                .collect(Collectors.toList());
+
+        ObservableList<BloodRequest> allBloodRequestsObservableList = FXCollections.observableList(bloodRequests);
+
+        bloodRequestsDoctorNameTableColumn.setCellValueFactory(data -> data.getValue().getPatient().fullNameProperty());
+        bloodRequestsBloodGroupTableColumn.setCellValueFactory(data -> data.getValue().bloodGroupProperty());
+        bloodRequestsQuantityTableColumn.setCellValueFactory(data -> data.getValue().quantityProperty().asString());
+        bloodRequestsPriorityTableColumn.setCellValueFactory(data -> data.getValue().priorityProperty());
+        bloodRequestsHospitalTableColumn.setCellValueFactory(data -> data.getValue().hospitalProperty());
+        bloodRequestsStatusTableColumn.setCellValueFactory(data -> data.getValue().statusProperty());
+        bloodRequestsRequestDateTableColumn.setCellValueFactory(data -> data.getValue().requestDateProperty());
+        bloodRequestsDonatedBloodTableColumn.setCellValueFactory(data -> {
+            return new SimpleStringProperty(String.valueOf(data.getValue().calculateQuantityOfGivenBlood()));
+        });
+
+        bloodRequestsTableView.setItems(allBloodRequestsObservableList);
     }
 
     private void populateDonationsInTestingTable()
@@ -643,6 +686,8 @@ public class PersonnelMainWindowController implements Initializable
 
         List<Blood> bloodFromDonations = donations.stream()
                 .map(Donation::getDonatedBlood)
+                .filter(blood -> blood.getReadyForUse() != null)
+                .filter(Blood::getReadyForUse)
                 .collect(Collectors.toList());
 
         stocksBloodTypeTableColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getClass().getSimpleName()));
