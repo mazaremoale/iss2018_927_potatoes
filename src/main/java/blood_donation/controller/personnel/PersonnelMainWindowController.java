@@ -303,9 +303,8 @@ public class PersonnelMainWindowController implements Initializable
     @FXML
     public void refresh()
     {
-        //should be checked... it might have some issues
         populateDonationAppointmentTable();
-        populateBloodRequestsTable();
+        populateBloodRequestsTable(); //new added function
         populateBloodStockTableView();
         populatePendingDonationRequestsTable();
         populateDonationsInTestingTable();
