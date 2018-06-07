@@ -303,7 +303,9 @@ public class DoctorMainWindowController implements Initializable
         currentDonationRequest.setValidatedByDoctor(true);
         donationRequestRepository.update(currentDonationRequest);
 
+        //System.out.println(donationRequestTableView.getSelectionModel().getSelectedItem());
         donationRequestTableView.getItems().remove(donationRequestTableView.getSelectionModel().getSelectedItem());
+        additionalInfoLabel.setText("");
     }
 
     @FXML
@@ -315,6 +317,7 @@ public class DoctorMainWindowController implements Initializable
         donationRequestRepository.update(currentDonationRequest);
 
         donationRequestTableView.getItems().remove(donationRequestTableView.getSelectionModel().getSelectedItem());
+        additionalInfoLabel.setText("");
 
     }
 
@@ -348,7 +351,8 @@ public class DoctorMainWindowController implements Initializable
             approveButton.setDisable(false);
             notApproveButton.setDisable(false);
 
-            additionalInfoLabel.setText(newValue.getOtherInformation());
+            if (newValue != null) //dummy thingy, necessary because, after removing a row, this listener is again called
+                additionalInfoLabel.setText(newValue.getOtherInformation());
         });
 
 
@@ -399,7 +403,10 @@ public class DoctorMainWindowController implements Initializable
         bloodStockBloodTypeTableColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getClass().getSimpleName()));
         bloodStockGroupTableColumn.setCellValueFactory(data -> data.getValue().bloodGroupProperty());
         bloodStockQuantityTableColumn.setCellValueFactory(data -> data.getValue().quantityProperty().asString());
-        bloodStockExpirationDateTableColumn.setCellValueFactory(data -> data.getValue().expirationDateProperty());
+        bloodStockExpirationDateTableColumn.setCellValueFactory(data ->
+        {
+            return data.getValue().expirationDateProperty();
+        });
         bloodStockLocationTableColumn.setCellValueFactory(data -> {
 
                 List<Donation> donationRelatedToBlood = donations.stream()
@@ -407,7 +414,8 @@ public class DoctorMainWindowController implements Initializable
                         .collect(Collectors.toList());
 
                 Clinic clinicRelatedToBlood = donationRelatedToBlood.get(0).getClinic();
-                return new SimpleStringProperty(clinicRelatedToBlood.getName());
+                return new SimpleStringProperty(clinicRelatedToBlood.getName() + ", " +
+                                                    clinicRelatedToBlood.getLocation());
         });
 
         ObservableList<Blood> bloodObservableList = FXCollections.observableList(bloodFromDonations);

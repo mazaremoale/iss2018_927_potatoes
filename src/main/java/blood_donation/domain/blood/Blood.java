@@ -67,7 +67,7 @@ public class Blood
 
     public void setExpirationDate(LocalDate expirationDate)
     {
-        if(this.expirationDate != null)
+        if(expirationDate != null)
             this.expirationDate = expirationDate;
         if(expirationDate != null)
             this.expirationDateProperty.setValue(expirationDate.toString());
@@ -138,7 +138,7 @@ public class Blood
     @Override
     public String toString()
     {
-        return "x" + quantity.get() + " units of " + bloodGroup;
+        return quantity.get() * 1000 + " milliliters of " + bloodGroup;
 
     }
 }
