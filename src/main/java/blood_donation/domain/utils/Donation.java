@@ -24,6 +24,7 @@ public class Donation
     private Blood donatedBlood;
     private DonationRequest donationRequest;
     private Clinic clinic;
+    private Float quantity;
     private JourneyStatus bloodContainerJourneyStatus = JourneyStatus.SAMPLING;
 
     private Boolean splitBlood = false;
@@ -207,6 +208,16 @@ public class Donation
     public StringProperty donatedBloodProperty()
     {
         return donatedBloodProperty;
+    }
+
+    public Float getQuantity()
+    {
+        return quantity;
+    }
+
+    public void setQuantity(Float quantity)
+    {
+        this.quantity = quantity;
     }
 
     public StringProperty clinicProperty(){return clinicProperty;}
