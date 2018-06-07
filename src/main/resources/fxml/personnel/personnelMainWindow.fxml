@@ -67,8 +67,8 @@
                             </TableView>
                         </HBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
-                            <Button fx:id="checkAvailableStocksButton" mnemonicParsing="false" onAction="#checkAvailableStocks" prefWidth="400.0" text="Check Available Blood Stocks" />
-                            <Button fx:id="notifyNearestAvailableDonorsButton" mnemonicParsing="false" onAction="#notifyNearestAvailableDonors" prefWidth="400.0" text="Notify Nearest Available Donors" />
+                            <Button fx:id="checkAvailableStocksButton" mnemonicParsing="false" prefWidth="400.0" text="Check Available Blood Stocks" />
+                            <Button fx:id="notifyNearestAvailableDonorsButton" mnemonicParsing="false" prefWidth="400.0" text="Notify Nearest Available Donors" />
                         </VBox>
                     </VBox>
                 </center>

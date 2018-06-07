@@ -70,10 +70,6 @@ public class PersonnelMainWindowController implements Initializable
     @FXML
     private Button journyBeginSamplingButton;
 
-
-
-
-
     @FXML
     private TableView<DonationAppointment> donationRequestsTableView;
     @FXML
@@ -130,6 +126,9 @@ public class PersonnelMainWindowController implements Initializable
     private TableColumn<DonationRequest, String> approvedDonationRequestsDonorNameTableColumn;
     @FXML
     private TableColumn<DonationRequest, String> approvedDonationRequestsAprovedByDoctorTableColumn;
+
+
+
 
     public Stage getPrimaryStage()
     {
@@ -274,6 +273,8 @@ public class PersonnelMainWindowController implements Initializable
         return this;
     }
 
+// ################################################################################################################
+
     @FXML
     public void goBack()
     {
@@ -285,22 +286,60 @@ public class PersonnelMainWindowController implements Initializable
     {
         //should be checked... it might have some issues
         populateDonationAppointmentTable();
-        initializeBloodRequestsTable(); //not sure this is the right function
+//        initializeBloodRequestsTable(); //not sure this is the right function  // nope it isn't
         populateBloodStockTableView();
         populatePendingDonationRequestsTable();
         populateDonationsInTestingTable();
     }
 
-    @FXML
-    public void checkAvailableStocks()
+    private LocalDate computeExpirationDate(LocalDate donationDate)
     {
-
+        return donationDate.plusDays(42);  // blood expires after 42 days
     }
 
-    @FXML
-    public void notifyNearestAvailableDonors()
-    {
+// ################################################################################################################
 
+
+
+// #######################################################
+// TAB 1 --- Donation Requests and Appointments
+// #######################################################
+
+    private void initializeDonationRequestsTab()
+    {
+        // DONATION REQUESTS TAB
+
+        // populate donation requests table
+        // a personnel can only see the requests made at their clinic
+        donationRequestDonorFirstNameTableColumn.setCellValueFactory(data ->
+                new SimpleStringProperty(data.getValue().getDonationRequest().getDonor().getFirstName()));
+        donationRequestDonorLastNameTableColumn.setCellValueFactory(data ->
+                new SimpleStringProperty(data.getValue().getDonationRequest().getDonor().getLastName()));
+        donationRequestAppointmentDateTableColumn.setCellValueFactory(data ->
+                data.getValue().appointmentDateProperty());
+        donationRequestAppointmentHourTableColumn.setCellValueFactory(data ->
+                data.getValue().appointmentTimeProperty());
+        // TODO figure this out
+//        donationRequestStatusTableColumn.setCellValueFactory(data ->
+//                data.getValue().getDonationRequest().getStatus());
+
+        populateDonationAppointmentTable();
+    }
+
+    private void populateDonationAppointmentTable()
+    {
+        List<DonationAppointment> thisPersonnelDonationAppointments =
+                donationAppointmentRepository.getAll()
+                        .stream()
+                        // TODO might need to check the flags from DonationRequest (to see only unhandled requests)
+                        .filter(donationAppointment -> donationAppointment.getClinic() == currentPersonnel.getClinic())
+                        .filter(donationAppointment -> donationAppointment.getDonationRequest().getValidatedByPersonnel() == null)
+                        .collect(Collectors.toList());
+
+        ObservableList<DonationAppointment> thisPersonnelDonationAppointmentsObservableList =
+                FXCollections.observableArrayList(thisPersonnelDonationAppointments);
+
+        donationRequestsTableView.setItems(thisPersonnelDonationAppointmentsObservableList);
     }
 
     @FXML
@@ -340,24 +379,129 @@ public class PersonnelMainWindowController implements Initializable
         }
     }
 
-//    @FXML
-//    public void cancelDonationRequest()
-//    {
-//        if(!donationRequestsTableView.getSelectionModel().isEmpty())
-//        {
-//            // TODO check if all fields are set (or add another flag to the class donation request
-//
-//            DonationRequest selectedDonationRequest = donationRequestsTableView.getSelectionModel().getSelectedItem().getDonationRequest();
-//
-//            selectedDonationRequest.setValidatedByPersonnel(false);
-//
-//            donationRequestRepository.update(selectedDonationRequest);
-//        }
-//    }
+// ################################################################################################################
 
-    private LocalDate computeExpirationDate(LocalDate donationDate)
+
+
+
+
+    // #######################################################
+    // TAB 2 --- Blood Requests
+    // #######################################################
+
+    private void initializeBloodRequestsTable()
     {
-        return donationDate.plusDays(42);  // blood expires after 42 days
+        // TODO wait for Tatiana to add some attributes to class BloodRequest
+    }
+
+// ################################################################################################################
+
+
+
+
+
+// #######################################################
+// TAB 3 --- Available Blood Stocks
+// #######################################################
+
+    private void initializeAvailableStocksTable()
+    {
+        List<Location> locations = locationRepository.getAll();
+        ObservableList<Location> locationsObservableList = FXCollections.observableArrayList(locations);
+        stocksLocationComboBox.setItems(locationsObservableList);
+
+        stocksLocationComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+                populateBloodStockTableView());
+    }
+
+    private void populateBloodStockTableView()
+    {
+        if(!stocksLocationComboBox.getSelectionModel().isEmpty())
+        {
+            Location selectedLocation = stocksLocationComboBox.getSelectionModel().getSelectedItem();
+
+            List<Donation> donations = donationRepository.getAll().stream()
+                    .filter(d -> d.getClinic().getLocation().getName().equals(selectedLocation.getName()))
+                    .collect(Collectors.toList());
+
+            List<Blood> bloodFromDonations = donations.stream()
+                    .map(Donation::getDonatedBlood)
+                    .collect(Collectors.toList());
+
+            stocksBloodTypeTableColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getClass().getSimpleName()));
+            stocksBloodGroupTableColumn.setCellValueFactory(data -> data.getValue().bloodGroupProperty());
+            stocksExpirationDateTableColumn.setCellValueFactory(data -> data.getValue().quantityProperty().asString());
+            stocksQuantityTableColumn.setCellValueFactory(data -> data.getValue().expirationDateProperty());
+            stocksLocationTableColumn.setCellValueFactory(data ->
+            {
+
+                List<Donation> donationRelatedToBlood = donations.stream()
+                        .filter(d -> d.getDonatedBlood() == data.getValue())
+                        .collect(Collectors.toList());
+
+                Clinic clinicRelatedToBlood = donationRelatedToBlood.get(0).getClinic();
+                return new SimpleStringProperty(clinicRelatedToBlood.getName() + ", " +
+                        clinicRelatedToBlood.getLocation());
+            });
+
+            ObservableList<Blood> bloodObservableList = FXCollections.observableArrayList(bloodFromDonations);
+            stocksTableView.setItems(bloodObservableList);
+        }
+    }
+
+    // ################################################################################################################
+
+
+
+
+
+// #######################################################
+// TAB 4 --- Blood Container Journey
+// #######################################################
+
+    private void initializeBloodContainerJourneyTab()
+    {
+        approvedDonationRequestsDonorNameTableColumn.setCellValueFactory(data ->
+                data.getValue().getDonor().fullNameProperty());
+        approvedDonationRequestsAprovedByDoctorTableColumn.setCellValueFactory(data ->
+                new SimpleStringProperty(data.getValue().getValidatedByDoctor().toString()));
+        populatePendingDonationRequestsTable();
+
+        journeyTestingDonationDateTableColumn.setCellValueFactory(data ->
+                data.getValue().donationDateProperty());
+        journeyTestingBloodGroupTableColumn.setCellValueFactory(data ->
+                data.getValue().donatedBloodProperty());
+        journeyTestingStatusTableColumn.setCellValueFactory(data ->
+                data.getValue().bloodContainerStatusProperty());
+        populateDonationsInTestingTable();
+    }
+
+    private void populatePendingDonationRequestsTable()
+    {
+        List<DonationRequest> pendingDonationRequests = donationRequestRepository.getAll()
+                .stream()
+                .filter(donationRequest -> donationRequest.getValidatedByDoctor() != null)
+                .filter(donationRequest -> donationRequest.getValidatedByPersonnel() && donationRequest.getValidatedByDoctor())
+                .filter(donationRequest -> donationRequest.getInTesting() != null)
+                .filter(donationRequest -> !donationRequest.getInTesting())
+                .collect(Collectors.toList());
+
+        ObservableList<DonationRequest> pendingDonationRequestsObservableList = FXCollections.observableArrayList(pendingDonationRequests);
+
+        approvedDonationRequestsTableView.setItems(pendingDonationRequestsObservableList);
+    }
+
+    private void populateDonationsInTestingTable()
+    {
+        List<Donation> donationsInTesting = donationRepository.getAll()
+                .stream()
+                .filter(donation -> donation.getDonationRequest().getValidatedByPersonnel() && donation.getDonationRequest().getValidatedByDoctor())
+                .filter(donation -> donation.getStatus() == Status.TESTING || donation.getStatus() == Status.PENDING)
+                .collect(Collectors.toList());
+
+        ObservableList<Donation> donationObservableList = FXCollections.observableArrayList(donationsInTesting);
+
+        journeyBloodInTestingTableView.setItems(donationObservableList);
     }
 
     @FXML
@@ -515,205 +659,36 @@ public class PersonnelMainWindowController implements Initializable
         }
     }
 
-        @FXML
-        private void journeyBeginRedistribution()
+    @FXML
+    private void journeyBeginRedistribution()
+    {
+        if(!journeyBloodInTestingTableView.getSelectionModel().isEmpty())
         {
-            if(!journeyBloodInTestingTableView.getSelectionModel().isEmpty())
+            Donation selectedDonation = journeyBloodInTestingTableView.getSelectionModel().getSelectedItem();
+
+            if(selectedDonation.getBloodContainerJourneyStatus() == JourneyStatus.REDISTRIBUTION)
             {
-                Donation selectedDonation = journeyBloodInTestingTableView.getSelectionModel().getSelectedItem();
-
-                if(selectedDonation.getBloodContainerJourneyStatus() == JourneyStatus.REDISTRIBUTION)
-                {
-                    // should do some fancy validation for the case when split flag is true
+                // should do some fancy validation for the case when split flag is true
 
 
-                }
-                else
-                {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText("Cannot proceed to this stage.");
-                    alert.setContentText("The selected donation does not meet the required Status to proceed to this stage.");
+            }
+            else
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Cannot proceed to this stage.");
+                alert.setContentText("The selected donation does not meet the required Status to proceed to this stage.");
 
-                    Optional<ButtonType> result = alert.showAndWait();
-                }
+                Optional<ButtonType> result = alert.showAndWait();
             }
         }
-
-    private void populateDonationAppointmentTable()
-    {
-        donationRequestDonorFirstNameTableColumn.setCellValueFactory(data ->
-                new SimpleStringProperty(data.getValue().getDonationRequest().getDonor().getFirstName()));
-        donationRequestDonorLastNameTableColumn.setCellValueFactory(data ->
-                new SimpleStringProperty(data.getValue().getDonationRequest().getDonor().getLastName()));
-        donationRequestAppointmentDateTableColumn.setCellValueFactory(data ->
-                data.getValue().appointmentDateProperty());
-        donationRequestAppointmentHourTableColumn.setCellValueFactory(data ->
-                data.getValue().appointmentTimeProperty());
-        // TODO figure this out
-//        donationRequestStatusTableColumn.setCellValueFactory(data ->
-//                data.getValue().getDonationRequest().getStatus());
-
-        List<DonationAppointment> thisPersonnelDonationAppointments =
-                donationAppointmentRepository.getAll()
-                        .stream()
-                        // TODO might need to check the flags from DonationRequest (to see only unhandled requests)
-                        .filter(donationAppointment -> donationAppointment.getClinic() == currentPersonnel.getClinic())
-                        .filter(donationAppointment -> donationAppointment.getDonationRequest().getValidatedByPersonnel() == null)
-                        .collect(Collectors.toList());
-
-        ObservableList<DonationAppointment> thisPersonnelDonationAppointmentsObservableList =
-                FXCollections.observableArrayList(thisPersonnelDonationAppointments);
-
-        donationRequestsTableView.setItems(thisPersonnelDonationAppointmentsObservableList);
     }
 
-    private void initializeDonationRequestsTab()
-    {
-        // DONATION REQUESTS TAB
-
-        // populate donation requests table
-        // a personnel can only see the requests made at their clinic
-        populateDonationAppointmentTable();
-
-    }
-
-    private void initializeBloodRequestsTable()
-    {
-        // TODO wait for Tatiana to add some attributes to class BloodRequest
-    }
-
-    private void populateDonationsInTestingTable()
-    {
-        journeyTestingDonationDateTableColumn.setCellValueFactory(data ->
-                data.getValue().donationDateProperty());
-        journeyTestingBloodGroupTableColumn.setCellValueFactory(data ->
-                data.getValue().donatedBloodProperty());
-        journeyTestingStatusTableColumn.setCellValueFactory(data ->
-                data.getValue().bloodContainerStatusProperty());
-
-        List<Donation> donationsInTesting = donationRepository.getAll()
-                .stream()
-                .filter(donation -> donation.getDonationRequest().getValidatedByPersonnel() && donation.getDonationRequest().getValidatedByDoctor())
-                .filter(donation -> donation.getStatus() == Status.TESTING || donation.getStatus() == Status.PENDING)
-                .collect(Collectors.toList());
-
-        ObservableList<Donation> donationObservableList = FXCollections.observableList(donationsInTesting);
-
-        journeyBloodInTestingTableView.setItems(donationObservableList);
-    }
-
-    private void populatePendingDonationRequestsTable()
-    {
-        approvedDonationRequestsDonorNameTableColumn.setCellValueFactory(data ->
-                data.getValue().getDonor().fullNameProperty());
-        approvedDonationRequestsAprovedByDoctorTableColumn.setCellValueFactory(data ->
-                new SimpleStringProperty(data.getValue().getValidatedByDoctor().toString()));
-
-        List<DonationRequest> pendingDonationRequests = donationRequestRepository.getAll()
-                .stream()
-                .filter(donationRequest -> donationRequest.getValidatedByDoctor() != null)
-                .filter(donationRequest -> donationRequest.getValidatedByPersonnel() && donationRequest.getValidatedByDoctor())
-                .filter(donationRequest -> donationRequest.getInTesting() != null)
-                .filter(donationRequest -> !donationRequest.getInTesting())
-                .collect(Collectors.toList());
-
-        ObservableList<DonationRequest> pendingDonationRequestsObservableList = FXCollections.observableList(pendingDonationRequests);
-
-        approvedDonationRequestsTableView.setItems(pendingDonationRequestsObservableList);
-    }
-
-    private void initializeAvailableStocksTable()
-    {
-        List<Location> locations = locationRepository.getAll();
-        ObservableList<Location> locationsObservableList = FXCollections.observableList(locations);
-        stocksLocationComboBox.setItems(locationsObservableList);
-
-        stocksLocationComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
-                populateBloodStockTableView());
-    }
-
-    private void populateBloodStockTableView()
-    {
-        Location selectedLocation = stocksLocationComboBox.getSelectionModel().getSelectedItem();
-
-        List<Donation> donations = donationRepository.getAll().stream()
-                .filter(d -> d.getClinic().getLocation().getName().equals(selectedLocation.getName()))
-                .collect(Collectors.toList());
-
-        List<Blood> bloodFromDonations = donations.stream()
-                .map(Donation::getDonatedBlood)
-                .collect(Collectors.toList());
-
-        stocksBloodTypeTableColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getClass().getSimpleName()));
-        stocksBloodGroupTableColumn.setCellValueFactory(data -> data.getValue().bloodGroupProperty());
-        stocksExpirationDateTableColumn.setCellValueFactory(data -> data.getValue().quantityProperty().asString());
-        stocksQuantityTableColumn.setCellValueFactory(data ->
-        {
-            return data.getValue().expirationDateProperty();
-        });
-        stocksLocationTableColumn.setCellValueFactory(data -> {
-
-            List<Donation> donationRelatedToBlood = donations.stream()
-                    .filter(d -> d.getDonatedBlood() == data.getValue())
-                    .collect(Collectors.toList());
-
-            Clinic clinicRelatedToBlood = donationRelatedToBlood.get(0).getClinic();
-            return new SimpleStringProperty(clinicRelatedToBlood.getName() + ", " +
-                    clinicRelatedToBlood.getLocation());
-        });
-
-        ObservableList<Blood> bloodObservableList = FXCollections.observableList(bloodFromDonations);
-        stocksTableView.setItems(bloodObservableList);
-
-    }
-
-    private void initializeBloodContainerJourneyTab()
-    {
-        // Donations in testing table and related buttons
-
-        populatePendingDonationRequestsTable();
-
-        populateDonationsInTestingTable();
-
-//        journeyBloodInTestingTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-//            if (newSelection != null)
-//            {
-//                // TODO check if they work as expected
-//                switch (newSelection.getBloodContainerJourneyStatus())
-//                {
-//                    case SAMPLING:
-//                        journeySetBloodGroupButton.setDisable(false);
-//                        journeyBeginPreparationButton.setDisable(true);
-//                        journeyBeginBiologicalQualityControlButton.setDisable(true);
-//                        journeyBeginRedistributionButton.setDisable(true);
-//                        break;
-//                    case PREPARATION:
-//                        journeySetBloodGroupButton.setDisable(true);
-//                        journeyBeginPreparationButton.setDisable(false);
-//                        journeyBeginBiologicalQualityControlButton.setDisable(true);
-//                        journeyBeginRedistributionButton.setDisable(true);
-//                        break;
-//                    case BIOLOGICAL_QUALITY_CONTROL:
-//                        journeySetBloodGroupButton.setDisable(true);
-//                        journeyBeginPreparationButton.setDisable(true);
-//                        journeyBeginBiologicalQualityControlButton.setDisable(false);
-//                        journeyBeginRedistributionButton.setDisable(true);
-//                        break;
-//                    case REDISTRIBUTION:
-//                        journeySetBloodGroupButton.setDisable(true);
-//                        journeyBeginPreparationButton.setDisable(true);
-//                        journeyBeginBiologicalQualityControlButton.setDisable(true);
-//                        journeyBeginRedistributionButton.setDisable(false);
-//                        break;
-//                }
-//            }
-//        });
 
 
-        // Pending donations table
 
-    }
+
+// ################################################################################################################
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -722,17 +697,14 @@ public class PersonnelMainWindowController implements Initializable
 
         // DONATION REQUESTS TAB
         initializeDonationRequestsTab();
-        // TODO add event listeners when selecting a row (if needed)
 
         // BLOOD REQUESTS TAB
-        initializeBloodRequestsTable();
+        initializeBloodRequestsTable();  // TODO
 
         // AVAILABLE STOCKS TAB
         initializeAvailableStocksTable();
 
         // BLOOD CONTAINER JOURNEY TAB
         initializeBloodContainerJourneyTab();
-
-
     }
 }
