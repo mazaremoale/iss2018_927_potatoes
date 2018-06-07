@@ -14,10 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.hibernate.Session;
@@ -25,6 +22,7 @@ import org.hibernate.Session;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -69,6 +67,9 @@ public class DoctorMainWindowController implements Initializable
 
     @FXML
     private Button notApproveButton;
+
+    @FXML
+    private Label additionalInfoLabel;
 
 
     //-----------> Second tab controls
@@ -115,6 +116,9 @@ public class DoctorMainWindowController implements Initializable
 
     @FXML
     private TableColumn<BloodRequest, String> bloodRequestsStatusColumn;
+
+    @FXML
+    private TableColumn<BloodRequest, String> bloodRequestsRequestDateColumn;
 
     @FXML
     private TableColumn<BloodRequest, String> bloodRequestsDonatedBloodColumn;
@@ -343,6 +347,8 @@ public class DoctorMainWindowController implements Initializable
         {
             approveButton.setDisable(false);
             notApproveButton.setDisable(false);
+
+            additionalInfoLabel.setText(newValue.getOtherInformation());
         });
 
 
@@ -355,8 +361,12 @@ public class DoctorMainWindowController implements Initializable
                 populateBloodStockTableView(newValue));
 
         //Blood requests tab
-        List<BloodRequest> allBloodRequests = bloodRequestRepository.getAll();
-        ObservableList<BloodRequest> allBloodRequestsObservableList = FXCollections.observableList(allBloodRequests);
+        List<BloodRequest> bloodRequests = bloodRequestRepository.getAll().stream()
+                                                .filter(bloodRequest -> bloodRequest.getQuantity()
+                                                                        <= bloodRequest.calculateQuantityOfGivenBlood())
+                                                .collect(Collectors.toList());
+
+        ObservableList<BloodRequest> allBloodRequestsObservableList = FXCollections.observableList(bloodRequests);
 
         bloodRequestsPatientColumn.setCellValueFactory(data -> data.getValue().getPatient().fullNameProperty());
         bloodRequestsBloodGroupColumn.setCellValueFactory(data -> data.getValue().bloodGroupProperty());
@@ -364,9 +374,9 @@ public class DoctorMainWindowController implements Initializable
         bloodRequestsPriorityColumn.setCellValueFactory(data -> data.getValue().priorityProperty());
         bloodRequestsHospitalColumn.setCellValueFactory(data -> data.getValue().hospitalProperty());
         bloodRequestsStatusColumn.setCellValueFactory(data -> data.getValue().statusProperty());
+        bloodRequestsRequestDateColumn.setCellValueFactory(data -> data.getValue().requestDateProperty());
         bloodRequestsDonatedBloodColumn.setCellValueFactory(data -> {
-            double quantitySum = data.getValue().getGivenBlood().stream().mapToDouble(Blood::getQuantity).sum();
-            return new SimpleStringProperty(String.valueOf(new DecimalFormat("##.##").format(quantitySum)));
+            return new SimpleStringProperty(String.valueOf(data.getValue().calculateQuantityOfGivenBlood()));
         });
 
         deleteRequestButton.setDisable(true);
