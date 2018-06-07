@@ -691,6 +691,33 @@ public class PersonnelMainWindowController implements Initializable
             {
                 // should do some fancy validation for the case when split flag is true
 
+                // set the readyToUse flag to true
+                selectedDonation.getDonatedBlood().setReadyForUse(true);
+
+                if(selectedDonation.getPatient() != null) // if the donation is for a specific patient
+                {
+                    // check if a blood request exists for that patient
+                    BloodRequest currentBloodRequest = null;
+
+                    for(BloodRequest bloodRequest: bloodRequestRepository.getAll())
+                    {
+                        if(bloodRequest.getPatient() == selectedDonation.getPatient())
+                        {
+                            currentBloodRequest = bloodRequest;
+                            break;
+                        }
+                    }
+
+//                    if(currentBloodRequest != null)
+//                    {
+//
+//                    }
+
+                }
+
+                // update the DB
+                bloodRepository.update(selectedDonation.getDonatedBlood());
+                donationRepository.update(selectedDonation);
 
             }
             else
