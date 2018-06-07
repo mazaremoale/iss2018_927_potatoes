@@ -16,6 +16,9 @@ public class DonationRequest
 
     private Boolean validatedByPersonnel;
     private Boolean validatedByDoctor;
+    private Boolean isInTesting;
+
+    private Boolean passedImmunoHematologyTest;
 
     private Boolean hasConsumedFatRecently;
     private Boolean hasConsumedAlcoholRecently;
@@ -477,5 +480,25 @@ public class DonationRequest
     public void setPatient(Patient patient)
     {
         this.patient = patient;
+    }
+
+    public Boolean getPassedImmunoHematologyTest()
+    {
+        return passedImmunoHematologyTest;
+    }
+
+    public void setPassedImmunoHematologyTest(Boolean passedImmunoHematologyTest)
+    {
+        this.passedImmunoHematologyTest = passedImmunoHematologyTest;
+    }
+
+    public Boolean getInTesting()
+    {
+        return isInTesting;
+    }
+
+    public void setInTesting(Boolean inTesting)
+    {
+        isInTesting = inTesting;
     }
 }

@@ -70,29 +70,8 @@ public class PersonnelMainWindowController implements Initializable
     @FXML
     private Button journyBeginSamplingButton;
 
-    @FXML
-    private void journeySetBloodGroup()
-    {
 
-    }
 
-    @FXML
-    private void journeyBeginPreparation()
-    {
-
-    }
-
-    @FXML
-    private void journeyBeginBiologicalQualityControl()
-    {
-
-    }
-
-    @FXML
-    private void journeyBeginRedistribution()
-    {
-
-    }
 
 
     @FXML
@@ -407,10 +386,13 @@ public class PersonnelMainWindowController implements Initializable
 
             blood.setBloodGroup(selectedDonationRequest.getDonor().getBloodGroup());
             blood.setExpirationDate(LocalDate.now());
-            blood.setQuantity(0.35f);
+            blood.setQuantity(0.35f);  // a person can donate max 350ml of blood at a time
+            blood.setReadyForUse(false);
 
             bloodRepository.add(blood);
 
+            selectedDonationRequest.setInTesting(true);
+            donationRequestRepository.update(selectedDonationRequest);
 
             donation.setDonationRequest(selectedDonationRequest);
             donation.setDonatedBlood(blood);
@@ -426,6 +408,132 @@ public class PersonnelMainWindowController implements Initializable
             donationRepository.add(donation);
         }
     }
+
+    @FXML
+    private void journeyBeginPreparation() throws IOException
+    {
+        if(!journeyBloodInTestingTableView.getSelectionModel().isEmpty())
+        {
+            Donation selectedDonation = journeyBloodInTestingTableView.getSelectionModel().getSelectedItem();
+            selectedDonation.setStatus(Status.TESTING);
+            donationRepository.update(selectedDonation);
+
+            if(selectedDonation.getBloodContainerJourneyStatus() == JourneyStatus.SAMPLING ||
+                    selectedDonation.getBloodContainerJourneyStatus() == JourneyStatus.PREPARATION)
+            {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/fxml/personnel/personnelBloodJourneyPreparation.fxml"));
+
+
+                loader.setController(new PersonnelBloodJourneyPreparationWindow()
+                        .setPrimaryStage(primaryStage)
+                        .setSession(session)
+                        .setPreviousScene(primaryStage.getScene())
+                        .setCurrentPersonnel(currentPersonnel)
+                        .setDonationRepository(donationRepository)
+                        .setDonationRequestRepository(donationRequestRepository)
+                        .setClinicRepository(clinicRepository)
+                        .setBloodRepository(bloodRepository)
+                        .setBloodGroupRepository(bloodGroupRepository)
+                        .setDistanceRepository(distanceRepository)
+                        .setPatientRepository(patientRepository)
+                        .setDonationAppointmentRepository(donationAppointmentRepository)
+                        .setBloodGroupRepository(bloodGroupRepository)
+                        .setLocationRepository(locationRepository)
+                        .setCurrentDonation(selectedDonation)
+                );
+
+                Parent content = loader.load();
+
+                Scene selectScene = new Scene(content);
+                primaryStage.setScene(selectScene);
+                primaryStage.setTitle("Preparation Stage");
+            }
+            else
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Cannot proceed to this stage.");
+                alert.setContentText("The selected donation does not meet the required Status to proceed to this stage.");
+
+                Optional<ButtonType> result = alert.showAndWait();
+            }
+        }
+    }
+
+    @FXML
+    private void journeyBeginBiologicalQualityControl() throws IOException
+    {
+        if (!journeyBloodInTestingTableView.getSelectionModel().isEmpty())
+        {
+            Donation selectedDonation = journeyBloodInTestingTableView.getSelectionModel().getSelectedItem();
+
+            if (selectedDonation.getBloodContainerJourneyStatus() == JourneyStatus.BIOLOGICAL_QUALITY_CONTROL)
+            {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/fxml/personnel/personnelBloodJourneyQualityControl.fxml"));
+
+
+                loader.setController(new PersonnelBloodJourneyBiologicalQCWindow()
+                        .setPrimaryStage(primaryStage)
+                        .setSession(session)
+                        .setPreviousScene(primaryStage.getScene())
+                        .setCurrentPersonnel(currentPersonnel)
+                        .setDonationRepository(donationRepository)
+                        .setDonationRequestRepository(donationRequestRepository)
+                        .setClinicRepository(clinicRepository)
+                        .setBloodRepository(bloodRepository)
+                        .setBloodGroupRepository(bloodGroupRepository)
+                        .setDistanceRepository(distanceRepository)
+                        .setPatientRepository(patientRepository)
+                        .setDonationAppointmentRepository(donationAppointmentRepository)
+                        .setBloodGroupRepository(bloodGroupRepository)
+                        .setLocationRepository(locationRepository)
+                        .setCurrentDonation(selectedDonation)
+                );
+
+                Parent content = loader.load();
+
+                Scene selectScene = new Scene(content);
+                primaryStage.setScene(selectScene);
+                primaryStage.setTitle("Biological Quality Control Stage");
+            } else
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Cannot proceed to this stage.");
+                alert.setContentText("The selected donation does not meet the required Status to proceed to this stage.");
+
+                Optional<ButtonType> result = alert.showAndWait();
+            }
+
+        }
+    }
+
+        @FXML
+        private void journeyBeginRedistribution()
+        {
+            if(!journeyBloodInTestingTableView.getSelectionModel().isEmpty())
+            {
+                Donation selectedDonation = journeyBloodInTestingTableView.getSelectionModel().getSelectedItem();
+
+                if(selectedDonation.getBloodContainerJourneyStatus() == JourneyStatus.REDISTRIBUTION)
+                {
+                    // should do some fancy validation for the case when split flag is true
+
+
+                }
+                else
+                {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Cannot proceed to this stage.");
+                    alert.setContentText("The selected donation does not meet the required Status to proceed to this stage.");
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                }
+            }
+        }
 
     private void populateDonationAppointmentTable()
     {
@@ -482,6 +590,7 @@ public class PersonnelMainWindowController implements Initializable
         List<Donation> donationsInTesting = donationRepository.getAll()
                 .stream()
                 .filter(donation -> donation.getDonationRequest().getValidatedByPersonnel() && donation.getDonationRequest().getValidatedByDoctor())
+                .filter(donation -> donation.getStatus() == Status.TESTING || donation.getStatus() == Status.PENDING)
                 .collect(Collectors.toList());
 
         ObservableList<Donation> donationObservableList = FXCollections.observableList(donationsInTesting);
@@ -500,6 +609,8 @@ public class PersonnelMainWindowController implements Initializable
                 .stream()
                 .filter(donationRequest -> donationRequest.getValidatedByDoctor() != null)
                 .filter(donationRequest -> donationRequest.getValidatedByPersonnel() && donationRequest.getValidatedByDoctor())
+                .filter(donationRequest -> donationRequest.getInTesting() != null)
+                .filter(donationRequest -> !donationRequest.getInTesting())
                 .collect(Collectors.toList());
 
         ObservableList<DonationRequest> pendingDonationRequestsObservableList = FXCollections.observableList(pendingDonationRequests);

@@ -499,6 +499,7 @@ public class PersonnelDonorMedicalDataWindowController implements Initializable
 
                 // send request to doctor for validation
                 currentDonationRequest.setValidatedByPersonnel(true);
+                currentDonationRequest.setInTesting(false);
                 donationRequestRepository.update(currentDonationRequest);
 
                 // create a donation with the status PENDING

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="377.0" prefWidth="512.0" spacing="25.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label text="Preparation Stage">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <VBox spacing="10.0">
+         <children>
+            <CheckBox fx:id="filtrationCheckbox" mnemonicParsing="false" text="Filtration " />
+            <CheckBox fx:id="centrifugeCheckbox" mnemonicParsing="false" text="Centrifuge" />
+         </children>
+      </VBox>
+      <Separator prefWidth="100.0" />
+      <VBox spacing="10.0">
+         <children>
+            <Label text="Optional step: " />
+            <CheckBox fx:id="separateCheckbox" mnemonicParsing="false" text="Separate blood into components" />
+         </children>
+      </VBox>
+      <Separator prefWidth="200.0" />
+      <Button fx:id="proceedButton" mnemonicParsing="false" onAction="#proceedToBiologicalQualityControl" prefHeight="60.0" prefWidth="200.0" text="Proceed to Biological Quality Control Stage" textAlignment="CENTER" wrapText="true" />
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>
