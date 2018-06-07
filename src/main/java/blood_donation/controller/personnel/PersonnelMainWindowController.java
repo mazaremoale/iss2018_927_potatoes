@@ -596,6 +596,7 @@ public class PersonnelMainWindowController implements Initializable
             donation.setStatus(Status.PENDING);
             donation.setPatient(selectedDonationRequest.getPatient());
             donation.setClinic(currentPersonnel.getClinic());
+            donation.setQuantity(0.35f);
             donation.setBloodContainerJourneyStatus(JourneyStatus.SAMPLING);
 
 //            blood.setDonation(donation);  // DO I HAVE TO DO THIS TOO????

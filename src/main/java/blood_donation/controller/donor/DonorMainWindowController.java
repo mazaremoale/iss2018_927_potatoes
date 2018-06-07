@@ -7,6 +7,7 @@ import blood_donation.domain.people.Patient;
 import blood_donation.domain.utils.*;
 import blood_donation.repository.Repository;
 import com.sun.java.swing.plaf.windows.WindowsTreeUI;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -653,7 +654,8 @@ public class DonorMainWindowController implements Initializable
 
         dateTableColumn.setCellValueFactory(data -> data.getValue().donationDateProperty());
         statusTableColumn.setCellValueFactory(data -> data.getValue().statusProperty());
-        donatedBloodTableColumn.setCellValueFactory(data -> data.getValue().donatedBloodProperty());
+        donatedBloodTableColumn.setCellValueFactory(data ->
+                new SimpleStringProperty(data.getValue().getQuantity().toString() + " liters"));
         patientTableColumn.setCellValueFactory(data -> data.getValue().patientProperty());
         clinicTableColumn.setCellValueFactory(data -> data.getValue().clinicProperty());
 
