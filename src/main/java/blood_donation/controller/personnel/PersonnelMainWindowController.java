@@ -412,13 +412,38 @@ public class PersonnelMainWindowController implements Initializable
 
     private void initializeBloodRequestsTable()
     {
-        // TODO wait for Tatiana to add some attributes to class BloodRequest
+        populateBloodRequestsTable();
     }
 
 // ################################################################################################################
 
 
+    private void populateBloodRequestsTable() //please accept me
+    {
+        List<BloodRequest> bloodRequests = bloodRequestRepository.getAll().stream()
+                .filter(bloodRequest -> bloodRequest.getQuantity()
+                        >= bloodRequest.calculateQuantityOfGivenBlood())
+                .collect(Collectors.toList());
 
+        ObservableList<BloodRequest> allBloodRequestsObservableList = FXCollections.observableList(bloodRequests);
+
+        bloodRequestsDoctorNameTableColumn.setCellValueFactory(data ->
+                new SimpleStringProperty(data.getValue().getDoctor().toString()));
+        bloodRequestsPatientNameTableColumn.setCellValueFactory(data -> data.getValue().getPatient().fullNameProperty());
+        bloodRequestsBloodGroupTableColumn.setCellValueFactory(data -> data.getValue().bloodGroupProperty());
+        bloodRequestsQuantityTableColumn.setCellValueFactory(data -> data.getValue().quantityProperty().asString());
+        bloodRequestsPriorityTableColumn.setCellValueFactory(data -> data.getValue().priorityProperty());
+        bloodRequestsHospitalTableColumn.setCellValueFactory(data -> data.getValue().hospitalProperty());
+        bloodRequestsStatusTableColumn.setCellValueFactory(data -> data.getValue().statusProperty());
+        bloodRequestsRequestDateTableColumn.setCellValueFactory(data ->
+                new SimpleStringProperty(data.getValue().getRequestDate().toString()));
+        bloodRequestsHospitalTableColumn.setCellValueFactory(data -> data.getValue().requestDateProperty());
+        bloodRequestsDonatedBloodTableColumn.setCellValueFactory(data ->
+                new SimpleStringProperty(String.valueOf(data.getValue().calculateQuantityOfGivenBlood())));
+
+        bloodRequestsTableView.setItems(allBloodRequestsObservableList);
+
+    }
 
 
 // #######################################################

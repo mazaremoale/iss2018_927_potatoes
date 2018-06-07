@@ -14,7 +14,7 @@
             com.mysql.jdbc.Driver
         </property>
         <property name="hibernate.connection.url">
-            jdbc:mysql://localhost:3306/d1?serverTimezone=UTC
+            jdbc:mysql://localhost:3307/d1?serverTimezone=UTC
         </property>
         <property name="hibernate.connection.autocommit">
             false
