@@ -4,7 +4,6 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,7 +15,7 @@ import java.io.Serializable;
 @DiscriminatorValue(value="person")
 public abstract class Person implements Serializable
 {
-    private IntegerProperty id = new SimpleIntegerProperty();
+    private final IntegerProperty id = new SimpleIntegerProperty();
     private SimpleStringProperty firstName = new SimpleStringProperty();
     private SimpleStringProperty lastName = new SimpleStringProperty();
     private SimpleStringProperty username = new SimpleStringProperty();

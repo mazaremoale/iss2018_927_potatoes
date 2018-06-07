@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 public class Doctor extends Person
 {
     private Hospital hospital;
-    private StringProperty hospitalProperty = new SimpleStringProperty("hospital");
+    private final StringProperty hospitalProperty = new SimpleStringProperty("hospital");
 
     public Doctor(String firstName, String lastName, String username, String password, Hospital hospital)
     {
@@ -50,12 +50,6 @@ public class Doctor extends Person
     public StringProperty hospitalProperty()
     {
         return hospitalProperty;
-    }
-
-
-    public void request()
-    {
-        // TODO implement here
     }
 
 

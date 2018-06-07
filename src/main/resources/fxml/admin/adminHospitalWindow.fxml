@@ -14,62 +14,60 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="606.0" prefWidth="752.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <HBox prefHeight="668.0" prefWidth="742.0" spacing="20.0" BorderPane.alignment="CENTER">
-         <children>
-            <VBox prefHeight="703.0" prefWidth="293.0" spacing="10.0">
-               <children>
-                  <Button cancelButton="true" mnemonicParsing="false" onAction="#goBack" prefHeight="50.0" prefWidth="97.0" text="Back">
-                     <font>
-                        <Font size="25.0" />
-                     </font>
-                  </Button>
-                  <Label prefHeight="55.0" prefWidth="272.0" text="Hospital management">
-                     <font>
-                        <Font size="25.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="hospitalNameTextField" maxWidth="150.0" promptText="Name" />
-                  <ComboBox fx:id="locationComboBox" prefHeight="27.0" prefWidth="197.0" promptText="Pick a location" />
-                  <Button mnemonicParsing="false" onAction="#addHospital" prefHeight="50.0" prefWidth="189.0" text="Add hospital">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#removeHospital" prefHeight="50.0" prefWidth="189.0" text="Remove hospital">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#updateHospital" prefHeight="50.0" prefWidth="189.0" text="Update hospital">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Button>
-               </children>
+       <HBox prefHeight="668.0" prefWidth="742.0" spacing="20.0" BorderPane.alignment="CENTER">
+           <BorderPane.margin>
+               <Insets left="10.0" top="10.0"/>
+           </BorderPane.margin>
+           <VBox prefHeight="703.0" prefWidth="293.0" spacing="10.0">
                <padding>
-                  <Insets left="10.0" />
+                   <Insets left="10.0"/>
                </padding>
-            </VBox>
-            <VBox prefHeight="703.0" prefWidth="366.0" spacing="10.0">
-               <children>
-                  <Label text="All hospitals">
-                     <font>
-                        <Font size="25.0" />
-                     </font>
-                  </Label>
-                  <TableView fx:id="hospitalTableView" prefHeight="530.0" prefWidth="400.0">
-                     <columns>
-                        <TableColumn fx:id="hospitalIDColumn" prefWidth="65.0" text="ID" />
-                        <TableColumn fx:id="hospitalNameColumn" prefWidth="150.0" text="Name" />
-                        <TableColumn fx:id="hospitalLocationColumn" prefWidth="150.0" text="Location" />
-                     </columns>
-                  </TableView>
-               </children>
-            </VBox>
-         </children>
-         <BorderPane.margin>
-            <Insets left="10.0" top="10.0" />
-         </BorderPane.margin>
-      </HBox>
+               <Button cancelButton="true" mnemonicParsing="false" onAction="#goBack" prefHeight="50.0"
+                       prefWidth="97.0" text="Back">
+                   <font>
+                       <Font size="25.0"/>
+                   </font>
+               </Button>
+               <Label prefHeight="55.0" prefWidth="272.0" text="Hospital management">
+                   <font>
+                       <Font size="25.0"/>
+                   </font>
+               </Label>
+               <TextField fx:id="hospitalNameTextField" maxWidth="150.0" promptText="Name"/>
+               <ComboBox fx:id="locationComboBox" prefHeight="27.0" prefWidth="197.0" promptText="Pick a location"/>
+               <Button mnemonicParsing="false" onAction="#addHospital" prefHeight="50.0" prefWidth="189.0"
+                       text="Add hospital">
+                   <font>
+                       <Font size="20.0"/>
+                   </font>
+               </Button>
+               <Button mnemonicParsing="false" onAction="#removeHospital" prefHeight="50.0" prefWidth="189.0"
+                       text="Remove hospital">
+                   <font>
+                       <Font size="20.0"/>
+                   </font>
+               </Button>
+               <Button mnemonicParsing="false" onAction="#updateHospital" prefHeight="50.0" prefWidth="189.0"
+                       text="Update hospital">
+                   <font>
+                       <Font size="20.0"/>
+                   </font>
+               </Button>
+           </VBox>
+           <VBox prefHeight="703.0" prefWidth="366.0" spacing="10.0">
+               <Label text="All hospitals">
+                   <font>
+                       <Font size="25.0"/>
+                   </font>
+               </Label>
+               <TableView fx:id="hospitalTableView" prefHeight="530.0" prefWidth="400.0">
+                   <columns>
+                       <TableColumn fx:id="hospitalIDColumn" prefWidth="65.0" text="ID"/>
+                       <TableColumn fx:id="hospitalNameColumn" prefWidth="150.0" text="Name"/>
+                       <TableColumn fx:id="hospitalLocationColumn" prefWidth="150.0" text="Location"/>
+                   </columns>
+               </TableView>
+           </VBox>
+       </HBox>
    </center>
 </BorderPane>

@@ -248,8 +248,8 @@ public class DonorDonationScheduleWindowController implements Initializable
     {
         donationDatePicker.setConverter(new StringConverter<LocalDate>()
         {
-            String pattern = "dd-MM-yyyy";
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+            final String pattern = "dd-MM-yyyy";
+            final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
 
             @Override
             public String toString(LocalDate date)
@@ -319,6 +319,7 @@ public class DonorDonationScheduleWindowController implements Initializable
     @FXML
     private void initializeClinics()
     {
+        //TODO if patient unchecked hide combobox
         List<Clinic> clinics = clinicRepository.getAll();
 
         List<Integer> distances = new ArrayList<>();
@@ -448,7 +449,6 @@ public class DonorDonationScheduleWindowController implements Initializable
                         donationRequestRepository.update(currentDonationRequest);
 
                     }
-                    System.out.println(donationRequestRepository.getLastEntity().getPatient());
                     donationAppointmentRepository.add(donationAppointment);
 
                     try

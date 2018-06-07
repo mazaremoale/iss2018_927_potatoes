@@ -20,85 +20,78 @@
       </Button>
    </bottom>
    <center>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
-         <children>
-            <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="600.0" spacing="30.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#showDonorOptions" text="Donor">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets top="70.0" />
-                     </HBox.margin>
-                  </Button>
-                  <VBox alignment="CENTER" spacing="20.0">
-                     <children>
-                        <Button fx:id="donorRegisterButton" mnemonicParsing="false" onAction="#openDonorRegistration" prefHeight="40.0" prefWidth="123.0" text="Register">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="donorLoginButton" mnemonicParsing="false" onAction="#openDonorLogin" prefHeight="40.0" prefWidth="105.0" text="Login">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Button>
-                     </children>
-                     <HBox.margin>
-                        <Insets top="40.0" />
-                     </HBox.margin>
-                  </VBox>
-               </children>
+       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
+           <BorderPane.margin>
+               <Insets bottom="30.0"/>
+           </BorderPane.margin>
+           <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="600.0" spacing="30.0">
                <padding>
-                  <Insets right="15.0" />
+                   <Insets right="15.0"/>
                </padding>
                <VBox.margin>
-                  <Insets right="90.0" />
+                   <Insets right="90.0"/>
                </VBox.margin>
-            </HBox>
-            <Button mnemonicParsing="false" onAction="#openDoctorLogin" text="Doctor">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#openPersonnelLogin" text="Personnel">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-         </children>
-         <BorderPane.margin>
-            <Insets bottom="30.0" />
-         </BorderPane.margin>
-      </VBox>
+               <Button mnemonicParsing="false" onAction="#showDonorOptions" text="Donor">
+                   <font>
+                       <Font size="18.0"/>
+                   </font>
+                   <HBox.margin>
+                       <Insets top="70.0"/>
+                   </HBox.margin>
+               </Button>
+               <VBox alignment="CENTER" spacing="20.0">
+                   <HBox.margin>
+                       <Insets top="40.0"/>
+                   </HBox.margin>
+                   <Button fx:id="donorRegisterButton" mnemonicParsing="false" onAction="#openDonorRegistration"
+                           prefHeight="40.0" prefWidth="123.0" text="Register">
+                       <font>
+                           <Font size="20.0"/>
+                       </font>
+                   </Button>
+                   <Button fx:id="donorLoginButton" mnemonicParsing="false" onAction="#openDonorLogin"
+                           prefHeight="40.0" prefWidth="105.0" text="Login">
+                       <font>
+                           <Font size="20.0"/>
+                       </font>
+                   </Button>
+               </VBox>
+           </HBox>
+           <Button mnemonicParsing="false" onAction="#openDoctorLogin" text="Doctor">
+              <font>
+                  <Font size="18.0"/>
+              </font>
+           </Button>
+           <Button mnemonicParsing="false" onAction="#openPersonnelLogin" text="Personnel">
+              <font>
+                  <Font size="18.0"/>
+              </font>
+           </Button>
+       </VBox>
    </center>
    <top>
-      <VBox prefHeight="89.0" prefWidth="580.0" BorderPane.alignment="TOP_LEFT">
-         <BorderPane.margin>
-            <Insets left="20.0" top="10.0" />
-         </BorderPane.margin>
-         <children>
-            <HBox alignment="TOP_RIGHT" prefHeight="14.0" prefWidth="580.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#openAdminLogin" prefHeight="38.0" prefWidth="72.0" text="Admin">
-                     <HBox.margin>
-                        <Insets right="20.0" top="20.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
-            <Label text="What sort of user are you?">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label text="Please click on the corresponding button">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-         </children>
-      </VBox>
+       <VBox prefHeight="89.0" prefWidth="580.0" BorderPane.alignment="TOP_LEFT">
+           <BorderPane.margin>
+               <Insets left="20.0" top="10.0"/>
+           </BorderPane.margin>
+           <HBox alignment="TOP_RIGHT" prefHeight="14.0" prefWidth="580.0">
+               <Button mnemonicParsing="false" onAction="#openAdminLogin" prefHeight="38.0" prefWidth="72.0"
+                       text="Admin">
+                   <HBox.margin>
+                       <Insets right="20.0" top="20.0"/>
+                   </HBox.margin>
+               </Button>
+           </HBox>
+           <Label text="What sort of user are you?">
+              <font>
+                  <Font size="18.0"/>
+              </font>
+           </Label>
+           <Label text="Please click on the corresponding button">
+              <font>
+                  <Font size="18.0"/>
+              </font>
+           </Label>
+       </VBox>
    </top>
 </BorderPane>

@@ -11,9 +11,11 @@ public class Patient extends Person
     private Doctor doctor;
     private Integer age;
 
-    public Patient(String firstName, String lastName, String username, String password, Integer age)
+    public Patient(String firstName, String lastName,Integer age)
     {
-        super(firstName, lastName, username, password);
+        setFirstName(firstName);
+        setLastName(lastName);
+        setAge(age);
 
         this.age = age;
     }

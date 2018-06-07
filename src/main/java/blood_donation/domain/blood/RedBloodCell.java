@@ -1,7 +1,6 @@
 package blood_donation.domain.blood;
 
 import javafx.beans.property.FloatProperty;
-import javafx.beans.property.IntegerProperty;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;

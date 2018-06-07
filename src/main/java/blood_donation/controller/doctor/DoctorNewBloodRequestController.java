@@ -1,6 +1,5 @@
 package blood_donation.controller.doctor;
 
-import blood_donation.domain.blood.Blood;
 import blood_donation.domain.blood.BloodGroup;
 import blood_donation.domain.blood.BloodTypeLetter;
 import blood_donation.domain.blood.BloodTypeRH;
@@ -270,7 +269,8 @@ public class DoctorNewBloodRequestController implements Initializable
             bloodRequestQuantity = (float) (bloodRequestQuantityInteger / 1000.0);
             System.out.println(bloodRequestQuantity);
 
-            Patient patient = new Patient(patientFirstName, patientFirstName, "", "", patientAge);
+            Patient patient = new Patient(patientFirstName, patientFirstName, patientAge);
+            patient.setDoctor(currentDoctor);
             patientRepository.add(patient);
 
             BloodTypeLetter bloodTypeLetter = bloodGroupComboBox.getValue();

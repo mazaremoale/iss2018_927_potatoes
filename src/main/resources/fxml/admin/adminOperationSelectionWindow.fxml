@@ -8,30 +8,32 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="553.0" prefWidth="728.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="40.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button mnemonicParsing="false" onAction="#chooseDoctor" prefHeight="66.0" prefWidth="246.0" text="Add/remove/update doctors">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#choosePersonnel" prefHeight="66.0" prefWidth="246.0" text="Add/remove/update personnel">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#chooseClinic" prefHeight="66.0" prefWidth="246.0" text="Add/remove/update clinics">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#chooseHospital" prefHeight="66.0" prefWidth="246.0" text="Add/remove/update hospitals">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Button>
-         </children>
-      </VBox>
+       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="40.0" BorderPane.alignment="CENTER">
+           <Button mnemonicParsing="false" onAction="#chooseDoctor" prefHeight="66.0" prefWidth="246.0"
+                   text="Add/remove/update doctors">
+              <font>
+                  <Font size="15.0"/>
+              </font>
+           </Button>
+           <Button mnemonicParsing="false" onAction="#choosePersonnel" prefHeight="66.0" prefWidth="246.0"
+                   text="Add/remove/update personnel">
+              <font>
+                  <Font size="15.0"/>
+              </font>
+           </Button>
+           <Button mnemonicParsing="false" onAction="#chooseClinic" prefHeight="66.0" prefWidth="246.0"
+                   text="Add/remove/update clinics">
+              <font>
+                  <Font size="15.0"/>
+              </font>
+           </Button>
+           <Button mnemonicParsing="false" onAction="#chooseHospital" prefHeight="66.0" prefWidth="246.0"
+                   text="Add/remove/update hospitals">
+              <font>
+                  <Font size="15.0"/>
+              </font>
+           </Button>
+       </VBox>
    </center>
    <top>
       <Button cancelButton="true" mnemonicParsing="false" onAction="#goBack" prefHeight="38.0" prefWidth="76.0" text="Back" BorderPane.alignment="CENTER">

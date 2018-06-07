@@ -14,7 +14,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 import org.hibernate.Session;
@@ -22,7 +21,6 @@ import org.hibernate.Session;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -347,6 +345,7 @@ public class PersonnelMainWindowController implements Initializable
                     .setPatientRepository(patientRepository)
                     .setDonationAppointmentRepository(donationAppointmentRepository)
                     .setBloodGroupRepository(bloodGroupRepository)
+                    .setLocationRepository(locationRepository)
             );
 
             Parent content = loader.load();
@@ -515,9 +514,7 @@ public class PersonnelMainWindowController implements Initializable
         stocksLocationComboBox.setItems(locationsObservableList);
 
         stocksLocationComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
-        {
-            populateBloodStockTableView(newValue);
-        });
+                populateBloodStockTableView(newValue));
     }
 
     private void populateBloodStockTableView(Location selectedLocation)

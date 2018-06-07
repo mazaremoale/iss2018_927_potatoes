@@ -1,9 +1,5 @@
 package blood_donation.domain.blood;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.fxml.FXML;
-
 import javax.persistence.*;
 
 @Entity

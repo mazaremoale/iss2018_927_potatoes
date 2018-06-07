@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public final class Repository<T>
 {
-    private Class<T> tClass;
+    private final Class<T> tClass;
     private Session session;
 
     public Repository(Class<T> tClass, Session session)

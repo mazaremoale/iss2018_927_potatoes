@@ -17,7 +17,7 @@ import javax.persistence.ManyToOne;
 public class Personnel extends Person
 {
     private Clinic clinic;
-    private StringProperty clinicProperty = new SimpleStringProperty("clinic");
+    private final StringProperty clinicProperty = new SimpleStringProperty("clinic");
 
     public Personnel()
     {

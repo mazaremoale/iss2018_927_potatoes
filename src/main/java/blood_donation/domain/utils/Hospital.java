@@ -1,15 +1,12 @@
 package blood_donation.domain.utils;
 
-import blood_donation.domain.people.Doctor;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "Hospitals")
@@ -18,10 +15,10 @@ public class Hospital
     private Location location;
 
     @FXML
-    private IntegerProperty id = new SimpleIntegerProperty();
+    private final IntegerProperty id = new SimpleIntegerProperty();
 
     @FXML
-    private StringProperty locationProperty = new SimpleStringProperty("location");
+    private final StringProperty locationProperty = new SimpleStringProperty("location");
 
     @FXML
     private SimpleStringProperty name = new SimpleStringProperty();

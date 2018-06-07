@@ -13,83 +13,72 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="478.0" prefWidth="864.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
    <top>
-      <VBox spacing="30.0" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets left="20.0" right="20.0" top="20.0" />
-         </BorderPane.margin>
-         <children>
-            <Button cancelButton="true" mnemonicParsing="false" onAction="#goBack" prefHeight="10.0" prefWidth="101.0" text="Back">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Button>
-            <HBox spacing="40.0">
-               <children>
-                  <Label fx:id="dateLabel" prefHeight="26.0" prefWidth="178.0" text="Pick a date">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <DatePicker fx:id="donationDatePicker" editable="false" promptText="Date" />
-               </children>
-            </HBox>
-            <HBox spacing="40.0">
-               <children>
-                  <Label fx:id="dateLabel2" prefHeight="26.0" prefWidth="178.0" text="Pick an hour">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <ComboBox fx:id="timeComboBox" prefHeight="27.0" prefWidth="70.0" />
-               </children>
-            </HBox>
-            <HBox spacing="40.0">
-               <children>
-                  <Label fx:id="dateLabel1" prefHeight="26.0" prefWidth="178.0" text="Pick a clinic">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <ComboBox fx:id="clinicComboBox" prefHeight="27.0" prefWidth="363.0" promptText="Ordered from closest to furthest" />
-               </children>
-            </HBox>
-            <CheckBox fx:id="targettedDonationCheckBox" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Are you donating for someone in particular?">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </CheckBox>
-            <HBox spacing="40.0">
-               <children>
-                  <Label fx:id="countyLabel" text="Select a county">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <ComboBox fx:id="countyComboBox" prefHeight="27.0" prefWidth="192.0" promptText="Browse" />
-               </children>
-            </HBox>
-            <HBox spacing="40.0">
-               <children>
-                  <Label fx:id="hospitalLabel" text="Select a hospital">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <ComboBox fx:id="hospitalComboBox" prefHeight="27.0" prefWidth="192.0" promptText="Browse" />
-               </children>
-            </HBox>
-            <HBox spacing="40.0">
-               <children>
-                  <Label fx:id="patientLabel" text="Select a name">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <ComboBox fx:id="patientComboBox" prefHeight="27.0" prefWidth="192.0" promptText="Browse" />
-               </children>
-            </HBox>
-         </children>
-      </VBox>
+       <VBox spacing="30.0" BorderPane.alignment="CENTER">
+           <BorderPane.margin>
+               <Insets left="20.0" right="20.0" top="20.0"/>
+           </BorderPane.margin>
+           <Button cancelButton="true" mnemonicParsing="false" onAction="#goBack" prefHeight="10.0" prefWidth="101.0"
+                   text="Back">
+              <font>
+                  <Font size="20.0"/>
+              </font>
+           </Button>
+           <HBox spacing="40.0">
+               <Label fx:id="dateLabel" prefHeight="26.0" prefWidth="178.0" text="Pick a date">
+                   <font>
+                       <Font size="20.0"/>
+                   </font>
+               </Label>
+               <DatePicker fx:id="donationDatePicker" editable="false" promptText="Date"/>
+           </HBox>
+           <HBox spacing="40.0">
+               <Label fx:id="dateLabel2" prefHeight="26.0" prefWidth="178.0" text="Pick an hour">
+                   <font>
+                       <Font size="20.0"/>
+                   </font>
+               </Label>
+               <ComboBox fx:id="timeComboBox" prefHeight="27.0" prefWidth="70.0"/>
+           </HBox>
+           <HBox spacing="40.0">
+               <Label fx:id="dateLabel1" prefHeight="26.0" prefWidth="178.0" text="Pick a clinic">
+                   <font>
+                       <Font size="20.0"/>
+                   </font>
+               </Label>
+               <ComboBox fx:id="clinicComboBox" prefHeight="27.0" prefWidth="363.0"
+                         promptText="Ordered from closest to furthest"/>
+           </HBox>
+           <CheckBox fx:id="targettedDonationCheckBox" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT"
+                     text="Are you donating for someone in particular?">
+              <font>
+                  <Font size="20.0"/>
+              </font>
+           </CheckBox>
+           <HBox spacing="40.0">
+               <Label fx:id="countyLabel" text="Select a county">
+                   <font>
+                       <Font size="20.0"/>
+                   </font>
+               </Label>
+               <ComboBox fx:id="countyComboBox" prefHeight="27.0" prefWidth="192.0" promptText="Browse"/>
+           </HBox>
+           <HBox spacing="40.0">
+               <Label fx:id="hospitalLabel" text="Select a hospital">
+                   <font>
+                       <Font size="20.0"/>
+                   </font>
+               </Label>
+               <ComboBox fx:id="hospitalComboBox" prefHeight="27.0" prefWidth="192.0" promptText="Browse"/>
+           </HBox>
+           <HBox spacing="40.0">
+               <Label fx:id="patientLabel" text="Select a name">
+                   <font>
+                       <Font size="20.0"/>
+                   </font>
+               </Label>
+               <ComboBox fx:id="patientComboBox" prefHeight="27.0" prefWidth="192.0" promptText="Browse"/>
+           </HBox>
+       </VBox>
    </top>
    <bottom>
       <Button defaultButton="true" mnemonicParsing="false" onAction="#submitAppointment" prefHeight="24.0" prefWidth="122.0" text="Schedule" BorderPane.alignment="BOTTOM_RIGHT">

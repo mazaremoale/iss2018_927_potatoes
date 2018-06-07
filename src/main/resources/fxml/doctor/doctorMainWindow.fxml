@@ -1,192 +1,196 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
+<?import javafx.scene.text.*?>
 <AnchorPane prefHeight="619.0" prefWidth="769.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <VBox prefHeight="638.0" prefWidth="769.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <HBox>
-               <children>
-                  <Button fx:id="backButton" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" mnemonicParsing="false" onAction="#goBack" prefHeight="24.0" prefWidth="53.0" text="Back">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" top="10.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button alignment="TOP_RIGHT" mnemonicParsing="false" text="Refresh">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="630.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
-            <TabPane prefHeight="561.0" prefWidth="759.0" tabClosingPolicy="UNAVAILABLE">
-              <tabs>
-                <Tab text="Donation requests">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <BorderPane layoutX="35.0" layoutY="122.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <top>
-                                    <Label text="Information about donor" BorderPane.alignment="TOP_LEFT">
-                                       <BorderPane.margin>
-                                          <Insets left="10.0" top="10.0" />
-                                       </BorderPane.margin>
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                 </top>
-                                 <center>
-                                    <TableView fx:id="donationRequestTableView" prefHeight="423.0" prefWidth="749.0" BorderPane.alignment="CENTER">
-                                      <columns>
-                                        <TableColumn fx:id="drNameColumn" prefWidth="150.0" text="Name" />
-                                        <TableColumn fx:id="drAgeColumn" minWidth="2.0" prefWidth="150.0" text="Age" />
-                                          <TableColumn fx:id="drBloodPressureColumn" minWidth="2.0" prefWidth="150.0" text="Blood pressure" />
-                                          <TableColumn fx:id="drPulseColumn" minWidth="2.0" prefWidth="150.0" text="Pulse" />
-                                          <TableColumn fx:id="drWeightColumn" minWidth="2.0" prefWidth="140.0" text="Weight" />
-                                      </columns>
-                                       <BorderPane.margin>
-                                          <Insets left="10.0" right="10.0" top="10.0" />
-                                       </BorderPane.margin>
-                                    </TableView>
-                                 </center>
-                                 <bottom>
-                                    <HBox alignment="CENTER" prefHeight="54.0" prefWidth="769.0" BorderPane.alignment="CENTER_RIGHT">
-                                       <children>
-                                          <Button fx:id="approveButton" alignment="CENTER" mnemonicParsing="false" onAction="#approveDonor" text="Approve">
-                                             <font>
-                                                <Font size="20.0" />
-                                             </font>
-                                             <HBox.margin>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                             </HBox.margin>
-                                          </Button>
-                                          <Button fx:id="notApproveButton" alignment="CENTER" mnemonicParsing="false" onAction="#notApproveDonor" text="Shall not pass">
-                                             <font>
-                                                <Font size="20.0" />
-                                             </font>
-                                             <HBox.margin>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                             </HBox.margin>
-                                          </Button>
-                                       </children>
-                                    </HBox>
-                                 </bottom>
-                              </BorderPane>
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </Tab>
-                <Tab text="Available stocks">
-                     <content>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                           <children>
-                              <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <center>
-                                    <TableView fx:id="bloodStockTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                                      <columns>
-                                        <TableColumn fx:id="bloodStockBloodTypeTableColumn" prefWidth="150.0" text="Blood Type" />
-                                        <TableColumn fx:id="bloodStockGroupTableColumn" prefWidth="150.0" text="Blood Group" />
-                                          <TableColumn fx:id="bloodStockQuantityTableColumn" prefWidth="150.0" text="Quantity" />
-                                          <TableColumn fx:id="bloodStockExpirationDateTableColumn" prefWidth="150.0" text="Expiration date" />
-                                          <TableColumn fx:id="bloodStockLocationTableColumn" prefWidth="150.0" text="Location" />
-                                      </columns>
-                                       <BorderPane.margin>
-                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                       </BorderPane.margin>
-                                    </TableView>
-                                 </center>
-                                 <top>
-                                    <VBox prefHeight="64.0" prefWidth="769.0" BorderPane.alignment="CENTER">
-                                       <children>
-                                          <Label text="Blood ready for usage">
-                                             <font>
-                                                <Font size="20.0" />
-                                             </font>
-                                             <VBox.margin>
-                                                <Insets left="10.0" top="10.0" />
-                                             </VBox.margin>
-                                          </Label>
-                                          <ComboBox fx:id="locationComboBox" prefHeight="32.0" prefWidth="196.0" promptText="Pick a location">
-                                             <VBox.margin>
-                                                <Insets left="10.0" />
-                                             </VBox.margin>
-                                          </ComboBox>
-                                       </children>
-                                    </VBox>
-                                 </top>
-                              </BorderPane>
-                           </children>
-                        </AnchorPane>
-                     </content>
-                </Tab>
-                  <Tab text="Blood requests">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="444.0" prefWidth="680.0">
-                           <children>
-                              <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <center>
-                                    <TableView fx:id="bloodRequestsTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                                      <columns>
-                                        <TableColumn fx:id="bloodRequestsPatientColumn" prefWidth="100.0" text="Patient" />
-                                        <TableColumn fx:id="bloodRequestsBloodGroupColumn" prefWidth="100.0" text="Blood group" />
-                                          <TableColumn fx:id="bloodRequestsQuantityColumn" prefWidth="95.0" text="Quantity" />
-                                          <TableColumn fx:id="bloodRequestsPriorityColumn" prefWidth="100.0" text="Priority" />
-                                          <TableColumn fx:id="bloodRequestsHospitalColumn" prefWidth="137.0" text="Hospital" />
-                                          <TableColumn fx:id="bloodRequestsStatusColumn" prefWidth="99.0" text="Status" />
-                                          <TableColumn fx:id="bloodRequestsDonatedBloodColumn" prefWidth="119.0" text="Donated blood" />
-                                      </columns>
-                                       <BorderPane.margin>
-                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                       </BorderPane.margin>
-                                    </TableView>
-                                 </center>
-                                 <bottom>
-                                    <HBox alignment="CENTER" prefHeight="51.0" prefWidth="769.0" BorderPane.alignment="CENTER">
-                                       <children>
-                                          <Button mnemonicParsing="false" onAction="#openMakeNewRequestForm" text="Make new request">
-                                             <font>
-                                                <Font size="20.0" />
-                                             </font>
-                                             <HBox.margin>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                             </HBox.margin>
-                                          </Button>
-                                          <Button fx:id="deleteRequestButton" mnemonicParsing="false" onAction="#deleteSelectedRequest" text="Delete request">
-                                             <font>
-                                                <Font size="20.0" />
-                                             </font>
-                                             <HBox.margin>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                             </HBox.margin>
-                                          </Button>
-                                       </children>
-                                    </HBox>
-                                 </bottom>
-                                 <top>
-                                    <Label text="Blood requests history" BorderPane.alignment="TOP_LEFT">
-                                       <BorderPane.margin>
-                                          <Insets left="10.0" right="10.0" top="10.0" />
-                                       </BorderPane.margin>
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                 </top></BorderPane>
-                           </children>
-                        </AnchorPane>
-                    </content>
-                  </Tab>
-              </tabs>
-            </TabPane>
-         </children>
-      </VBox>
-   </children>
+    <VBox prefHeight="638.0" prefWidth="769.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <HBox>
+            <Button fx:id="backButton" alignment="CENTER" cancelButton="true" contentDisplay="CENTER"
+                    mnemonicParsing="false" onAction="#goBack" prefHeight="24.0" prefWidth="53.0" text="Back">
+                <HBox.margin>
+                    <Insets bottom="10.0" left="10.0" top="10.0"/>
+                </HBox.margin>
+            </Button>
+            <Button alignment="TOP_RIGHT" mnemonicParsing="false" text="Refresh">
+                <HBox.margin>
+                    <Insets bottom="10.0" left="630.0" right="10.0" top="10.0"/>
+                </HBox.margin>
+            </Button>
+        </HBox>
+        <TabPane prefHeight="561.0" prefWidth="759.0" tabClosingPolicy="UNAVAILABLE">
+            <Tab text="Donation requests">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <BorderPane layoutX="35.0" layoutY="122.0" prefHeight="200.0" prefWidth="200.0"
+                                AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <top>
+                            <Label text="Information about donor" BorderPane.alignment="TOP_LEFT">
+                                <BorderPane.margin>
+                                    <Insets left="10.0" top="10.0"/>
+                                </BorderPane.margin>
+                                <font>
+                                    <Font size="20.0"/>
+                                </font>
+                            </Label>
+                        </top>
+                        <center>
+                            <TableView fx:id="donationRequestTableView" prefHeight="423.0" prefWidth="749.0"
+                                       BorderPane.alignment="CENTER">
+                                <columns>
+                                    <TableColumn fx:id="drNameColumn" prefWidth="150.0" text="Name"/>
+                                    <TableColumn fx:id="drAgeColumn" minWidth="2.0" prefWidth="150.0" text="Age"/>
+                                    <TableColumn fx:id="drBloodPressureColumn" minWidth="2.0" prefWidth="150.0"
+                                                 text="Blood pressure"/>
+                                    <TableColumn fx:id="drPulseColumn" minWidth="2.0" prefWidth="150.0"
+                                                 text="Pulse"/>
+                                    <TableColumn fx:id="drWeightColumn" minWidth="2.0" prefWidth="140.0"
+                                                 text="Weight"/>
+                                </columns>
+                                <BorderPane.margin>
+                                    <Insets left="10.0" right="10.0" top="10.0"/>
+                                </BorderPane.margin>
+                            </TableView>
+                        </center>
+                        <bottom>
+                            <HBox alignment="CENTER" prefHeight="54.0" prefWidth="769.0"
+                                  BorderPane.alignment="CENTER_RIGHT">
+                                <Button fx:id="approveButton" alignment="CENTER" mnemonicParsing="false"
+                                        onAction="#approveDonor" text="Approve">
+                                    <font>
+                                        <Font size="20.0"/>
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                                    </HBox.margin>
+                                </Button>
+                                <Button fx:id="notApproveButton" alignment="CENTER" mnemonicParsing="false"
+                                        onAction="#notApproveDonor" text="Shall not pass">
+                                    <font>
+                                        <Font size="20.0"/>
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                                    </HBox.margin>
+                                </Button>
+                            </HBox>
+                        </bottom>
+                    </BorderPane>
+                </AnchorPane>
+            </Tab>
+            <Tab text="Available stocks">
+                <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                    <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
+                                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                AnchorPane.topAnchor="0.0">
+                        <center>
+                            <TableView fx:id="bloodStockTableView" prefHeight="200.0" prefWidth="200.0"
+                                       BorderPane.alignment="CENTER">
+                                <columns>
+                                    <TableColumn fx:id="bloodStockBloodTypeTableColumn" prefWidth="150.0"
+                                                 text="Blood Type"/>
+                                    <TableColumn fx:id="bloodStockGroupTableColumn" prefWidth="150.0"
+                                                 text="Blood Group"/>
+                                    <TableColumn fx:id="bloodStockQuantityTableColumn" prefWidth="150.0"
+                                                 text="Quantity"/>
+                                    <TableColumn fx:id="bloodStockExpirationDateTableColumn" prefWidth="150.0"
+                                                 text="Expiration date"/>
+                                    <TableColumn fx:id="bloodStockLocationTableColumn" prefWidth="150.0"
+                                                 text="Location"/>
+                                </columns>
+                                <BorderPane.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                                </BorderPane.margin>
+                            </TableView>
+                        </center>
+                        <top>
+                            <VBox prefHeight="64.0" prefWidth="769.0" BorderPane.alignment="CENTER">
+                                <Label text="Blood ready for usage">
+                                    <font>
+                                        <Font size="20.0"/>
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets left="10.0" top="10.0"/>
+                                    </VBox.margin>
+                                </Label>
+                                <ComboBox fx:id="locationComboBox" prefHeight="32.0" prefWidth="196.0"
+                                          promptText="Pick a location">
+                                    <VBox.margin>
+                                        <Insets left="10.0"/>
+                                    </VBox.margin>
+                                </ComboBox>
+                            </VBox>
+                        </top>
+                    </BorderPane>
+                </AnchorPane>
+            </Tab>
+            <Tab text="Blood requests">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="444.0" prefWidth="680.0">
+                    <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
+                                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                AnchorPane.topAnchor="0.0">
+                        <center>
+                            <TableView fx:id="bloodRequestsTableView" prefHeight="200.0" prefWidth="200.0"
+                                       BorderPane.alignment="CENTER">
+                                <columns>
+                                    <TableColumn fx:id="bloodRequestsPatientColumn" prefWidth="100.0"
+                                                 text="Patient"/>
+                                    <TableColumn fx:id="bloodRequestsBloodGroupColumn" prefWidth="100.0"
+                                                 text="Blood group"/>
+                                    <TableColumn fx:id="bloodRequestsQuantityColumn" prefWidth="95.0"
+                                                 text="Quantity"/>
+                                    <TableColumn fx:id="bloodRequestsPriorityColumn" prefWidth="100.0"
+                                                 text="Priority"/>
+                                    <TableColumn fx:id="bloodRequestsHospitalColumn" prefWidth="137.0"
+                                                 text="Hospital"/>
+                                    <TableColumn fx:id="bloodRequestsStatusColumn" prefWidth="99.0"
+                                                 text="Status"/>
+                                    <TableColumn fx:id="bloodRequestsDonatedBloodColumn" prefWidth="119.0"
+                                                 text="Donated blood"/>
+                                </columns>
+                                <BorderPane.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                                </BorderPane.margin>
+                            </TableView>
+                        </center>
+                        <bottom>
+                            <HBox alignment="CENTER" prefHeight="51.0" prefWidth="769.0"
+                                  BorderPane.alignment="CENTER">
+                                <Button mnemonicParsing="false" onAction="#openMakeNewRequestForm"
+                                        text="Make new request">
+                                    <font>
+                                        <Font size="20.0"/>
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                                    </HBox.margin>
+                                </Button>
+                                <Button fx:id="deleteRequestButton" mnemonicParsing="false"
+                                        onAction="#deleteSelectedRequest" text="Delete request">
+                                    <font>
+                                        <Font size="20.0"/>
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                                    </HBox.margin>
+                                </Button>
+                            </HBox>
+                        </bottom>
+                        <top>
+                            <Label text="Blood requests history" BorderPane.alignment="TOP_LEFT">
+                                <BorderPane.margin>
+                                    <Insets left="10.0" right="10.0" top="10.0"/>
+                                </BorderPane.margin>
+                                <font>
+                                    <Font size="20.0"/>
+                                </font>
+                            </Label>
+                        </top>
+                    </BorderPane>
+                </AnchorPane>
+            </Tab>
+        </TabPane>
+    </VBox>
 </AnchorPane>

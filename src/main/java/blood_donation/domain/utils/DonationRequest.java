@@ -45,19 +45,19 @@ public class DonationRequest
     private Patient patient;
 
     @FXML
-    private IntegerProperty age = new SimpleIntegerProperty();
+    private final IntegerProperty age = new SimpleIntegerProperty();
 
     @FXML
-    private FloatProperty pulse = new SimpleFloatProperty();
+    private final FloatProperty pulse = new SimpleFloatProperty();
 
     @FXML
-    private FloatProperty weight = new SimpleFloatProperty();
+    private final FloatProperty weight = new SimpleFloatProperty();
 
     @FXML
-    private FloatProperty bloodPressure = new SimpleFloatProperty();
+    private final FloatProperty bloodPressure = new SimpleFloatProperty();
 
     @FXML
-    private StringProperty otherInformation = new SimpleStringProperty();
+    private final StringProperty otherInformation = new SimpleStringProperty();
 
     public DonationRequest()
     {

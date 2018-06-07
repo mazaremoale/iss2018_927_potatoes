@@ -110,10 +110,10 @@ public final class DonorQuestionnaireWindowController implements Initializable
     private VBox uncheckedVBox;
 
     @FXML
-    private Set<CheckBox> checkedCheckBoxes = new HashSet<>();
+    private final Set<CheckBox> checkedCheckBoxes = new HashSet<>();
 
     @FXML
-    private Set<CheckBox> uncheckedCheckBoxes = new HashSet<>();
+    private final Set<CheckBox> uncheckedCheckBoxes = new HashSet<>();
 
     public Stage getPrimaryStage()
     {

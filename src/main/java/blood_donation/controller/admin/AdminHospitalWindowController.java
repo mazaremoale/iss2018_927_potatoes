@@ -1,6 +1,5 @@
 package blood_donation.controller.admin;
 
-import blood_donation.domain.people.Doctor;
 import blood_donation.domain.utils.Hospital;
 import blood_donation.domain.utils.Location;
 import blood_donation.repository.Repository;
@@ -12,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import org.hibernate.PropertyValueException;
 import org.hibernate.Session;
 
 import java.net.URL;

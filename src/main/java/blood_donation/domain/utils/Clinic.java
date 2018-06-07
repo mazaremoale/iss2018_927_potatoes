@@ -1,23 +1,20 @@
 package blood_donation.domain.utils;
 
-import blood_donation.domain.people.Personnel;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "Clinics")
 public class Clinic
 {
-    private IntegerProperty id = new SimpleIntegerProperty();
+    private final IntegerProperty id = new SimpleIntegerProperty();
     private SimpleStringProperty name = new SimpleStringProperty();
     private Location location;
-    private StringProperty locationProperty = new SimpleStringProperty("location");
+    private final StringProperty locationProperty = new SimpleStringProperty("location");
 
 
     public Clinic()

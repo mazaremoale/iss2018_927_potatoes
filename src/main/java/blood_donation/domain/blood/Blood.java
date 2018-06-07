@@ -15,7 +15,7 @@ import java.time.*;
 @DiscriminatorValue(value="blood")
 public class Blood
 {
-    private IntegerProperty id = new SimpleIntegerProperty();
+    private final IntegerProperty id = new SimpleIntegerProperty();
     private FloatProperty quantity = new SimpleFloatProperty();
     private BloodGroup bloodGroup;
     private LocalDate expirationDate;
@@ -23,10 +23,10 @@ public class Blood
     private Donation donation;
 
     @FXML
-    private StringProperty bloodGroupProperty = new SimpleStringProperty();
+    private final StringProperty bloodGroupProperty = new SimpleStringProperty();
 
     @FXML
-    private StringProperty expirationDateProperty = new SimpleStringProperty();
+    private final StringProperty expirationDateProperty = new SimpleStringProperty();
 
 
     public Blood(FloatProperty quantity, BloodGroup bloodGroup, LocalDate expirationDate)

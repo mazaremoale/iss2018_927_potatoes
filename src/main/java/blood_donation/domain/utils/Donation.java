@@ -28,25 +28,25 @@ public class Donation
 
 
     @FXML
-    private IntegerProperty id = new SimpleIntegerProperty();
+    private final IntegerProperty id = new SimpleIntegerProperty();
 
     @FXML
-    private StringProperty donationDateProperty = new SimpleStringProperty();
+    private final StringProperty donationDateProperty = new SimpleStringProperty();
 
     @FXML
-    private StringProperty statusProperty = new SimpleStringProperty();
+    private final StringProperty statusProperty = new SimpleStringProperty();
 
     @FXML
-    private StringProperty patientProperty = new SimpleStringProperty();
+    private final StringProperty patientProperty = new SimpleStringProperty();
 
     @FXML
-    private StringProperty donatedBloodProperty = new SimpleStringProperty();
+    private final StringProperty donatedBloodProperty = new SimpleStringProperty();
 
     @FXML
-    private StringProperty clinicProperty = new SimpleStringProperty();
+    private final StringProperty clinicProperty = new SimpleStringProperty();
 
     @FXML
-    private StringProperty bloodContainerStatusProperty = new SimpleStringProperty();
+    private final StringProperty bloodContainerStatusProperty = new SimpleStringProperty();
 
     public Donation(Donor donor, Blood donatedBlood)
     {

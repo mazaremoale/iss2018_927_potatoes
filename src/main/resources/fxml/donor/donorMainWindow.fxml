@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<!--suppress ALL -->
 <TabPane xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
    <tabs>
       <Tab closable="false" text="Donations">

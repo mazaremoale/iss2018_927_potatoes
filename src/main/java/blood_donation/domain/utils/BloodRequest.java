@@ -28,19 +28,19 @@ public class BloodRequest
     private List<Blood> givenBlood = new ArrayList<>();
 
     @FXML
-    private FloatProperty quantity = new SimpleFloatProperty();
+    private final FloatProperty quantity = new SimpleFloatProperty();
 
     @FXML
-    private StringProperty priorityProperty = new SimpleStringProperty();
+    private final StringProperty priorityProperty = new SimpleStringProperty();
 
     @FXML
-    private StringProperty hospitalProperty = new SimpleStringProperty();
+    private final StringProperty hospitalProperty = new SimpleStringProperty();
 
     @FXML
-    private StringProperty statusProperty = new SimpleStringProperty();
+    private final StringProperty statusProperty = new SimpleStringProperty();
 
     @FXML
-    private StringProperty bloodGroupProperty = new SimpleStringProperty();
+    private final StringProperty bloodGroupProperty = new SimpleStringProperty();
 
 
     public BloodRequest(Patient patient, BloodGroup bloodGroup, Priority priority, Hospital hospital,

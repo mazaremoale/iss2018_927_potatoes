@@ -14,68 +14,65 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="817.0" prefWidth="987.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="CENTER">
-         <children>
-            <VBox prefHeight="580.0" prefWidth="295.0" spacing="10.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#goBack" prefHeight="50.0" prefWidth="97.0" text="Back">
-                     <font>
-                        <Font size="25.0" />
-                     </font>
-                  </Button>
-                  <Label prefHeight="55.0" prefWidth="294.0" text="Personnel management">
-                     <font>
-                        <Font size="25.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="lastNameTextField" maxWidth="150.0" promptText="Last name" />
-                  <TextField fx:id="firstNameTextField" maxWidth="150.0" promptText="First name" />
-                  <TextField fx:id="usernameTextField" maxWidth="150.0" promptText="Username" />
-                  <TextField fx:id="passwordTextField" maxWidth="150.0" promptText="Password" />
-                  <ComboBox fx:id="clinicComboBox" prefHeight="27.0" prefWidth="197.0" promptText="Pick a clinic" />
-                  <Button mnemonicParsing="false" onAction="#addPersonnel" prefHeight="50.0" prefWidth="189.0" text="Add personnel">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#removePersonnel" prefHeight="50.0" prefWidth="189.0" text="Delete personnel">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#updatePersonnel" prefHeight="50.0" prefWidth="189.0" text="Update personnel">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Button>
-               </children>
+       <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="CENTER">
+           <BorderPane.margin>
+               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+           </BorderPane.margin>
+           <VBox prefHeight="580.0" prefWidth="295.0" spacing="10.0">
                <padding>
-                  <Insets left="10.0" />
+                   <Insets left="10.0"/>
                </padding>
-            </VBox>
-            <VBox prefHeight="747.0" prefWidth="599.0" spacing="10.0">
-               <children>
-                  <Label text="All personnel">
-                     <font>
-                        <Font size="25.0" />
-                     </font>
-                  </Label>
-                  <TableView fx:id="personnelTableView" prefHeight="530.0" prefWidth="452.0">
-                    <columns>
-                      <TableColumn fx:id="personnelIDColumn" prefWidth="65.0" text="ID" />
-                      <TableColumn fx:id="personnelLastNameColumn" prefWidth="87.0" text="Last name" />
-                        <TableColumn fx:id="personnelFirstNameColumn" prefWidth="77.0" text="First name" />
-                        <TableColumn fx:id="personnelUsernameColumn" prefWidth="107.0" text="Username" />
-                        <TableColumn fx:id="personnelPasswordColumn" prefWidth="113.0" text="Password" />
-                        <TableColumn fx:id="personnelClinicColumn" prefWidth="149.0" text="Clinic" />
-                    </columns>
-                  </TableView>
-               </children>
-            </VBox>
-         </children>
-         <BorderPane.margin>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </BorderPane.margin>
-      </HBox>
+               <Button mnemonicParsing="false" onAction="#goBack" prefHeight="50.0" prefWidth="97.0" text="Back">
+                   <font>
+                       <Font size="25.0"/>
+                   </font>
+               </Button>
+               <Label prefHeight="55.0" prefWidth="294.0" text="Personnel management">
+                   <font>
+                       <Font size="25.0"/>
+                   </font>
+               </Label>
+               <TextField fx:id="lastNameTextField" maxWidth="150.0" promptText="Last name"/>
+               <TextField fx:id="firstNameTextField" maxWidth="150.0" promptText="First name"/>
+               <TextField fx:id="usernameTextField" maxWidth="150.0" promptText="Username"/>
+               <TextField fx:id="passwordTextField" maxWidth="150.0" promptText="Password"/>
+               <ComboBox fx:id="clinicComboBox" prefHeight="27.0" prefWidth="197.0" promptText="Pick a clinic"/>
+               <Button mnemonicParsing="false" onAction="#addPersonnel" prefHeight="50.0" prefWidth="189.0"
+                       text="Add personnel">
+                   <font>
+                       <Font size="20.0"/>
+                   </font>
+               </Button>
+               <Button mnemonicParsing="false" onAction="#removePersonnel" prefHeight="50.0" prefWidth="189.0"
+                       text="Delete personnel">
+                   <font>
+                       <Font size="20.0"/>
+                   </font>
+               </Button>
+               <Button mnemonicParsing="false" onAction="#updatePersonnel" prefHeight="50.0" prefWidth="189.0"
+                       text="Update personnel">
+                   <font>
+                       <Font size="20.0"/>
+                   </font>
+               </Button>
+           </VBox>
+           <VBox prefHeight="747.0" prefWidth="599.0" spacing="10.0">
+               <Label text="All personnel">
+                   <font>
+                       <Font size="25.0"/>
+                   </font>
+               </Label>
+               <TableView fx:id="personnelTableView" prefHeight="530.0" prefWidth="452.0">
+                   <columns>
+                       <TableColumn fx:id="personnelIDColumn" prefWidth="65.0" text="ID"/>
+                       <TableColumn fx:id="personnelLastNameColumn" prefWidth="87.0" text="Last name"/>
+                       <TableColumn fx:id="personnelFirstNameColumn" prefWidth="77.0" text="First name"/>
+                       <TableColumn fx:id="personnelUsernameColumn" prefWidth="107.0" text="Username"/>
+                       <TableColumn fx:id="personnelPasswordColumn" prefWidth="113.0" text="Password"/>
+                       <TableColumn fx:id="personnelClinicColumn" prefWidth="149.0" text="Clinic"/>
+                   </columns>
+               </TableView>
+           </VBox>
+       </HBox>
    </center>
 </BorderPane>

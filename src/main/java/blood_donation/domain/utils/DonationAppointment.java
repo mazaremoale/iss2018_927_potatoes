@@ -19,16 +19,16 @@ public class DonationAppointment
     private DonationRequest donationRequest;
 
     @FXML
-    private IntegerProperty id = new SimpleIntegerProperty();
+    private final IntegerProperty id = new SimpleIntegerProperty();
 
     @FXML
-    private StringProperty appointmentDateProperty = new SimpleStringProperty();
+    private final StringProperty appointmentDateProperty = new SimpleStringProperty();
 
     @FXML
-    private StringProperty appointmentTimeProperty = new SimpleStringProperty();
+    private final StringProperty appointmentTimeProperty = new SimpleStringProperty();
 
     @FXML
-    private StringProperty clinicProperty = new SimpleStringProperty();
+    private final StringProperty clinicProperty = new SimpleStringProperty();
 
     public DonationAppointment()
     {

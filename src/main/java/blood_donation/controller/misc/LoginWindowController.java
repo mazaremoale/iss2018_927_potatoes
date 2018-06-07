@@ -32,8 +32,8 @@ import java.util.stream.Collectors;
 
 public final class LoginWindowController implements Initializable
 {
-    private String adminUsername = "root";
-    private String adminPassword = "cartofi3";
+    private final String adminUsername = "root";
+    private final String adminPassword = "cartofi3";
 
     private Stage primaryStage;
     private Session session;

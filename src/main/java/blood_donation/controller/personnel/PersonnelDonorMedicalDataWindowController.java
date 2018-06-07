@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -40,6 +39,7 @@ public class PersonnelDonorMedicalDataWindowController implements Initializable
     private Repository<Distance> distanceRepository;
     private Repository<Patient> patientRepository;
     private Repository<DonationAppointment> donationAppointmentRepository;
+    private Repository<Location> locationRepository;
 
     @FXML
     private TextField ageTextField;
@@ -249,6 +249,17 @@ public class PersonnelDonorMedicalDataWindowController implements Initializable
         return this;
     }
 
+    public Repository<Location> getLocationRepository()
+    {
+        return locationRepository;
+    }
+
+    public PersonnelDonorMedicalDataWindowController setLocationRepository(Repository<Location> locationRepository)
+    {
+        this.locationRepository = locationRepository;
+        return this;
+    }
+
     @FXML
     public void goBack()
     {
@@ -275,6 +286,7 @@ public class PersonnelDonorMedicalDataWindowController implements Initializable
                 .setPatientRepository(patientRepository)
                 .setDonationAppointmentRepository(donationAppointmentRepository)
                 .setBloodGroupRepository(bloodGroupRepository)
+                .setLocationRepository(locationRepository)
         );
 
         Parent content = loader.load();
