@@ -206,7 +206,8 @@ public class BloodRequest
     public void setRequestDate(LocalDate requestDate)
     {
         this.requestDate = requestDate;
-        this.requestDateProperty.set(requestDate.toString());
+        if(requestDate != null)
+            this.requestDateProperty.set(requestDate.toString());
     }
 
     public StringProperty requestDateProperty()

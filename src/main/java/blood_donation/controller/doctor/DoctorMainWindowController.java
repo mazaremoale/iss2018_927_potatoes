@@ -409,6 +409,8 @@ public class DoctorMainWindowController implements Initializable
 
         List<Blood> bloodFromDonations = donations.stream()
                                                 .map(Donation::getDonatedBlood)
+                                                .filter(blood -> blood.getReadyForUse() != null)
+                                                .filter(Blood::getReadyForUse)
                                                 .collect(Collectors.toList());
 
         bloodStockBloodTypeTableColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getClass().getSimpleName()));
