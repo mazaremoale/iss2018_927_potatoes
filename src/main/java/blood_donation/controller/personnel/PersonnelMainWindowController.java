@@ -306,7 +306,7 @@ public class PersonnelMainWindowController implements Initializable
     public void refresh()
     {
         populateDonationAppointmentTable();
-        populateBloodRequestsTable(); //new added function
+        populateBloodRequestsTable();
 
         populateBloodStockTableView();
         populatePendingDonationRequestsTable();
