@@ -267,7 +267,6 @@ public class DoctorNewBloodRequestController implements Initializable
                 patientAge = Integer.valueOf(patientAgeString);
             Integer bloodRequestQuantityInteger = Integer.valueOf(bloodRequestQuantityString);
             bloodRequestQuantity = (float) (bloodRequestQuantityInteger / 1000.0);
-            System.out.println(bloodRequestQuantity);
 
             Patient patient = new Patient(patientFirstName, patientFirstName, patientAge);
             patient.setDoctor(currentDoctor);
@@ -275,7 +274,6 @@ public class DoctorNewBloodRequestController implements Initializable
 
             BloodTypeLetter bloodTypeLetter = bloodGroupComboBox.getValue();
             BloodTypeRH bloodTypeRH = BloodTypeRH.valueOf(selectedRH.toUpperCase());
-            System.out.print(bloodGroupRepository);
             List<BloodGroup> allBloodGroup = bloodGroupRepository.getAll().stream()
                                                 .filter(bloodGroup -> bloodGroup.getBloodTypeLetter() == bloodTypeLetter
                                                         && bloodGroup.getBloodTypeRH() == bloodTypeRH)

@@ -304,7 +304,12 @@ public class PersonnelMainWindowController implements Initializable
     @FXML
     public void refresh()
     {
-        // re-populate all tables views
+        //should be checked... it might have some issues
+        populateDonationAppointmentTable();
+        initializeBloodRequestsTable(); //not sure this is the right function
+        populateBloodStockTableView();
+        populatePendingDonationRequestsTable();
+        populateDonationsInTestingTable();
     }
 
     @FXML
@@ -514,11 +519,13 @@ public class PersonnelMainWindowController implements Initializable
         stocksLocationComboBox.setItems(locationsObservableList);
 
         stocksLocationComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
-                populateBloodStockTableView(newValue));
+                populateBloodStockTableView());
     }
 
-    private void populateBloodStockTableView(Location selectedLocation)
+    private void populateBloodStockTableView()
     {
+        Location selectedLocation = stocksLocationComboBox.getSelectionModel().getSelectedItem();
+
         List<Donation> donations = donationRepository.getAll().stream()
                 .filter(d -> d.getClinic().getLocation().getName().equals(selectedLocation.getName()))
                 .collect(Collectors.toList());

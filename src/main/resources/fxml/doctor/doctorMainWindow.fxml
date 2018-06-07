@@ -17,14 +17,14 @@
                              <Insets bottom="10.0" left="10.0" top="10.0" />
                          </HBox.margin>
                      </Button>
-                     <Button alignment="TOP_RIGHT" mnemonicParsing="false" text="Refresh">
+                     <Button fx:id="refreshButton" alignment="TOP_RIGHT" mnemonicParsing="false" onAction="#refreshTables" text="Refresh">
                          <HBox.margin>
                              <Insets bottom="10.0" left="630.0" right="10.0" top="10.0" />
                          </HBox.margin>
                      </Button>
                  </children>
               </HBox>
-              <TabPane prefHeight="561.0" prefWidth="759.0" tabClosingPolicy="UNAVAILABLE">
+              <TabPane fx:id="tabPane" prefHeight="561.0" prefWidth="759.0" tabClosingPolicy="UNAVAILABLE">
                  <tabs>
                      <Tab text="Donation requests">
                         <content>
