@@ -41,6 +41,7 @@ public class PersonnelBloodJourneyPreparationWindow implements Initializable
     private Repository<Patient> patientRepository;
     private Repository<DonationAppointment> donationAppointmentRepository;
     private Repository<Location> locationRepository;
+    private Repository<BloodRequest> bloodRequestRepository;
 
     @FXML
     private CheckBox filtrationCheckbox;
@@ -207,6 +208,17 @@ public class PersonnelBloodJourneyPreparationWindow implements Initializable
         return this;
     }
 
+    public Repository<BloodRequest> getBloodRequestRepository()
+    {
+        return bloodRequestRepository;
+    }
+
+    public PersonnelBloodJourneyPreparationWindow setBloodRequestRepository(Repository<BloodRequest> bloodRequestRepository)
+    {
+        this.bloodRequestRepository = bloodRequestRepository;
+        return this;
+    }
+
     private void goToPersonnelMainWindow() throws IOException
     {
         FXMLLoader loader = new FXMLLoader();
@@ -228,6 +240,7 @@ public class PersonnelBloodJourneyPreparationWindow implements Initializable
                 .setDonationAppointmentRepository(donationAppointmentRepository)
                 .setBloodGroupRepository(bloodGroupRepository)
                 .setLocationRepository(locationRepository)
+                .setBloodRequestRepository(bloodRequestRepository)
         );
 
         Parent content = loader.load();

@@ -390,6 +390,7 @@ public class PersonnelMainWindowController implements Initializable
                     .setDonationAppointmentRepository(donationAppointmentRepository)
                     .setBloodGroupRepository(bloodGroupRepository)
                     .setLocationRepository(locationRepository)
+                    .setBloodRequestRepository(bloodRequestRepository)
             );
 
             Parent content = loader.load();
@@ -472,12 +473,14 @@ public class PersonnelMainWindowController implements Initializable
 
             List<Blood> bloodFromDonations = donations.stream()
                     .map(Donation::getDonatedBlood)
+                    .filter(blood -> blood.getReadyForUse() != null)
+                    .filter(Blood::getReadyForUse)
                     .collect(Collectors.toList());
 
             stocksBloodTypeTableColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getClass().getSimpleName()));
             stocksBloodGroupTableColumn.setCellValueFactory(data -> data.getValue().bloodGroupProperty());
-            stocksExpirationDateTableColumn.setCellValueFactory(data -> data.getValue().quantityProperty().asString());
-            stocksQuantityTableColumn.setCellValueFactory(data -> data.getValue().expirationDateProperty());
+            stocksExpirationDateTableColumn.setCellValueFactory(data -> data.getValue().expirationDateProperty());
+            stocksQuantityTableColumn.setCellValueFactory(data -> data.getValue().quantityProperty().asString());
             stocksLocationTableColumn.setCellValueFactory(data ->
             {
 
@@ -637,6 +640,7 @@ public class PersonnelMainWindowController implements Initializable
                         .setBloodGroupRepository(bloodGroupRepository)
                         .setLocationRepository(locationRepository)
                         .setCurrentDonation(selectedDonation)
+                        .setBloodRequestRepository(bloodRequestRepository)
                 );
 
                 Parent content = loader.load();
@@ -683,9 +687,9 @@ public class PersonnelMainWindowController implements Initializable
                         .setDistanceRepository(distanceRepository)
                         .setPatientRepository(patientRepository)
                         .setDonationAppointmentRepository(donationAppointmentRepository)
-                        .setBloodGroupRepository(bloodGroupRepository)
                         .setLocationRepository(locationRepository)
                         .setCurrentDonation(selectedDonation)
+                        .setBloodRequestRepository(bloodRequestRepository)
                 );
 
                 Parent content = loader.load();
@@ -717,6 +721,38 @@ public class PersonnelMainWindowController implements Initializable
             {
                 // should do some fancy validation for the case when split flag is true
 
+                if(selectedDonation.getPatient() != null) // if the donation is for a specific patient
+                {
+                    // check if a blood request exists for that patient
+
+                    BloodRequest currentBloodRequest = null;
+
+                    for(BloodRequest bloodRequest: bloodRequestRepository.getAll())
+                    {
+                        if(bloodRequest.getPatient() == selectedDonation.getPatient())
+                        {
+                            currentBloodRequest = bloodRequest;
+                            break;
+                        }
+                    }
+
+//                    if(currentBloodRequest != null)  // if an actual blood request was created before or still exists
+//                    {
+//
+//                    }
+
+                }
+                else  // no patient specified, so the blood gets added to the stock
+                {
+
+                }
+
+                // set the readyToUse flag to true
+                selectedDonation.getDonatedBlood().setReadyForUse(true);
+
+                // update the DB
+                bloodRepository.update(selectedDonation.getDonatedBlood());
+                donationRepository.update(selectedDonation);
 
             }
             else
