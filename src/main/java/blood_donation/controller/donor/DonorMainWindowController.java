@@ -6,6 +6,7 @@ import blood_donation.domain.people.Donor;
 import blood_donation.domain.people.Patient;
 import blood_donation.domain.utils.*;
 import blood_donation.repository.Repository;
+import com.sun.java.swing.plaf.windows.WindowsTreeUI;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -41,9 +42,13 @@ public class DonorMainWindowController implements Initializable
     private Repository<DonationAppointment> donationAppointmentRepository;
     private Repository<Location> locationRepository;
     private Repository<Hospital> hospitalRepository;
+    private Repository<BloodRequest> bloodRequestRepository;
 
     @FXML
     private Label appointmentLabel;
+
+    @FXML
+    private Label donationNotificationLabel;
 
     @FXML
     private TableView<Donation> donationTableView;
@@ -313,8 +318,16 @@ public class DonorMainWindowController implements Initializable
         return this;
     }
 
-    //TODO edit profile with the already existing Window, with a different controller
-    //TODO modify donating to a certain patient
+    public Repository<BloodRequest> getBloodRequestRepository()
+    {
+        return bloodRequestRepository;
+    }
+
+    public DonorMainWindowController setBloodRequestRepository(Repository<BloodRequest> bloodRequestRepository)
+    {
+        this.bloodRequestRepository = bloodRequestRepository;
+        return this;
+    }
 
     @FXML
     public void goBack()
@@ -386,7 +399,8 @@ public class DonorMainWindowController implements Initializable
                 .setPatientRepository(patientRepository)
                 .setDonationAppointmentRepository(donationAppointmentRepository)
                 .setLocationRepository(locationRepository)
-                .setHospitalRepository(hospitalRepository));
+                .setHospitalRepository(hospitalRepository)
+                .setBloodRequestRepository(bloodRequestRepository));
 
         Parent content = loader.load();
 
@@ -565,6 +579,35 @@ public class DonorMainWindowController implements Initializable
 
     }
 
+    private void initializeDonationNotificationLabel()
+    {
+        donationNotificationLabel.setVisible(false);
+
+        Donation latestDonation = currentDonor.getLatestDonation(donationRepository);
+        if(latestDonation != null)
+            if (latestDonation.getDonationDate().plusWeeks(2).compareTo(LocalDate.now()) > 0)
+                return;
+
+        List<BloodRequest> compatibleBloodRequests = bloodRequestRepository.getAll().stream()
+                .filter(bloodRequest -> bloodRequest
+                        .getHospital().getLocation() == currentDonor.getResidenceCounty())
+                .filter(bloodRequest -> currentDonor.getBloodGroup() != null)
+                .filter(bloodRequest -> currentDonor.getBloodGroup()
+                        .canBeDonatedTo(bloodRequest.getBloodGroup()))
+                .collect(Collectors.toList());
+
+        if (compatibleBloodRequests.size() > 0)
+        {
+            donationNotificationLabel.setText("We have a blood shortage of your type. " +
+                    "You could save a life by donating blood at any of the following clinics: " +
+                    clinicRepository.getAll().stream()
+                            .filter(clinic -> clinic.getLocation() == currentDonor.getResidenceCounty())
+                            .map(Clinic::toString).reduce("", String::concat));
+            donationNotificationLabel.setVisible(true);
+            
+        }
+    }
+
     public void openDonorProfileEdit() throws IOException
     {
         FXMLLoader loader = new FXMLLoader();
@@ -583,7 +626,8 @@ public class DonorMainWindowController implements Initializable
                 .setDistanceRepository(distanceRepository)
                 .setPatientRepository(patientRepository)
                 .setDonationAppointmentRepository(donationAppointmentRepository)
-                .setLocationRepository(locationRepository));
+                .setLocationRepository(locationRepository)
+                .setBloodRequestRepository(bloodRequestRepository));
 
         Parent content = loader.load();
 
@@ -631,6 +675,7 @@ public class DonorMainWindowController implements Initializable
         });
 
         initializeAppointmentLabel();
+        initializeDonationNotificationLabel();
 
         //my Profile tab initialization
         lastNameLabel.setText(currentDonor.getLastName());
