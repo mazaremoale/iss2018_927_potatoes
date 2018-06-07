@@ -297,7 +297,8 @@ public final class UserSelectWindowController implements Initializable
                 .setPatientRepository(patientRepository)
                 .setDonationRequestRepository(donationRequestRepository)
                 .setDonationAppointmentRepository(donationAppointmentRepository)
-                .setHospitalRepository(hospitalRepository));
+                .setHospitalRepository(hospitalRepository)
+                .setBloodRequestRepository(requestRepository));
 
 
         Parent content = loader.load();

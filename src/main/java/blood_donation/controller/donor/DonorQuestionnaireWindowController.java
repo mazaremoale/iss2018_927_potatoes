@@ -44,6 +44,7 @@ public final class DonorQuestionnaireWindowController implements Initializable
     private Repository<DonationAppointment> donationAppointmentRepository;
     private Repository<Location> locationRepository;
     private Repository<Hospital> hospitalRepository;
+    private Repository<BloodRequest> bloodRequestRepository;
 
 
     @FXML
@@ -271,6 +272,17 @@ public final class DonorQuestionnaireWindowController implements Initializable
         return this;
     }
 
+    public Repository<BloodRequest> getBloodRequestRepository()
+    {
+        return bloodRequestRepository;
+    }
+
+    public DonorQuestionnaireWindowController setBloodRequestRepository(Repository<BloodRequest> bloodRequestRepository)
+    {
+        this.bloodRequestRepository = bloodRequestRepository;
+        return this;
+    }
+
     @FXML
     void submitData() throws IOException
     {
@@ -346,7 +358,8 @@ public final class DonorQuestionnaireWindowController implements Initializable
                 .setDonationRequestRepository(donationRequestRepository)
                 .setDonationAppointmentRepository(donationAppointmentRepository)
                 .setLocationRepository(locationRepository)
-                .setHospitalRepository(hospitalRepository));
+                .setHospitalRepository(hospitalRepository)
+                .setBloodRequestRepository(bloodRequestRepository));
 
 
         Parent content = loader.load();

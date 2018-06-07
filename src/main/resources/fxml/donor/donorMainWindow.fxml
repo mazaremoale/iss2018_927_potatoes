@@ -14,7 +14,8 @@
 <?import javafx.scene.text.Font?>
 
 <!--suppress ALL -->
-<TabPane xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+
+<TabPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <tabs>
       <Tab closable="false" text="Donations">
          <content>
@@ -59,6 +60,11 @@
                               <Label fx:id="appointmentLabel" text="AppointmentLabel">
                                  <font>
                                     <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="donationNotificationLabel" prefHeight="148.0" prefWidth="505.0" text="DonationNotificationLabel" textFill="RED" wrapText="true">
+                                 <font>
+                                    <Font size="20.0" />
                                  </font>
                               </Label>
                            </children>
