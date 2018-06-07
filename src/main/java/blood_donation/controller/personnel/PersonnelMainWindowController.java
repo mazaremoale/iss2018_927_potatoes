@@ -643,6 +643,8 @@ public class PersonnelMainWindowController implements Initializable
 
         List<Blood> bloodFromDonations = donations.stream()
                 .map(Donation::getDonatedBlood)
+                .filter(blood -> blood.getReadyForUse() != null)
+                .filter(Blood::getReadyForUse)
                 .collect(Collectors.toList());
 
         stocksBloodTypeTableColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getClass().getSimpleName()));
