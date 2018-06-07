@@ -26,6 +26,7 @@ public class Donation
     private Clinic clinic;
     private JourneyStatus bloodContainerJourneyStatus = JourneyStatus.SAMPLING;
 
+    private Boolean splitBlood = false;
 
     @FXML
     private final IntegerProperty id = new SimpleIntegerProperty();
@@ -176,6 +177,16 @@ public class Donation
         this.bloodContainerJourneyStatus = status;
         if(status != null)
             this.bloodContainerStatusProperty.setValue(status.toString());
+    }
+
+    public Boolean getSplitBlood()
+    {
+        return splitBlood;
+    }
+
+    public void setSplitBlood(Boolean splitBlood)
+    {
+        this.splitBlood = splitBlood;
     }
 
     public StringProperty donationDateProperty()

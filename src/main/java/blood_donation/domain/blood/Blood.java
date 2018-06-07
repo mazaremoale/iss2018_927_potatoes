@@ -22,6 +22,8 @@ public class Blood
     private BloodRequest bloodRequest;
     private Donation donation;
 
+    private Boolean isReadyForUse;
+
     @FXML
     private final StringProperty bloodGroupProperty = new SimpleStringProperty();
 
@@ -133,6 +135,16 @@ public class Blood
     public StringProperty bloodGroupProperty()
     {
         return bloodGroupProperty;
+    }
+
+    public Boolean getReadyForUse()
+    {
+        return isReadyForUse;
+    }
+
+    public void setReadyForUse(Boolean readyForUse)
+    {
+        isReadyForUse = readyForUse;
     }
 
     @Override
