@@ -39,6 +39,7 @@ public class DonorLoginCredentialsWindowController implements Initializable
     private Repository<DonationAppointment> donationAppointmentRepository;
     private Repository<Location> locationRepository;
     private Repository<Hospital> hospitalRepository;
+    private Repository<BloodRequest> bloodRequestRepository;
 
     private List<String> usernames;
 
@@ -205,6 +206,17 @@ public class DonorLoginCredentialsWindowController implements Initializable
         return this;
     }
 
+    public Repository<BloodRequest> getBloodRequestRepository()
+    {
+        return bloodRequestRepository;
+    }
+
+    public DonorLoginCredentialsWindowController setBloodRequestRepository(Repository<BloodRequest> bloodRequestRepository)
+    {
+        this.bloodRequestRepository = bloodRequestRepository;
+        return this;
+    }
+
     @FXML
     public void goBack()
     {
@@ -239,7 +251,8 @@ public class DonorLoginCredentialsWindowController implements Initializable
                     .setDonationRequestRepository(donationRequestRepository)
                     .setDonationAppointmentRepository(donationAppointmentRepository)
                     .setLocationRepository(locationRepository)
-                    .setHospitalRepository(hospitalRepository));
+                    .setHospitalRepository(hospitalRepository)
+                    .setBloodRequestRepository(bloodRequestRepository));
 
 
             Parent content = loader.load();

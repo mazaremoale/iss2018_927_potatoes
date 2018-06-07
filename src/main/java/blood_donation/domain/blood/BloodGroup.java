@@ -55,6 +55,54 @@ public class BloodGroup
         this.bloodTypeRH = bloodTypeRH;
     }
 
+    public boolean canBeDonatedTo(BloodGroup receivingBloodGroup)
+    {
+        if (bloodTypeLetter == BloodTypeLetter.O)
+        {
+            if (bloodTypeRH == BloodTypeRH.NEGATIVE)
+                return true;
+            if (receivingBloodGroup.bloodTypeRH == BloodTypeRH.POSITIVE)
+                return true;
+        }
+
+        if (bloodTypeLetter == BloodTypeLetter.A)
+        {
+            if (receivingBloodGroup.bloodTypeLetter == BloodTypeLetter.A ||
+                    receivingBloodGroup.bloodTypeLetter == BloodTypeLetter.AB)
+            {
+                if (bloodTypeRH == BloodTypeRH.NEGATIVE)
+                    return true;
+                if (receivingBloodGroup.bloodTypeRH == BloodTypeRH.POSITIVE)
+                    return true;
+            }
+        }
+
+        if (bloodTypeLetter == BloodTypeLetter.B)
+        {
+            if (receivingBloodGroup.bloodTypeLetter == BloodTypeLetter.B ||
+                    receivingBloodGroup.bloodTypeLetter == BloodTypeLetter.AB)
+            {
+                if (bloodTypeRH == BloodTypeRH.NEGATIVE)
+                    return true;
+                if (receivingBloodGroup.bloodTypeRH == BloodTypeRH.POSITIVE)
+                    return true;
+            }
+        }
+
+        if (bloodTypeLetter == BloodTypeLetter.AB)
+        {
+            if (receivingBloodGroup.bloodTypeLetter == BloodTypeLetter.AB)
+            {
+                if (bloodTypeRH == BloodTypeRH.NEGATIVE)
+                    return true;
+                if (receivingBloodGroup.bloodTypeRH == BloodTypeRH.POSITIVE)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
     @Override
     public String toString()
     {
