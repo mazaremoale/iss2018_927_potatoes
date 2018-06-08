@@ -459,6 +459,7 @@ public final class LoginWindowController implements Initializable
                             .setDonationAppointmentRepository(donationAppointmentRepository)
                             .setLocationRepository(locationRepository)
                             .setBloodRequestRepository(bloodRequestRepository)
+                            .setDonorRepository(donorRepository)
 //                            .setPlasmaRepository(plasmaRepository)
 //                            .setRedBloodCellRepository(redBloodCellRepository)
 //                            .setPlateletRepository(plateletRepository)

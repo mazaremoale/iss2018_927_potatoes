@@ -2,6 +2,7 @@ package blood_donation.controller.personnel;
 
 import blood_donation.domain.blood.Blood;
 import blood_donation.domain.blood.BloodGroup;
+import blood_donation.domain.people.Donor;
 import blood_donation.domain.people.Patient;
 import blood_donation.domain.people.Personnel;
 import blood_donation.domain.utils.*;
@@ -21,9 +22,7 @@ import org.hibernate.Session;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PersonnelMainWindowController implements Initializable
@@ -45,6 +44,7 @@ public class PersonnelMainWindowController implements Initializable
     private Repository<DonationAppointment> donationAppointmentRepository;
     private Repository<Location> locationRepository;
     private Repository<BloodRequest> bloodRequestRepository;
+    private Repository<Donor> donorRepository;
 
     @FXML
     private Button backButton;
@@ -306,6 +306,17 @@ public class PersonnelMainWindowController implements Initializable
         return this;
     }
 
+    public Repository<Donor> getDonorRepository()
+    {
+        return donorRepository;
+    }
+
+    public PersonnelMainWindowController setDonorRepository(Repository<Donor> donorRepository)
+    {
+        this.donorRepository = donorRepository;
+        return this;
+    }
+
     // ################################################################################################################
 
     @FXML
@@ -352,9 +363,6 @@ public class PersonnelMainWindowController implements Initializable
                 data.getValue().appointmentDateProperty());
         donationRequestAppointmentHourTableColumn.setCellValueFactory(data ->
                 data.getValue().appointmentTimeProperty());
-        // TODO figure this out
-//        donationRequestStatusTableColumn.setCellValueFactory(data ->
-//                data.getValue().getDonationRequest().getStatus());
 
         populateDonationAppointmentTable();
     }
@@ -364,7 +372,6 @@ public class PersonnelMainWindowController implements Initializable
         List<DonationAppointment> thisPersonnelDonationAppointments =
                 donationAppointmentRepository.getAll()
                         .stream()
-                        // TODO might need to check the flags from DonationRequest (to see only unhandled requests)
                         .filter(donationAppointment -> donationAppointment.getClinic() == currentPersonnel.getClinic())
                         .filter(donationAppointment -> donationAppointment.getDonationRequest().getValidatedByPersonnel() == null)
                         .collect(Collectors.toList());
@@ -403,6 +410,7 @@ public class PersonnelMainWindowController implements Initializable
                     .setBloodGroupRepository(bloodGroupRepository)
                     .setLocationRepository(locationRepository)
                     .setBloodRequestRepository(bloodRequestRepository)
+                    .setDonorRepository(donorRepository)
             );
 
             Parent content = loader.load();
@@ -480,6 +488,19 @@ public class PersonnelMainWindowController implements Initializable
         }
     }
 
+    private Boolean isDonor(Patient patient)
+    {
+        for(Donor donor : donorRepository.getAll())
+        {
+            if(donor.getFirstName().equals(patient.getFirstName()) && donor.getLastName().equals(patient.getLastName()))
+            {
+//                System.out.println("--->>>" + donor.getFirstName() + donor.getLastName());
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void populateBloodRequestsTable() //please accept me
     {
         List<BloodRequest> bloodRequests = bloodRequestRepository.getAll().stream()
@@ -488,6 +509,35 @@ public class PersonnelMainWindowController implements Initializable
                                                 || (bloodRequest.isRequireBloodClinics()
                                                     && distanceBetweenBloodRequestAndClinic(bloodRequest, currentPersonnel.getClinic()) < 500 ) )//some random number
                 .collect(Collectors.toList());
+
+        // --------------- SORTING -------------------
+        bloodRequests.sort((bloodRequest1, bloodRequest2) ->
+        {
+            if (bloodRequest1.getPriority() == bloodRequest2.getPriority())
+            {
+                if (isDonor(bloodRequest1.getPatient()) == isDonor(bloodRequest2.getPatient()))
+                {
+                    if (bloodRequest1.getRequestDate().isBefore(bloodRequest2.getRequestDate()))
+                        return -1;
+                    if (bloodRequest1.getRequestDate().isEqual(bloodRequest2.getRequestDate()))
+                        return 0;
+                    return 1;
+                } else
+                {
+                    if (isDonor(bloodRequest1.getPatient()))
+                        return -1;
+                    return 1;
+                }
+            } else
+            {
+                if(bloodRequest1.getPriority().compareTo(bloodRequest2.getPriority()) < 0)
+                {
+                    return 1;
+                }
+                return -1;
+            }
+        });
+
 
         ObservableList<BloodRequest> allBloodRequestsObservableList = FXCollections.observableList(bloodRequests);
 
@@ -507,6 +557,17 @@ public class PersonnelMainWindowController implements Initializable
 
         bloodRequestsTableView.setItems(allBloodRequestsObservableList);
 
+        // sorting -------------
+        bloodRequestsPriorityTableColumn.setSortable(false);
+        bloodRequestsDoctorNameTableColumn.setSortable(false);
+        bloodRequestsPatientNameTableColumn.setSortable(false);
+        bloodRequestsBloodGroupTableColumn.setSortable(false);
+        bloodRequestsQuantityTableColumn.setSortable(false);
+        bloodRequestsHospitalTableColumn.setSortable(false);
+        bloodRequestsStatusTableColumn.setSortable(false);
+        bloodRequestsRequestDateTableColumn.setSortable(false);
+        bloodRequestsDonatedBloodTableColumn.setSortable(false);
+        // ---------------------
     }
 
     private int distanceBetweenBloodRequestAndClinic(BloodRequest bloodRequest, Clinic clinic)
@@ -679,6 +740,7 @@ public class PersonnelMainWindowController implements Initializable
                 .filter(donation -> donation.getDonationRequest().getValidatedByPersonnel() && donation.getDonationRequest().getValidatedByDoctor())
                 .filter(donation -> donation.getStatus() == Status.TESTING || donation.getStatus() == Status.PENDING)
                 .filter(donation -> donation.getDonatedBlood().getQuantity() > 0f)
+                .filter(donation -> !donation.getDonatedBlood().getReadyForUse())
                 .collect(Collectors.toList());
 
         ObservableList<Donation> donationObservableList = FXCollections.observableArrayList(donationsInTesting);
@@ -738,6 +800,9 @@ public class PersonnelMainWindowController implements Initializable
 //            blood.setDonation(donation);  // DO I HAVE TO DO THIS TOO????
 
             donationRepository.add(donation);
+
+            // repopulate the table views
+            refresh();
         }
     }
 
@@ -774,6 +839,7 @@ public class PersonnelMainWindowController implements Initializable
                         .setLocationRepository(locationRepository)
                         .setCurrentDonation(selectedDonation)
                         .setBloodRequestRepository(bloodRequestRepository)
+                        .setDonorRepository(donorRepository)
                 );
 
                 Parent content = loader.load();
@@ -823,6 +889,7 @@ public class PersonnelMainWindowController implements Initializable
                         .setLocationRepository(locationRepository)
                         .setCurrentDonation(selectedDonation)
                         .setBloodRequestRepository(bloodRequestRepository)
+                        .setDonorRepository(donorRepository)
                 );
 
                 Parent content = loader.load();
@@ -869,24 +936,41 @@ public class PersonnelMainWindowController implements Initializable
                         }
                     }
 
-                    if(currentBloodRequest != null)  // if an actual blood request was created before or still exists
+                    if(currentBloodRequest != null && currentBloodRequest.getStatus() == Status.PENDING)  // if an actual blood request was created before or still exists
                     {
-                        float remainingBlood = currentBloodRequest.getQuantity() - currentBloodRequest.getGivenBlood();
-
-                        if(remainingBlood >= selectedDonation.getDonatedBlood().getQuantity())
+                        if(selectedDonation.getDonatedBlood().getBloodGroup().canBeDonatedTo(currentBloodRequest.getBloodGroup()))
                         {
-                            currentBloodRequest.setGivenBlood(currentBloodRequest.getGivenBlood() + selectedDonation.getDonatedBlood().getQuantity());
-                            selectedDonation.getDonatedBlood().setQuantity(0f);
-                        }
-                        else
-                        {
-                            currentBloodRequest.setGivenBlood(currentBloodRequest.getGivenBlood() + remainingBlood);
-                            selectedDonation.getDonatedBlood().setQuantity(selectedDonation.getDonatedBlood().getQuantity() - remainingBlood);
-                        }
+                            float remainingBlood = currentBloodRequest.getQuantity() - currentBloodRequest.getGivenBlood();
 
-                        bloodRequestRepository.update(currentBloodRequest);
-                        bloodRepository.update(selectedDonation.getDonatedBlood());
-                        donationRepository.update(selectedDonation);
+                            if (remainingBlood >= selectedDonation.getDonatedBlood().getQuantity())
+                            {
+                                currentBloodRequest.setGivenBlood(currentBloodRequest.getGivenBlood() + selectedDonation.getDonatedBlood().getQuantity());
+                                selectedDonation.getDonatedBlood().setQuantity(0f);
+                            } else
+                            {
+                                currentBloodRequest.setGivenBlood(currentBloodRequest.getGivenBlood() + remainingBlood);
+                                selectedDonation.getDonatedBlood().setQuantity(selectedDonation.getDonatedBlood().getQuantity() - remainingBlood);
+                            }
+
+                            // check if the blood request is fulfilled
+                            if(currentBloodRequest.getQuantity() >= currentBloodRequest.getGivenBlood())
+                            {
+                                currentBloodRequest.setStatus(Status.DONE);
+                            }
+
+                            bloodRequestRepository.update(currentBloodRequest);
+                            bloodRepository.update(selectedDonation.getDonatedBlood());
+                            donationRepository.update(selectedDonation);
+                        }
+                    }
+                    else
+                    {
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("Confirm Blood Redistribution Dialog");
+                        alert.setHeaderText("There is no pending blood request associated with the patient.");
+                        alert.setContentText("The blood will be added to the stocks. Press OK to continue.");
+
+                        Optional<ButtonType> result = alert.showAndWait();
                     }
 
                 }
@@ -911,6 +995,9 @@ public class PersonnelMainWindowController implements Initializable
 
                 Optional<ButtonType> result = alert.showAndWait();
             }
+
+            // repopulate the table views
+            refresh();
         }
     }
 
@@ -929,7 +1016,7 @@ public class PersonnelMainWindowController implements Initializable
         initializeDonationRequestsTab();
 
         // BLOOD REQUESTS TAB
-        initializeBloodRequestsTable();  // TODO
+        initializeBloodRequestsTable();
 
         // AVAILABLE STOCKS TAB
         initializeAvailableStocksTable();

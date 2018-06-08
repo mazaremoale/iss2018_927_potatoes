@@ -2,6 +2,7 @@ package blood_donation.controller.personnel;
 
 import blood_donation.domain.blood.Blood;
 import blood_donation.domain.blood.BloodGroup;
+import blood_donation.domain.people.Donor;
 import blood_donation.domain.people.Patient;
 import blood_donation.domain.people.Personnel;
 import blood_donation.domain.utils.*;
@@ -41,6 +42,8 @@ public class PersonnelBloodJourneyBiologicalQCWindow implements Initializable
     private Repository<DonationAppointment> donationAppointmentRepository;
     private Repository<Location> locationRepository;
     private Repository<BloodRequest> bloodRequestRepository;
+    private Repository<Donor> donorRepository;
+
 
     @FXML
     private CheckBox immunoHematologyTestsCheckbox;
@@ -222,6 +225,17 @@ public class PersonnelBloodJourneyBiologicalQCWindow implements Initializable
         return this;
     }
 
+    public Repository<Donor> getDonorRepository()
+    {
+        return donorRepository;
+    }
+
+    public PersonnelBloodJourneyBiologicalQCWindow setDonorRepository(Repository<Donor> donorRepository)
+    {
+        this.donorRepository = donorRepository;
+        return this;
+    }
+
     private void goToPersonnelMainWindow() throws IOException
     {
         FXMLLoader loader = new FXMLLoader();
@@ -244,6 +258,7 @@ public class PersonnelBloodJourneyBiologicalQCWindow implements Initializable
                 .setBloodGroupRepository(bloodGroupRepository)
                 .setLocationRepository(locationRepository)
                 .setBloodRequestRepository(bloodRequestRepository)
+                .setDonorRepository(donorRepository)
         );
 
         Parent content = loader.load();
