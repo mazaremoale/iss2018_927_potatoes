@@ -514,6 +514,7 @@ public class PersonnelMainWindowController implements Initializable
                 .collect(Collectors.toList());
 
         // --------------- SORTING -------------------
+        System.out.println(bloodRequests);
         bloodRequests.sort((bloodRequest1, bloodRequest2) ->
         {
             if (bloodRequest1.getPriority() == bloodRequest2.getPriority())
