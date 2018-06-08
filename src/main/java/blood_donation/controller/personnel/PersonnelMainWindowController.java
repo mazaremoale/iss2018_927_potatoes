@@ -108,6 +108,16 @@ public class PersonnelMainWindowController implements Initializable
     private TableColumn<BloodRequest, String> bloodRequestsRequestDateTableColumn;
     @FXML
     private TableColumn<BloodRequest, String> bloodRequestsDonatedBloodTableColumn;
+    @FXML
+    private Label availableBloodLabel;
+    @FXML
+    private ComboBox<Blood> availableBloodComboBox;
+    @FXML
+    private Button sendBloodButton;
+    @FXML
+    private Button notifyClinicsButton;
+    @FXML
+    private Button notifyDonorsButton;
 
     @FXML
     private TableView<Blood> stocksTableView;
@@ -413,11 +423,68 @@ public class PersonnelMainWindowController implements Initializable
 
     private void initializeBloodRequestsTable()
     {
+        availableBloodLabel.setVisible(false);
+        availableBloodComboBox.setVisible(false);
+        sendBloodButton.setVisible(false);
+        notifyClinicsButton.setVisible(false);
+        notifyDonorsButton.setVisible(false);
+
+        bloodRequestsTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+                {
+                    showSendBloodControls();
+                });
+
+
         populateBloodRequestsTable();
     }
 
-// ################################################################################################################
+    private void showSendBloodControls()
+    {
+        List<Donation> donations = donationRepository.getAll().stream()
+                .filter(d -> d.getClinic() == currentPersonnel.getClinic())
+                .collect(Collectors.toList());
 
+        BloodRequest selectedBloodRequest = bloodRequestsTableView.getSelectionModel().getSelectedItem();
+        BloodGroup bloodGroupFromBloodRequest = selectedBloodRequest.getBloodGroup();
+
+        List<Blood> bloodFromDonations = donations.stream()
+                .map(Donation::getDonatedBlood)
+                .filter(blood -> blood.getQuantity() != 0)
+                .filter(blood -> blood.getBloodGroup().canBeDonatedTo(bloodGroupFromBloodRequest))
+                .collect(Collectors.toList());
+
+        if (!bloodFromDonations.isEmpty())
+        {
+            availableBloodLabel.setVisible(true);
+            availableBloodComboBox.setVisible(true);
+            sendBloodButton.setVisible(true);
+
+            availableBloodComboBox.setItems(FXCollections.observableList(bloodFromDonations));
+
+            if(!availableBloodComboBox.getSelectionModel().isEmpty())
+            {
+                Blood selectedBlood = availableBloodComboBox.getValue();
+                float neededBlood = selectedBloodRequest.getQuantity() - selectedBloodRequest.getGivenBlood();
+
+                if(neededBlood >= selectedBlood.getQuantity())
+                {
+                    selectedBloodRequest.setGivenBlood(selectedBloodRequest.getGivenBlood() + selectedBlood.getQuantity());
+                    selectedBlood.setQuantity(0f);
+                }
+                else
+                {
+                    selectedBloodRequest.setGivenBlood(selectedBloodRequest.getGivenBlood() + neededBlood);
+                    selectedBlood.setQuantity(selectedBlood.getQuantity() - neededBlood);
+                }
+
+                bloodRequestRepository.update(selectedBloodRequest);
+                bloodRepository.update(selectedBlood);
+
+            }
+
+
+        }
+    }
 
     private void populateBloodRequestsTable() //please accept me
     {
@@ -444,6 +511,15 @@ public class PersonnelMainWindowController implements Initializable
 
         bloodRequestsTableView.setItems(allBloodRequestsObservableList);
 
+    }
+
+    @FXML
+    private void sendBloodToBloodRequest()
+    {
+        if(!stocksLocationComboBox.getSelectionModel().isEmpty())
+        {
+
+        }
     }
 
 
@@ -475,6 +551,7 @@ public class PersonnelMainWindowController implements Initializable
                     .map(Donation::getDonatedBlood)
                     .filter(blood -> blood.getReadyForUse() != null)
                     .filter(Blood::getReadyForUse)
+                    .filter(blood -> blood.getQuantity() != 0)
                     .collect(Collectors.toList());
 
             stocksBloodTypeTableColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getClass().getSimpleName()));
