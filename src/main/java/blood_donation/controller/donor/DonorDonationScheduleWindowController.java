@@ -481,7 +481,8 @@ public class DonorDonationScheduleWindowController implements Initializable
                                 .setDistanceRepository(distanceRepository)
                                 .setPatientRepository(patientRepository)
                                 .setDonationAppointmentRepository(donationAppointmentRepository)
-                                .setBloodRequestRepository(bloodRequestRepository));
+                                .setBloodRequestRepository(bloodRequestRepository)
+                                .setLocationRepository(locationRepository));
 
                         Parent content = loader.load();
 

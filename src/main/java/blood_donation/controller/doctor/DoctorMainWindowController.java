@@ -313,7 +313,7 @@ public class DoctorMainWindowController implements Initializable
     {
         bloodRequestsTableView.getItems().remove(bloodRequestsTableView.getSelectionModel().getSelectedItem());
 
-        bloodRequestRepository.remove(bloodRequestsTableView.getSelectionModel().getSelectedItem().getId());
+        //bloodRequestRepository.remove(bloodRequestsTableView.getSelectionModel().getSelectedItem().getId());
     }
 
     @FXML
