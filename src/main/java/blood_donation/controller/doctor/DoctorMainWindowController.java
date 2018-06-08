@@ -413,6 +413,7 @@ public class DoctorMainWindowController implements Initializable
                     .map(Donation::getDonatedBlood)
                     .filter(blood -> blood.getReadyForUse() != null)
                     .filter(Blood::getReadyForUse)
+                    .filter(blood -> blood.getQuantity() != 0)
                     .collect(Collectors.toList());
 
             bloodStockBloodTypeTableColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getClass().getSimpleName()));
