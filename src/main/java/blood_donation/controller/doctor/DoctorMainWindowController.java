@@ -413,15 +413,14 @@ public class DoctorMainWindowController implements Initializable
                     .map(Donation::getDonatedBlood)
                     .filter(blood -> blood.getReadyForUse() != null)
                     .filter(Blood::getReadyForUse)
+                    .filter(blood -> blood.getQuantity() != 0)
                     .collect(Collectors.toList());
 
             bloodStockBloodTypeTableColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getClass().getSimpleName()));
             bloodStockGroupTableColumn.setCellValueFactory(data -> data.getValue().bloodGroupProperty());
             bloodStockQuantityTableColumn.setCellValueFactory(data -> data.getValue().quantityProperty().asString());
             bloodStockExpirationDateTableColumn.setCellValueFactory(data ->
-            {
-                return data.getValue().expirationDateProperty();
-            });
+                    data.getValue().expirationDateProperty());
             bloodStockLocationTableColumn.setCellValueFactory(data -> {
 
                 List<Donation> donationRelatedToBlood = donations.stream()
@@ -435,18 +434,23 @@ public class DoctorMainWindowController implements Initializable
 
             ObservableList<Blood> bloodObservableList = FXCollections.observableList(bloodFromDonations);
             bloodStockTableView.setItems(bloodObservableList);
-
-
         }
 
     }
 
     private void initializeBloodRequestsTab()
     {
+//        List<BloodRequest> bloodRequests = bloodRequestRepository.getAll().stream()
+//                .filter(bloodRequest -> bloodRequest.getQuantity()
+//                        >= bloodRequest.calculateQuantityOfGivenBlood())
+//                .collect(Collectors.toList());
+
         List<BloodRequest> bloodRequests = bloodRequestRepository.getAll().stream()
+                .filter(bloodRequest -> bloodRequest.getDoctor() == currentDoctor)
                 .filter(bloodRequest -> bloodRequest.getQuantity()
-                        >= bloodRequest.calculateQuantityOfGivenBlood())
+                        >= bloodRequest.getGivenBlood())
                 .collect(Collectors.toList());
+
 
         ObservableList<BloodRequest> allBloodRequestsObservableList = FXCollections.observableList(bloodRequests);
 
@@ -457,9 +461,9 @@ public class DoctorMainWindowController implements Initializable
         bloodRequestsHospitalColumn.setCellValueFactory(data -> data.getValue().hospitalProperty());
         bloodRequestsStatusColumn.setCellValueFactory(data -> data.getValue().statusProperty());
         bloodRequestsRequestDateColumn.setCellValueFactory(data -> data.getValue().requestDateProperty());
-        bloodRequestsDonatedBloodColumn.setCellValueFactory(data -> {
-            return new SimpleStringProperty(String.valueOf(data.getValue().calculateQuantityOfGivenBlood()));
-        });
+//        bloodRequestsDonatedBloodColumn.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().calculateQuantityOfGivenBlood())));
+        bloodRequestsDonatedBloodColumn.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getGivenBlood())));
+
 
         deleteRequestButton.setDisable(true);
         bloodRequestsTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->

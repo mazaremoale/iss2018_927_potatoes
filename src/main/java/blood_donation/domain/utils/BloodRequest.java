@@ -28,7 +28,10 @@ public class BloodRequest
     private Status status = Status.PENDING;
     private Doctor doctor;
     private LocalDate requestDate;
-    private List<Blood> givenBlood = new ArrayList<>();
+//    private List<Blood> givenBlood = new ArrayList<>();
+    private float givenBlood = 0;
+    private boolean requireBloodClinics = false;
+    private boolean requireBloodDonors = false;
 
     @FXML
     private final FloatProperty quantity = new SimpleFloatProperty();
@@ -112,17 +115,17 @@ public class BloodRequest
         this.status = status;
         this.statusProperty.set(status.toString());
     }
-
-    @OneToMany(mappedBy = "bloodRequest")
-    public List<Blood> getGivenBlood()
-    {
-        return givenBlood;
-    }
-
-    public void setGivenBlood(List<Blood> givenBlood)
-    {
-        this.givenBlood = givenBlood;
-    }
+//
+//    @OneToMany(mappedBy = "bloodRequest")
+//    public List<Blood> getGivenBlood()
+//    {
+//        return givenBlood;
+//    }
+//
+//    public void setGivenBlood(List<Blood> givenBlood)
+//    {
+//        this.givenBlood = givenBlood;
+//    }
 
     @ManyToOne
     @JoinColumn(name = "bloodGroupID")
@@ -214,17 +217,43 @@ public class BloodRequest
     {
         return requestDateProperty;
     }
+//
+//    public float calculateQuantityOfGivenBlood()
+//    {
+//        float sum = 0;
+//        for (Blood blood : this.givenBlood)
+//            sum = sum + blood.getQuantity();
+//        return sum;
+//    }
 
-    public float calculateQuantityOfGivenBlood()
+
+    public float getGivenBlood()
     {
-        float sum = 0;
-        for (Blood blood : this.givenBlood)
-            sum = sum + blood.getQuantity();
-        return sum;
+        return givenBlood;
     }
 
-    public void process()
+    public void setGivenBlood(float givenBlood)
     {
+        this.givenBlood = givenBlood;
+    }
 
+    public boolean isRequireBloodClinics()
+    {
+        return requireBloodClinics;
+    }
+
+    public void setRequireBloodClinics(boolean requireBloodClinics)
+    {
+        this.requireBloodClinics = requireBloodClinics;
+    }
+
+    public boolean isRequireBloodDonors()
+    {
+        return requireBloodDonors;
+    }
+
+    public void setRequireBloodDonors(boolean requireBloodDonors)
+    {
+        this.requireBloodDonors = requireBloodDonors;
     }
 }
