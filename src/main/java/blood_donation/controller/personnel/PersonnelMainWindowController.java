@@ -471,6 +471,9 @@ public class PersonnelMainWindowController implements Initializable
                 sendBloodButton.setVisible(true);
                 noAvailableBloodLabel.setText("");
 
+                notifyDonorsButton.setVisible(false);
+                notifyClinicsButton.setVisible(false);
+
                 availableBloodComboBox.setItems(FXCollections.observableList(bloodFromDonations));
 
                 sendBloodToBloodRequest();
@@ -592,6 +595,8 @@ public class PersonnelMainWindowController implements Initializable
         if (!bloodRequestsTableView.getSelectionModel().isEmpty())
         {
             BloodRequest selectedBloodRequest = bloodRequestsTableView.getSelectionModel().getSelectedItem();
+            BloodGroup bloodGroupFromBloodRequest = selectedBloodRequest.getBloodGroup();
+
             if (!availableBloodComboBox.getSelectionModel().isEmpty())
             {
                 noAvailableBloodLabel.setText("");
@@ -614,6 +619,19 @@ public class PersonnelMainWindowController implements Initializable
                 bloodRepository.update(selectedBlood);
 
             }
+
+            List<Donation> donations = donationRepository.getAll().stream()
+                    .filter(d -> d.getClinic() == currentPersonnel.getClinic())
+                    .collect(Collectors.toList());
+
+            List<Blood> bloodFromDonations = donations.stream()
+                    .map(Donation::getDonatedBlood)
+                    .filter(blood -> blood.getQuantity() != 0)
+                    .filter(blood -> blood.getBloodGroup().canBeDonatedTo(bloodGroupFromBloodRequest))
+                    .collect(Collectors.toList());
+
+            availableBloodComboBox.setItems(FXCollections.observableList(bloodFromDonations));
+
         }
     }
 
@@ -625,6 +643,13 @@ public class PersonnelMainWindowController implements Initializable
             BloodRequest selectedBloodRequest = bloodRequestsTableView.getSelectionModel().getSelectedItem();
             selectedBloodRequest.setRequireBloodClinics(true);
             bloodRequestRepository.update(selectedBloodRequest);
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Notification dialog");
+            alert.setHeaderText("");
+            alert.setContentText("Notification to nearby clinics was successful");
+
+            alert.showAndWait();
         }
     }
 
@@ -636,6 +661,13 @@ public class PersonnelMainWindowController implements Initializable
             BloodRequest selectedBloodRequest = bloodRequestsTableView.getSelectionModel().getSelectedItem();
             selectedBloodRequest.setRequireBloodDonors(true);
             bloodRequestRepository.update(selectedBloodRequest);
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Notification dialog");
+            alert.setHeaderText("");
+            alert.setContentText("Notification to nearby donors was successful");
+
+            alert.showAndWait();
         }
     }
 
