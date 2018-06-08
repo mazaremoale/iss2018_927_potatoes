@@ -361,9 +361,6 @@ public class PersonnelMainWindowController implements Initializable
                 data.getValue().appointmentDateProperty());
         donationRequestAppointmentHourTableColumn.setCellValueFactory(data ->
                 data.getValue().appointmentTimeProperty());
-        // TODO figure this out
-//        donationRequestStatusTableColumn.setCellValueFactory(data ->
-//                data.getValue().getDonationRequest().getStatus());
 
         populateDonationAppointmentTable();
     }
@@ -373,7 +370,6 @@ public class PersonnelMainWindowController implements Initializable
         List<DonationAppointment> thisPersonnelDonationAppointments =
                 donationAppointmentRepository.getAll()
                         .stream()
-                        // TODO might need to check the flags from DonationRequest (to see only unhandled requests)
                         .filter(donationAppointment -> donationAppointment.getClinic() == currentPersonnel.getClinic())
                         .filter(donationAppointment -> donationAppointment.getDonationRequest().getValidatedByPersonnel() == null)
                         .collect(Collectors.toList());
@@ -559,7 +555,6 @@ public class PersonnelMainWindowController implements Initializable
         bloodRequestsStatusTableColumn.setCellValueFactory(data -> data.getValue().statusProperty());
         bloodRequestsRequestDateTableColumn.setCellValueFactory(data ->
                 new SimpleStringProperty(data.getValue().getRequestDate().toString()));
-        bloodRequestsHospitalTableColumn.setCellValueFactory(data -> data.getValue().requestDateProperty());
         bloodRequestsDonatedBloodTableColumn.setCellValueFactory(data ->
                 new SimpleStringProperty(String.valueOf(data.getValue().getGivenBlood())));
 
@@ -965,7 +960,7 @@ public class PersonnelMainWindowController implements Initializable
         initializeDonationRequestsTab();
 
         // BLOOD REQUESTS TAB
-        initializeBloodRequestsTable();  // TODO
+        initializeBloodRequestsTable();
 
         // AVAILABLE STOCKS TAB
         initializeAvailableStocksTable();

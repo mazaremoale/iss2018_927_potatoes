@@ -268,7 +268,7 @@ public class DoctorNewBloodRequestController implements Initializable
             Integer bloodRequestQuantityInteger = Integer.valueOf(bloodRequestQuantityString);
             bloodRequestQuantity = (float) (bloodRequestQuantityInteger / 1000.0);
 
-            Patient patient = new Patient(patientFirstName, patientFirstName, patientAge);
+            Patient patient = new Patient(patientFirstName, patientLastName, patientAge);
             patient.setDoctor(currentDoctor);
             patientRepository.add(patient);
 

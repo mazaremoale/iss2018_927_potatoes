@@ -530,34 +530,6 @@ public class PersonnelDonorMedicalDataWindowController implements Initializable
                 currentDonationRequest.setInTesting(false);
                 donationRequestRepository.update(currentDonationRequest);
 
-                // create a donation with the status PENDING
-//
-//                Donation newDonation = new Donation();
-//                Blood donatedBlood = new Blood();
-//
-////                donatedBlood.setQuantity(0.3);
-////                donatedBlood.setBloodGroup(cdr.getDonor().getBloodGroup());  // PROBLEM
-//                List<BloodGroup> bloodGroupList = bloodGroupRepository.getAll();
-//
-//                donatedBlood.setExpirationDate(computeExpirationDate(donationAppointment.getAppointmentDate()));
-//
-//                newDonation.setDonor(cdr.getDonor());
-//                newDonation.setDonationDate(donationAppointment.getAppointmentDate());
-//                newDonation.setStatus(Status.PENDING);
-////                newDonation.setPatient(cdr.getPatient());
-//                newDonation.setDonationRequest(cdr);
-//                newDonation.setClinic(donationAppointment.getClinic());
-//                newDonation.setBloodContainerJourneyStatus(JourneyStatus.SAMPLING);
-//
-//                // cancer
-//                newDonation.setDonatedBlood(donatedBlood);
-//                donatedBlood.setDonation(newDonation);
-//
-//                // more cancer
-//                bloodRepository.add(donatedBlood);
-//                donationRepository.add(newDonation);
-
-
                 // change to Personnel Main Window
                 goToPersonnelMainWindow();
             }
@@ -578,31 +550,9 @@ public class PersonnelDonorMedicalDataWindowController implements Initializable
             // user pressed OK button
 
             // current donation request
-            DonationRequest cdr = donationAppointment.getDonationRequest();
-            cdr.setValidatedByPersonnel(false);
-            donationRequestRepository.update(cdr);
-
-//            // create a donation with the status REJECTED
-//            Blood donatedBlood = new Blood();
-////                donatedBlood.setQuantity(0.3);
-//            donatedBlood.setBloodGroup(cdr.getDonor().getBloodGroup());
-//            donatedBlood.setExpirationDate(computeExpirationDate(donationAppointment.getAppointmentDate()));
-//
-//            Donation newDonation = new Donation();
-//            newDonation.setDonor(cdr.getDonor());
-//            newDonation.setDonationDate(donationAppointment.getAppointmentDate());
-//            newDonation.setStatus(Status.REJECTED);
-////                newDonation.setPatient(cdr.getPatient());
-//            newDonation.setDonationRequest(cdr);
-//            newDonation.setClinic(donationAppointment.getClinic());
-//            newDonation.setBloodContainerJourneyStatus(JourneyStatus.SAMPLING);
-//
-//            // cancer
-//            newDonation.setDonatedBlood(donatedBlood);
-//            donatedBlood.setDonation(newDonation);
-//
-//            // actually adding the donation in the repository
-//            donationRepository.add(newDonation);
+            DonationRequest currentDonationRequest = donationAppointment.getDonationRequest();
+            currentDonationRequest.setValidatedByPersonnel(false);
+            donationRequestRepository.update(currentDonationRequest);
 
             // change to Personnel Main Window
             goToPersonnelMainWindow();
