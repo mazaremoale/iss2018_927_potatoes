@@ -423,7 +423,7 @@ public class PersonnelMainWindowController implements Initializable
     {
         List<BloodRequest> bloodRequests = bloodRequestRepository.getAll().stream()
                 .filter(bloodRequest -> bloodRequest.getQuantity()
-                        >= bloodRequest.calculateQuantityOfGivenBlood())
+                        >= bloodRequest.getGivenBlood())
                 .collect(Collectors.toList());
 
         ObservableList<BloodRequest> allBloodRequestsObservableList = FXCollections.observableList(bloodRequests);
@@ -440,7 +440,7 @@ public class PersonnelMainWindowController implements Initializable
                 new SimpleStringProperty(data.getValue().getRequestDate().toString()));
         bloodRequestsHospitalTableColumn.setCellValueFactory(data -> data.getValue().requestDateProperty());
         bloodRequestsDonatedBloodTableColumn.setCellValueFactory(data ->
-                new SimpleStringProperty(String.valueOf(data.getValue().calculateQuantityOfGivenBlood())));
+                new SimpleStringProperty(String.valueOf(data.getValue().getGivenBlood())));
 
         bloodRequestsTableView.setItems(allBloodRequestsObservableList);
 
@@ -546,6 +546,7 @@ public class PersonnelMainWindowController implements Initializable
                 .stream()
                 .filter(donation -> donation.getDonationRequest().getValidatedByPersonnel() && donation.getDonationRequest().getValidatedByDoctor())
                 .filter(donation -> donation.getStatus() == Status.TESTING || donation.getStatus() == Status.PENDING)
+                .filter(donation -> donation.getDonatedBlood().getQuantity() > 0f)
                 .collect(Collectors.toList());
 
         ObservableList<Donation> donationObservableList = FXCollections.observableArrayList(donationsInTesting);
@@ -736,19 +737,33 @@ public class PersonnelMainWindowController implements Initializable
                         }
                     }
 
-//                    if(currentBloodRequest != null)  // if an actual blood request was created before or still exists
-//                    {
-//
-//                    }
+                    if(currentBloodRequest != null)  // if an actual blood request was created before or still exists
+                    {
+                        float remainingBlood = currentBloodRequest.getQuantity() - currentBloodRequest.getGivenBlood();
 
-                }
-                else  // no patient specified, so the blood gets added to the stock
-                {
+                        if(remainingBlood >= selectedDonation.getDonatedBlood().getQuantity())
+                        {
+                            currentBloodRequest.setGivenBlood(currentBloodRequest.getGivenBlood() + selectedDonation.getDonatedBlood().getQuantity());
+                            selectedDonation.getDonatedBlood().setQuantity(0f);
+                        }
+                        else
+                        {
+                            currentBloodRequest.setGivenBlood(currentBloodRequest.getGivenBlood() + remainingBlood);
+                            selectedDonation.getDonatedBlood().setQuantity(selectedDonation.getDonatedBlood().getQuantity() - remainingBlood);
+                        }
+
+                        bloodRequestRepository.update(currentBloodRequest);
+                        bloodRepository.update(selectedDonation.getDonatedBlood());
+                        donationRepository.update(selectedDonation);
+                    }
 
                 }
 
                 // set the readyToUse flag to true
                 selectedDonation.getDonatedBlood().setReadyForUse(true);
+
+                // set the status for the donation
+                selectedDonation.setStatus(Status.DONE);
 
                 // update the DB
                 bloodRepository.update(selectedDonation.getDonatedBlood());
