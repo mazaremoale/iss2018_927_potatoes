@@ -439,10 +439,16 @@ public class DoctorMainWindowController implements Initializable
 
     private void initializeBloodRequestsTab()
     {
+//        List<BloodRequest> bloodRequests = bloodRequestRepository.getAll().stream()
+//                .filter(bloodRequest -> bloodRequest.getQuantity()
+//                        >= bloodRequest.calculateQuantityOfGivenBlood())
+//                .collect(Collectors.toList());
+
         List<BloodRequest> bloodRequests = bloodRequestRepository.getAll().stream()
                 .filter(bloodRequest -> bloodRequest.getQuantity()
-                        >= bloodRequest.calculateQuantityOfGivenBlood())
+                        >= bloodRequest.getGivenBlood())
                 .collect(Collectors.toList());
+
 
         ObservableList<BloodRequest> allBloodRequestsObservableList = FXCollections.observableList(bloodRequests);
 
@@ -453,7 +459,9 @@ public class DoctorMainWindowController implements Initializable
         bloodRequestsHospitalColumn.setCellValueFactory(data -> data.getValue().hospitalProperty());
         bloodRequestsStatusColumn.setCellValueFactory(data -> data.getValue().statusProperty());
         bloodRequestsRequestDateColumn.setCellValueFactory(data -> data.getValue().requestDateProperty());
-        bloodRequestsDonatedBloodColumn.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().calculateQuantityOfGivenBlood())));
+//        bloodRequestsDonatedBloodColumn.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().calculateQuantityOfGivenBlood())));
+        bloodRequestsDonatedBloodColumn.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getGivenBlood())));
+
 
         deleteRequestButton.setDisable(true);
         bloodRequestsTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
