@@ -595,6 +595,7 @@ public class DonorMainWindowController implements Initializable
                 .filter(bloodRequest -> currentDonor.getBloodGroup() != null)
                 .filter(bloodRequest -> currentDonor.getBloodGroup()
                         .canBeDonatedTo(bloodRequest.getBloodGroup()))
+                .filter(BloodRequest::isRequireBloodDonors)
                 .collect(Collectors.toList());
 
         if (compatibleBloodRequests.size() > 0)

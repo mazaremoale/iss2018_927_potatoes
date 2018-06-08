@@ -109,6 +109,8 @@ public class PersonnelMainWindowController implements Initializable
     @FXML
     private TableColumn<BloodRequest, String> bloodRequestsDonatedBloodTableColumn;
     @FXML
+    private Label noAvailableBloodLabel;
+    @FXML
     private Label availableBloodLabel;
     @FXML
     private ComboBox<Blood> availableBloodComboBox;
@@ -437,60 +439,52 @@ public class PersonnelMainWindowController implements Initializable
         notifyClinicsButton.setVisible(false);
         notifyDonorsButton.setVisible(false);
 
+        populateBloodRequestsTable();
+
         bloodRequestsTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
                 {
                     showSendBloodControls();
                 });
-
-
-        populateBloodRequestsTable();
     }
 
     private void showSendBloodControls()
     {
-        List<Donation> donations = donationRepository.getAll().stream()
-                .filter(d -> d.getClinic() == currentPersonnel.getClinic())
-                .collect(Collectors.toList());
-
-        BloodRequest selectedBloodRequest = bloodRequestsTableView.getSelectionModel().getSelectedItem();
-        BloodGroup bloodGroupFromBloodRequest = selectedBloodRequest.getBloodGroup();
-
-        List<Blood> bloodFromDonations = donations.stream()
-                .map(Donation::getDonatedBlood)
-                .filter(blood -> blood.getQuantity() != 0)
-                .filter(blood -> blood.getBloodGroup().canBeDonatedTo(bloodGroupFromBloodRequest))
-                .collect(Collectors.toList());
-
-        if (!bloodFromDonations.isEmpty())
+        if (!bloodRequestsTableView.getSelectionModel().isEmpty())
         {
-            availableBloodLabel.setVisible(true);
-            availableBloodComboBox.setVisible(true);
-            sendBloodButton.setVisible(true);
+            BloodRequest selectedBloodRequest = bloodRequestsTableView.getSelectionModel().getSelectedItem();
+            BloodGroup bloodGroupFromBloodRequest = selectedBloodRequest.getBloodGroup();
 
-            availableBloodComboBox.setItems(FXCollections.observableList(bloodFromDonations));
+            List<Donation> donations = donationRepository.getAll().stream()
+                    .filter(d -> d.getClinic() == currentPersonnel.getClinic())
+                    .collect(Collectors.toList());
 
-            if(!availableBloodComboBox.getSelectionModel().isEmpty())
+            List<Blood> bloodFromDonations = donations.stream()
+                    .map(Donation::getDonatedBlood)
+                    .filter(blood -> blood.getQuantity() != 0)
+                    .filter(blood -> blood.getBloodGroup().canBeDonatedTo(bloodGroupFromBloodRequest))
+                    .collect(Collectors.toList());
+
+            if (!bloodFromDonations.isEmpty())
             {
-                Blood selectedBlood = availableBloodComboBox.getValue();
-                float neededBlood = selectedBloodRequest.getQuantity() - selectedBloodRequest.getGivenBlood();
+                availableBloodLabel.setVisible(true);
+                availableBloodComboBox.setVisible(true);
+                sendBloodButton.setVisible(true);
+                noAvailableBloodLabel.setText("");
 
-                if(neededBlood >= selectedBlood.getQuantity())
-                {
-                    selectedBloodRequest.setGivenBlood(selectedBloodRequest.getGivenBlood() + selectedBlood.getQuantity());
-                    selectedBlood.setQuantity(0f);
-                }
-                else
-                {
-                    selectedBloodRequest.setGivenBlood(selectedBloodRequest.getGivenBlood() + neededBlood);
-                    selectedBlood.setQuantity(selectedBlood.getQuantity() - neededBlood);
-                }
+                availableBloodComboBox.setItems(FXCollections.observableList(bloodFromDonations));
 
-                bloodRequestRepository.update(selectedBloodRequest);
-                bloodRepository.update(selectedBlood);
-
+                sendBloodToBloodRequest();
             }
+            else
+            {
+                noAvailableBloodLabel.setText("No available blood found.");
+                availableBloodLabel.setVisible(false);
+                availableBloodComboBox.setVisible(false);
+                sendBloodButton.setVisible(false);
 
-
+                notifyDonorsButton.setVisible(true);
+                notifyClinicsButton.setVisible(true);
+            }
         }
     }
 
@@ -510,8 +504,10 @@ public class PersonnelMainWindowController implements Initializable
     private void populateBloodRequestsTable() //please accept me
     {
         List<BloodRequest> bloodRequests = bloodRequestRepository.getAll().stream()
-                .filter(bloodRequest -> bloodRequest.getQuantity()
-                        >= bloodRequest.getGivenBlood())
+                .filter(bloodRequest -> bloodRequest.getQuantity() > bloodRequest.getGivenBlood())
+                .filter(bloodRequest -> bloodRequest.getHospital().getLocation() == currentPersonnel.getClinic().getLocation()
+                                                || (bloodRequest.isRequireBloodClinics()
+                                                    && distanceBetweenBloodRequestAndClinic(bloodRequest, currentPersonnel.getClinic()) < 500 ) )//some random number
                 .collect(Collectors.toList());
 
         // --------------- SORTING -------------------
@@ -555,6 +551,7 @@ public class PersonnelMainWindowController implements Initializable
         bloodRequestsStatusTableColumn.setCellValueFactory(data -> data.getValue().statusProperty());
         bloodRequestsRequestDateTableColumn.setCellValueFactory(data ->
                 new SimpleStringProperty(data.getValue().getRequestDate().toString()));
+        bloodRequestsRequestDateTableColumn.setCellValueFactory(data -> data.getValue().requestDateProperty());
         bloodRequestsDonatedBloodTableColumn.setCellValueFactory(data ->
                 new SimpleStringProperty(String.valueOf(data.getValue().getGivenBlood())));
 
@@ -573,12 +570,71 @@ public class PersonnelMainWindowController implements Initializable
         // ---------------------
     }
 
+    private int distanceBetweenBloodRequestAndClinic(BloodRequest bloodRequest, Clinic clinic)
+    {
+        Location location1 = bloodRequest.getHospital().getLocation();
+        Location location2 = clinic.getLocation();
+        int distanceBetweenLocations = 0;
+
+        for (Distance distance : distanceRepository.getAll())
+        {
+            if (distance.getLocation1() == location1 && distance.getLocation2() == location2)
+                distanceBetweenLocations = distance.getDistance();
+        }
+
+        return distanceBetweenLocations;
+    }
+
     @FXML
     private void sendBloodToBloodRequest()
     {
-        if(!stocksLocationComboBox.getSelectionModel().isEmpty())
+        if (!bloodRequestsTableView.getSelectionModel().isEmpty())
         {
+            BloodRequest selectedBloodRequest = bloodRequestsTableView.getSelectionModel().getSelectedItem();
+            if (!availableBloodComboBox.getSelectionModel().isEmpty())
+            {
+                noAvailableBloodLabel.setText("");
 
+                Blood selectedBlood = availableBloodComboBox.getValue();
+
+                float neededBlood = selectedBloodRequest.getQuantity() - selectedBloodRequest.getGivenBlood();
+                if (neededBlood >= selectedBlood.getQuantity())
+                {
+                    selectedBloodRequest.setGivenBlood(selectedBloodRequest.getGivenBlood() + selectedBlood.getQuantity());
+                    selectedBlood.setQuantity(0f);
+                }
+                else
+                {
+                    selectedBloodRequest.setGivenBlood(selectedBloodRequest.getGivenBlood() + neededBlood);
+                    selectedBlood.setQuantity(selectedBlood.getQuantity() - neededBlood);
+                }
+
+                bloodRequestRepository.update(selectedBloodRequest);
+                bloodRepository.update(selectedBlood);
+
+            }
+        }
+    }
+
+    @FXML
+    private void notifyCloseClinics()
+    {
+        if (!bloodRequestsTableView.getSelectionModel().isEmpty())
+        {
+            BloodRequest selectedBloodRequest = bloodRequestsTableView.getSelectionModel().getSelectedItem();
+            selectedBloodRequest.setRequireBloodClinics(true);
+            bloodRequestRepository.update(selectedBloodRequest);
+        }
+    }
+
+    @FXML
+    private void notifyCloseDonors()
+    {
+        if (!bloodRequestsTableView.getSelectionModel().isEmpty())
+        {
+            BloodRequest selectedBloodRequest = bloodRequestsTableView.getSelectionModel().getSelectedItem();
+            selectedBloodRequest.setRequireBloodDonors(true);
+            bloodRequestRepository.update(selectedBloodRequest);
         }
     }
 

@@ -30,6 +30,8 @@ public class BloodRequest
     private LocalDate requestDate;
 //    private List<Blood> givenBlood = new ArrayList<>();
     private float givenBlood = 0;
+    private boolean requireBloodClinics = false;
+    private boolean requireBloodDonors = false;
 
     @FXML
     private final FloatProperty quantity = new SimpleFloatProperty();
@@ -235,8 +237,23 @@ public class BloodRequest
         this.givenBlood = givenBlood;
     }
 
-    public void process()
+    public boolean isRequireBloodClinics()
     {
+        return requireBloodClinics;
+    }
 
+    public void setRequireBloodClinics(boolean requireBloodClinics)
+    {
+        this.requireBloodClinics = requireBloodClinics;
+    }
+
+    public boolean isRequireBloodDonors()
+    {
+        return requireBloodDonors;
+    }
+
+    public void setRequireBloodDonors(boolean requireBloodDonors)
+    {
+        this.requireBloodDonors = requireBloodDonors;
     }
 }
