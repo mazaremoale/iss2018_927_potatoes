@@ -446,6 +446,7 @@ public class DoctorMainWindowController implements Initializable
 //                .collect(Collectors.toList());
 
         List<BloodRequest> bloodRequests = bloodRequestRepository.getAll().stream()
+                .filter(bloodRequest -> bloodRequest.getDoctor() == currentDoctor)
                 .filter(bloodRequest -> bloodRequest.getQuantity()
                         >= bloodRequest.getGivenBlood())
                 .collect(Collectors.toList());
