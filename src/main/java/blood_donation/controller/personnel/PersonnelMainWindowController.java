@@ -309,7 +309,7 @@ public class PersonnelMainWindowController implements Initializable
         populateDonationAppointmentTable();
 //        initializeBloodRequestsTable(); //not sure this is the right function  // nope it isn't
         populateBloodStockTableView();
-        populatePendingDonationRequestsTable();
+        populateApprovedDonationRequestsTable();
         populateDonationsInTestingTable();
     }
 
@@ -486,7 +486,7 @@ public class PersonnelMainWindowController implements Initializable
                 data.getValue().getDonor().fullNameProperty());
         approvedDonationRequestsAprovedByDoctorTableColumn.setCellValueFactory(data ->
                 new SimpleStringProperty(data.getValue().getValidatedByDoctor().toString()));
-        populatePendingDonationRequestsTable();
+        populateApprovedDonationRequestsTable();
 
         journeyTestingDonationDateTableColumn.setCellValueFactory(data ->
                 data.getValue().donationDateProperty());
@@ -497,15 +497,18 @@ public class PersonnelMainWindowController implements Initializable
         populateDonationsInTestingTable();
     }
 
-    private void populatePendingDonationRequestsTable()
+    private void populateApprovedDonationRequestsTable()
     {
         List<DonationRequest> pendingDonationRequests = donationRequestRepository.getAll()
                 .stream()
+                //.peek(System.out::println)
                 .filter(donationRequest -> donationRequest.getValidatedByDoctor() != null)
                 .filter(donationRequest -> donationRequest.getValidatedByPersonnel() && donationRequest.getValidatedByDoctor())
                 .filter(donationRequest -> donationRequest.getInTesting() != null)
                 .filter(donationRequest -> !donationRequest.getInTesting())
                 .collect(Collectors.toList());
+
+        //pendingDonationRequests.forEach(System.out::println);
 
         ObservableList<DonationRequest> pendingDonationRequestsObservableList = FXCollections.observableArrayList(pendingDonationRequests);
 
@@ -521,6 +524,8 @@ public class PersonnelMainWindowController implements Initializable
                 .collect(Collectors.toList());
 
         ObservableList<Donation> donationObservableList = FXCollections.observableArrayList(donationsInTesting);
+
+
 
         journeyBloodInTestingTableView.setItems(donationObservableList);
     }

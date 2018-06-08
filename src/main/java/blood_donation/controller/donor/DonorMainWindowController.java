@@ -6,7 +6,6 @@ import blood_donation.domain.people.Donor;
 import blood_donation.domain.people.Patient;
 import blood_donation.domain.utils.*;
 import blood_donation.repository.Repository;
-import com.sun.java.swing.plaf.windows.WindowsTreeUI;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -43,6 +42,7 @@ public class DonorMainWindowController implements Initializable
     private Repository<Location> locationRepository;
     private Repository<Hospital> hospitalRepository;
     private Repository<BloodRequest> bloodRequestRepository;
+    private Repository<Donor> donorRepository;
 
     @FXML
     private Label appointmentLabel;
@@ -326,6 +326,17 @@ public class DonorMainWindowController implements Initializable
     public DonorMainWindowController setBloodRequestRepository(Repository<BloodRequest> bloodRequestRepository)
     {
         this.bloodRequestRepository = bloodRequestRepository;
+        return this;
+    }
+
+    public Repository<Donor> getDonorRepository()
+    {
+        return donorRepository;
+    }
+
+    public DonorMainWindowController setDonorRepository(Repository<Donor> donorRepository)
+    {
+        this.donorRepository = donorRepository;
         return this;
     }
 
@@ -627,7 +638,8 @@ public class DonorMainWindowController implements Initializable
                 .setPatientRepository(patientRepository)
                 .setDonationAppointmentRepository(donationAppointmentRepository)
                 .setLocationRepository(locationRepository)
-                .setBloodRequestRepository(bloodRequestRepository));
+                .setBloodRequestRepository(bloodRequestRepository)
+                .setDonorRepository(donorRepository));
 
         Parent content = loader.load();
 

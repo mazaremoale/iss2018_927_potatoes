@@ -248,6 +248,8 @@ public class DonorEditProfileWindowController implements Initializable
         return this;
     }
 
+
+
     @FXML
     void goBack()
     {
@@ -271,7 +273,8 @@ public class DonorEditProfileWindowController implements Initializable
                 .setDonationRequestRepository(donationRequestRepository)
                 .setDonationAppointmentRepository(donationAppointmentRepository)
                 .setLocationRepository(locationRepository)
-                .setBloodRequestRepository(bloodRequestRepository));
+                .setBloodRequestRepository(bloodRequestRepository)
+                .setDonorRepository(donorRepository));
 
         Parent content = loader.load();
 
@@ -314,6 +317,7 @@ public class DonorEditProfileWindowController implements Initializable
                 currentDonor.setResidenceCounty(residenceCountyComboBox.getSelectionModel().getSelectedItem());
 
                 openDonorMainWindow();
+                donorRepository.update(currentDonor);
             }
 
             else if (residenceAddressTextField.getText().length() > 0 ||
@@ -332,6 +336,7 @@ public class DonorEditProfileWindowController implements Initializable
                 currentDonor.setResidenceCity(idCityTextField.getText());
                 currentDonor.setResidenceAddress(idAddressTextField.getText());
                 currentDonor.setResidenceCounty(idCountyComboBox.getSelectionModel().getSelectedItem());
+                donorRepository.update(currentDonor);
                 openDonorMainWindow();
             }
         }

@@ -501,4 +501,18 @@ public class DonationRequest
     {
         isInTesting = inTesting;
     }
+
+    @Override
+    public String toString()
+    {
+        return "DonationRequest{" +
+                "id=" + id +
+                ", validatedByPersonnel=" + validatedByPersonnel +
+                ", validatedByDoctor=" + validatedByDoctor +
+                ", isInTesting=" + isInTesting +
+                ", passedImmunoHematologyTest=" + passedImmunoHematologyTest +
+                ", donor=" + donor +
+                ", patient=" + patient +
+                '}';
+    }
 }
