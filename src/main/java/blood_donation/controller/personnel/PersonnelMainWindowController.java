@@ -2,6 +2,7 @@ package blood_donation.controller.personnel;
 
 import blood_donation.domain.blood.Blood;
 import blood_donation.domain.blood.BloodGroup;
+import blood_donation.domain.people.Donor;
 import blood_donation.domain.people.Patient;
 import blood_donation.domain.people.Personnel;
 import blood_donation.domain.utils.*;
@@ -21,9 +22,7 @@ import org.hibernate.Session;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PersonnelMainWindowController implements Initializable
@@ -45,6 +44,7 @@ public class PersonnelMainWindowController implements Initializable
     private Repository<DonationAppointment> donationAppointmentRepository;
     private Repository<Location> locationRepository;
     private Repository<BloodRequest> bloodRequestRepository;
+    private Repository<Donor> donorRepository;
 
     @FXML
     private Button backButton;
@@ -304,6 +304,17 @@ public class PersonnelMainWindowController implements Initializable
         return this;
     }
 
+    public Repository<Donor> getDonorRepository()
+    {
+        return donorRepository;
+    }
+
+    public PersonnelMainWindowController setDonorRepository(Repository<Donor> donorRepository)
+    {
+        this.donorRepository = donorRepository;
+        return this;
+    }
+
     // ################################################################################################################
 
     @FXML
@@ -401,6 +412,7 @@ public class PersonnelMainWindowController implements Initializable
                     .setBloodGroupRepository(bloodGroupRepository)
                     .setLocationRepository(locationRepository)
                     .setBloodRequestRepository(bloodRequestRepository)
+                    .setDonorRepository(donorRepository)
             );
 
             Parent content = loader.load();
@@ -486,12 +498,54 @@ public class PersonnelMainWindowController implements Initializable
         }
     }
 
+    private Boolean isDonor(Patient patient)
+    {
+        for(Donor donor : donorRepository.getAll())
+        {
+            if(donor.getFirstName().equals(patient.getFirstName()) && donor.getLastName().equals(patient.getLastName()))
+            {
+//                System.out.println("--->>>" + donor.getFirstName() + donor.getLastName());
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void populateBloodRequestsTable() //please accept me
     {
         List<BloodRequest> bloodRequests = bloodRequestRepository.getAll().stream()
                 .filter(bloodRequest -> bloodRequest.getQuantity()
                         >= bloodRequest.getGivenBlood())
                 .collect(Collectors.toList());
+
+        // --------------- SORTING -------------------
+        bloodRequests.sort((bloodRequest1, bloodRequest2) ->
+        {
+            if (bloodRequest1.getPriority() == bloodRequest2.getPriority())
+            {
+                if (isDonor(bloodRequest1.getPatient()) == isDonor(bloodRequest2.getPatient()))
+                {
+                    if (bloodRequest1.getRequestDate().isBefore(bloodRequest2.getRequestDate()))
+                        return -1;
+                    if (bloodRequest1.getRequestDate().isEqual(bloodRequest2.getRequestDate()))
+                        return 0;
+                    return 1;
+                } else
+                {
+                    if (isDonor(bloodRequest1.getPatient()))
+                        return -1;
+                    return 1;
+                }
+            } else
+            {
+                if(bloodRequest1.getPriority().compareTo(bloodRequest2.getPriority()) < 0)
+                {
+                    return 1;
+                }
+                return -1;
+            }
+        });
+
 
         ObservableList<BloodRequest> allBloodRequestsObservableList = FXCollections.observableList(bloodRequests);
 
@@ -511,6 +565,17 @@ public class PersonnelMainWindowController implements Initializable
 
         bloodRequestsTableView.setItems(allBloodRequestsObservableList);
 
+        // sorting -------------
+        bloodRequestsPriorityTableColumn.setSortable(false);
+        bloodRequestsDoctorNameTableColumn.setSortable(false);
+        bloodRequestsPatientNameTableColumn.setSortable(false);
+        bloodRequestsBloodGroupTableColumn.setSortable(false);
+        bloodRequestsQuantityTableColumn.setSortable(false);
+        bloodRequestsHospitalTableColumn.setSortable(false);
+        bloodRequestsStatusTableColumn.setSortable(false);
+        bloodRequestsRequestDateTableColumn.setSortable(false);
+        bloodRequestsDonatedBloodTableColumn.setSortable(false);
+        // ---------------------
     }
 
     @FXML
@@ -723,6 +788,7 @@ public class PersonnelMainWindowController implements Initializable
                         .setLocationRepository(locationRepository)
                         .setCurrentDonation(selectedDonation)
                         .setBloodRequestRepository(bloodRequestRepository)
+                        .setDonorRepository(donorRepository)
                 );
 
                 Parent content = loader.load();
@@ -772,6 +838,7 @@ public class PersonnelMainWindowController implements Initializable
                         .setLocationRepository(locationRepository)
                         .setCurrentDonation(selectedDonation)
                         .setBloodRequestRepository(bloodRequestRepository)
+                        .setDonorRepository(donorRepository)
                 );
 
                 Parent content = loader.load();
