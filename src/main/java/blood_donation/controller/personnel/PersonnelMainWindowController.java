@@ -624,6 +624,7 @@ public class PersonnelMainWindowController implements Initializable
                 .filter(donation -> donation.getDonationRequest().getValidatedByPersonnel() && donation.getDonationRequest().getValidatedByDoctor())
                 .filter(donation -> donation.getStatus() == Status.TESTING || donation.getStatus() == Status.PENDING)
                 .filter(donation -> donation.getDonatedBlood().getQuantity() > 0f)
+                .filter(donation -> !donation.getDonatedBlood().getReadyForUse())
                 .collect(Collectors.toList());
 
         ObservableList<Donation> donationObservableList = FXCollections.observableArrayList(donationsInTesting);
@@ -683,6 +684,9 @@ public class PersonnelMainWindowController implements Initializable
 //            blood.setDonation(donation);  // DO I HAVE TO DO THIS TOO????
 
             donationRepository.add(donation);
+
+            // repopulate the table views
+            refresh();
         }
     }
 
@@ -814,24 +818,41 @@ public class PersonnelMainWindowController implements Initializable
                         }
                     }
 
-                    if(currentBloodRequest != null)  // if an actual blood request was created before or still exists
+                    if(currentBloodRequest != null && currentBloodRequest.getStatus() == Status.PENDING)  // if an actual blood request was created before or still exists
                     {
-                        float remainingBlood = currentBloodRequest.getQuantity() - currentBloodRequest.getGivenBlood();
-
-                        if(remainingBlood >= selectedDonation.getDonatedBlood().getQuantity())
+                        if(selectedDonation.getDonatedBlood().getBloodGroup().canBeDonatedTo(currentBloodRequest.getBloodGroup()))
                         {
-                            currentBloodRequest.setGivenBlood(currentBloodRequest.getGivenBlood() + selectedDonation.getDonatedBlood().getQuantity());
-                            selectedDonation.getDonatedBlood().setQuantity(0f);
-                        }
-                        else
-                        {
-                            currentBloodRequest.setGivenBlood(currentBloodRequest.getGivenBlood() + remainingBlood);
-                            selectedDonation.getDonatedBlood().setQuantity(selectedDonation.getDonatedBlood().getQuantity() - remainingBlood);
-                        }
+                            float remainingBlood = currentBloodRequest.getQuantity() - currentBloodRequest.getGivenBlood();
 
-                        bloodRequestRepository.update(currentBloodRequest);
-                        bloodRepository.update(selectedDonation.getDonatedBlood());
-                        donationRepository.update(selectedDonation);
+                            if (remainingBlood >= selectedDonation.getDonatedBlood().getQuantity())
+                            {
+                                currentBloodRequest.setGivenBlood(currentBloodRequest.getGivenBlood() + selectedDonation.getDonatedBlood().getQuantity());
+                                selectedDonation.getDonatedBlood().setQuantity(0f);
+                            } else
+                            {
+                                currentBloodRequest.setGivenBlood(currentBloodRequest.getGivenBlood() + remainingBlood);
+                                selectedDonation.getDonatedBlood().setQuantity(selectedDonation.getDonatedBlood().getQuantity() - remainingBlood);
+                            }
+
+                            // check if the blood request is fulfilled
+                            if(currentBloodRequest.getQuantity() >= currentBloodRequest.getGivenBlood())
+                            {
+                                currentBloodRequest.setStatus(Status.DONE);
+                            }
+
+                            bloodRequestRepository.update(currentBloodRequest);
+                            bloodRepository.update(selectedDonation.getDonatedBlood());
+                            donationRepository.update(selectedDonation);
+                        }
+                    }
+                    else
+                    {
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("Confirm Blood Redistribution Dialog");
+                        alert.setHeaderText("There is no pending blood request associated with the patient.");
+                        alert.setContentText("The blood will be added to the stocks. Press OK to continue.");
+
+                        Optional<ButtonType> result = alert.showAndWait();
                     }
 
                 }
@@ -856,6 +877,9 @@ public class PersonnelMainWindowController implements Initializable
 
                 Optional<ButtonType> result = alert.showAndWait();
             }
+
+            // repopulate the table views
+            refresh();
         }
     }
 
